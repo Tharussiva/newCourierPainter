@@ -21,19 +21,42 @@
     </nav>
   {%- endif -%}
 
+  <div class="hps-sidebar-cart">
+    <p class="hps-sidebar-cart__count">
+      <span class="hps-cart-count">{{ cart.item_count }}</span>
+      {%- if cart.item_count == 1 %} item in cart{% else %} items in cart{% endif -%}
+    </p>
+    <p class="hps-sidebar-cart__subtotal">
+      <span class="hps-sidebar-cart__subtotal-label">subtotal</span><br><span class="hps-cart-total">{{ cart.total_price | money }}</span>
+    </p>
+    <a href="/cart" class="hps-sidebar-cart__link">view/edit cart</a>
+    <a href="/checkout" class="hps-sidebar-cart__checkout">checkout now</a>
+  </div>
 
 </aside>
 
 <script>
   (function () {
-    document.addEventListener('cart:refresh', function (event) {
-      if (!event.detail || !event.detail.cartData) return;
-      var cart = event.detail.cartData;
+    subscribe('cart-update', function (event) {
+      if (!event || !event.cartData) return;
+      var cart = event.cartData;
+
       document.querySelectorAll('.hps-cart-count').forEach(function (el) {
         el.textContent = cart.item_count;
       });
+
       document.querySelectorAll('.hps-cart-total').forEach(function (el) {
-        el.textContent = cart.total_price_formatted || '';
+        el.textContent = Shopify.formatMoney
+          ? Shopify.formatMoney(cart.total_price, window.moneyFormat || '{{amount}}')
+          : (cart.total_price / 100).toFixed(2);
+      });
+
+      // Update "item / items in cart" label
+      document.querySelectorAll('.hps-sidebar-cart__count').forEach(function (el) {
+        var countEl = el.querySelector('.hps-cart-count');
+        if (countEl) countEl.textContent = cart.item_count;
+        el.childNodes[el.childNodes.length - 1].textContent =
+          cart.item_count === 1 ? ' item in cart' : ' items in cart';
       });
     });
   })();

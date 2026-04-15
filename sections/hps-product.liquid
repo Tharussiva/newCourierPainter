@@ -19,6 +19,7 @@
     #MainProduct-{{ section.id }} { padding-top: 0; padding-bottom: 0; }
   {%- endstyle -%}
 
+  <script src="{{ 'hps-atc-feedback.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
 
@@ -27,6 +28,8 @@
   {%- endif -%}
 
   {%- assign product_form_id = 'product-form-' | append: section.id -%}
+
+  <cart-notification id="cart-notification" aria-hidden="true" style="display:none"></cart-notification>
 
   <div class="hps-product-wrap">
 

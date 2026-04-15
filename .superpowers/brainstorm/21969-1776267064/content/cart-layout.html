@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HPS Cart Page Mockup</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', Courier, monospace; }
+  body { background: #f5f5f5; padding: 24px; }
+
+  .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #888;
+    margin-bottom: 12px;
+    font-family: sans-serif;
+  }
+
+  /* ---- Page chrome ---- */
+  .page-chrome {
+    max-width: 960px;
+    margin: 0 auto;
+    background: #fff;
+    border: 1px solid #ddd;
+  }
+
+  .chrome-header {
+    padding: 18px 24px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .chrome-body {
+    display: flex;
+    height: 560px;
+  }
+
+  /* ---- Sidebar ---- */
+  .chrome-sidebar {
+    width: 130px;
+    min-width: 130px;
+    border-right: 1px solid #eee;
+    padding: 20px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+
+  .chrome-nav-link {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #000;
+    text-align: right;
+    line-height: 1.8;
+  }
+  .chrome-nav-link.active { color: #6b7c3f; }
+
+  .chrome-sidebar-cart {
+    margin-top: 16px;
+    border: 1px solid #000;
+    width: 100%;
+    overflow: hidden;
+  }
+  .chrome-sidebar-cart__count {
+    font-size: 9px; font-weight: 700; background: #c8c8c8;
+    text-align: center; padding: 3px 6px; border-bottom: 1px solid #000;
+  }
+  .chrome-sidebar-cart__sub {
+    font-size: 9px; font-weight: 700; background: #fff;
+    text-align: center; padding: 3px 6px; border-bottom: 1px solid #000;
+    line-height: 1.6;
+  }
+  .chrome-sidebar-cart__sub .lbl { font-size: 7px; font-weight: 400; color: #888; display: block; }
+  .chrome-sidebar-cart__link {
+    font-size: 9px; text-align: center; padding: 4px 6px;
+    border-bottom: 1px solid #000; display: block;
+    background: #eee; color: #666; font-style: italic;
+  }
+  .chrome-sidebar-cart__cta {
+    font-size: 9px; font-weight: 700; text-align: center;
+    padding: 4px 6px; background: #6b7c3f; color: #fff; display: block;
+  }
+
+  /* ---- Main content: cart ---- */
+  .chrome-main {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ---- Cart box ---- */
+  .cart-box {
+    border: 1px solid #000;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .cart-box__header {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 400;
+    padding: 10px;
+    border-bottom: 1px dashed #ccc;
+    letter-spacing: 0.04em;
+  }
+
+  .cart-box__count {
+    font-size: 10px;
+    padding: 8px 14px;
+    border-bottom: 1px dashed #ccc;
+  }
+
+  .cart-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 14px;
+    border-bottom: 1px dashed #ddd;
+  }
+
+  .cart-item__img {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    border: 1px solid #eee;
+    flex-shrink: 0;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    color: #aaa;
+  }
+
+  .cart-item__info {
+    flex: 1;
+  }
+  .cart-item__title {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 3px;
+  }
+  .cart-item__variant {
+    font-size: 9px;
+    color: #555;
+    display: block;
+    line-height: 1.6;
+  }
+
+  .cart-item__remove {
+    font-size: 9px;
+    font-weight: 700;
+    background: #000;
+    color: #fff;
+    padding: 4px 10px;
+    border: none;
+    cursor: pointer;
+    flex-shrink: 0;
+    text-transform: lowercase;
+  }
+
+  .cart-item__price {
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+    min-width: 50px;
+    text-align: right;
+  }
+
+  .cart-box__spacer { flex: 1; }
+
+  .cart-box__subtotal {
+    font-size: 11px;
+    font-weight: 700;
+    text-align: right;
+    padding: 10px 14px;
+    border-top: 1px solid #000;
+  }
+
+  .cart-box__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-top: 1px solid #000;
+    gap: 12px;
+  }
+
+  .cart-box__shipping {
+    font-size: 9px;
+    color: #888;
+    flex: 1;
+    line-height: 1.5;
+  }
+
+  .cart-box__btns {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .btn-secondary {
+    font-size: 9px;
+    font-weight: 700;
+    background: #000;
+    color: #fff;
+    padding: 5px 12px;
+    text-transform: lowercase;
+    border: none;
+    cursor: pointer;
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+  .btn-primary {
+    font-size: 9px;
+    font-weight: 700;
+    background: #6b7c3f;
+    color: #fff;
+    padding: 5px 12px;
+    text-transform: lowercase;
+    border: none;
+    cursor: pointer;
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+  .note {
+    font-family: sans-serif;
+    font-size: 11px;
+    color: #888;
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  .callout {
+    background: #fffbe6;
+    border: 1px solid #f0d060;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-family: sans-serif;
+    font-size: 11px;
+    color: #555;
+    margin-top: 6px;
+  }
+  .callout strong { color: #333; }
+</style>
+</head>
+<body>
+
+<p class="label">Cart Page — HPS Mockup</p>
+
+<div class="page-chrome">
+  <div class="chrome-header">newcourierpainter</div>
+  <div class="chrome-body">
+
+    <!-- Sidebar (unchanged) -->
+    <div class="chrome-sidebar">
+      <span class="chrome-nav-link active">jackets</span>
+      <span class="chrome-nav-link">tops</span>
+      <span class="chrome-nav-link">bottoms</span>
+      <span class="chrome-nav-link">accessories</span>
+
+      <div class="chrome-sidebar-cart">
+        <div class="chrome-sidebar-cart__count">1 item in cart</div>
+        <div class="chrome-sidebar-cart__sub">
+          <span class="lbl">subtotal</span>
+          €528
+        </div>
+        <div class="chrome-sidebar-cart__link">view/edit cart</div>
+        <div class="chrome-sidebar-cart__cta">checkout now</div>
+      </div>
+    </div>
+
+    <!-- Main: Cart Page -->
+    <div class="chrome-main">
+      <div class="cart-box">
+        <div class="cart-box__header">cart</div>
+        <div class="cart-box__count">1 item in your cart.</div>
+
+        <!-- Cart item -->
+        <div class="cart-item">
+          <div class="cart-item__img">img</div>
+          <div class="cart-item__info">
+            <span class="cart-item__title">Cross Varsity Jacket</span>
+            <span class="cart-item__variant">style: Dark Green</span>
+            <span class="cart-item__variant">size: Small</span>
+          </div>
+          <button class="cart-item__remove">remove</button>
+          <div class="cart-item__price">€528</div>
+        </div>
+
+        <div class="cart-box__spacer"></div>
+
+        <div class="cart-box__subtotal">subtotal: €528</div>
+        <div class="cart-box__footer">
+          <span class="cart-box__shipping">* free shipping on all orders over €250, some exceptions may apply</span>
+          <div class="cart-box__btns">
+            <button class="btn-secondary">keep shopping</button>
+            <button class="btn-primary">checkout now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<p class="note">↑ Sidebar stays intact. Cart page renders in the main content area.</p>
+
+<div class="callout">
+  <strong>One question before we build:</strong> should users be able to change quantity on this page (e.g. qty: 2 → 1), or is <em>remove</em> the only action — like Supreme's cart?
+</div>
+
+</body>
+</html>

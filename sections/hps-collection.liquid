@@ -1,66 +1,45 @@
-{{ 'hps-homepage.css' | asset_url | stylesheet_tag }}
-
-{%- assign dev_menu = 'new-courier-painter-menu' -%}
-{%- assign _menu_handle = section.settings.menu -%}
-{%- if _menu_handle == blank or _menu_handle == 'main-menu' -%}{%- assign _menu_handle = dev_menu -%}{%- endif -%}
-
 {%- style -%}
-  #shopify-section-{{ section.id }} {
+  :root {
     --hps-content-top-gap: {{ section.settings.content_top_gap }}px;
     --hps-nav-grid-gap: {{ section.settings.nav_grid_gap }}px;
   }
 {%- endstyle -%}
 
-<div class="hps-page">
+{%- if section.settings.show_collection_title and collection.title != blank -%}
+  <h1 class="hps-collection-title">{{ collection.title }}</h1>
+{%- endif -%}
 
-  <!-- Content row: sidebar + scrollable grid, centred -->
-  <div class="hps-content-row">
-
-    {%- render 'hps-sidebar', menu: _menu_handle -%}
-
-    <div class="hps-grid-area">
-
-      {%- if section.settings.show_collection_title and collection.title != blank -%}
-        <h1 class="hps-collection-title">{{ collection.title }}</h1>
-      {%- endif -%}
-
-      <div
-        class="hps-grid"
-        style="--hps-cols: {{ section.settings.grid_columns_desktop }};"
-      >
-        {%- paginate collection.products by section.settings.products_per_page -%}
-          {%- for product in collection.products -%}
-            <a href="{{ product.url }}" class="hps-product-card">
-              <div class="hps-product-card__media">
-                {%- if product.featured_image != blank -%}
-                  {{
-                    product.featured_image
-                    | image_url: width: 600
-                    | image_tag:
-                      loading: 'lazy',
-                      alt: product.title,
-                      widths: '300, 400, 600, 800',
-                      class: 'hps-product-card__img'
-                  }}
-                {%- else -%}
-                  <div class="hps-product-card__img" style="background:#1a1a1a;"></div>
-                {%- endif -%}
-                <div class="hps-product-card__overlay" aria-hidden="true">
-                  <span class="hps-product-card__title">{{ product.title }}</span>
-                  <span class="hps-product-card__price">
-                    {{- product.price | money -}}
-                  </span>
-                </div>
-              </div>
-            </a>
-          {%- endfor -%}
-        {%- endpaginate -%}
-      </div>
-
-    </div>
-
-  </div>
-
+<div
+  class="hps-grid"
+  style="--hps-cols: {{ section.settings.grid_columns_desktop }};"
+>
+  {%- paginate collection.products by section.settings.products_per_page -%}
+    {%- for product in collection.products -%}
+      <a href="{{ product.url }}" class="hps-product-card">
+        <div class="hps-product-card__media">
+          {%- if product.featured_image != blank -%}
+            {{
+              product.featured_image
+              | image_url: width: 600
+              | image_tag:
+                loading: 'lazy',
+                alt: product.title,
+                widths: '300, 400, 600, 800',
+                class: 'hps-product-card__img'
+            }}
+          {%- else -%}
+            <div class="hps-product-card__img" style="background:#1a1a1a;"></div>
+          {%- endif -%}
+          <div class="hps-product-card__overlay" aria-hidden="true">
+            <span class="hps-product-card__title">{{ product.title }}</span>
+            <span class="hps-product-card__price">
+              {{- product.price | money -}}
+            </span>
+          </div>
+        </div>
+      </a>
+    {%- endfor -%}
+  {%- endpaginate -%}
 </div>
 
 {% schema %}
@@ -95,17 +74,6 @@
     },
     {
       "type": "header",
-      "content": "Navigation"
-    },
-    {
-      "type": "link_list",
-      "id": "menu",
-      "default": "main-menu",
-      "label": "Sidebar navigation menu",
-      "info": "Assign the same sidebar nav menu used on the homepage."
-    },
-    {
-      "type": "header",
       "content": "Product grid"
     },
     {
@@ -120,7 +88,7 @@
       "min": 3,
       "max": 8,
       "step": 1,
-      "default": 6,
+      "default": 5,
       "label": "Columns — fewer = larger items, more = smaller"
     },
     {

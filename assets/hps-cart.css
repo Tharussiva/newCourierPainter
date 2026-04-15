@@ -1,0 +1,186 @@
+/* ============================================
+   HPS Cart Page
+   House Painting Service
+   ============================================ */
+
+.hps-cart-page {
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.hps-cart-box {
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.hps-cart-box__header {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 400;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  letter-spacing: 0.04em;
+}
+
+.hps-cart-box__count {
+  font-size: 10px;
+  padding: 8px 14px;
+  border-bottom: 1px solid #ccc;
+}
+
+/* ---- Items ---- */
+.hps-cart-items {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.hps-cart-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  border-bottom: 1px solid #ddd;
+  height: 100px;
+}
+
+.hps-cart-item__img-wrap {
+  flex-shrink: 0;
+}
+
+.hps-cart-item__img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  display: block;
+}
+
+.hps-cart-item__info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hps-cart-item__title {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.hps-cart-item__variant {
+  font-size: 9px;
+  color: #000;
+  line-height: 1.6;
+}
+
+.hps-cart-item form {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.hps-cart-item__remove {
+  font-size: 9px;
+  font-weight: 700;
+  background: #000;
+  color: #fff;
+  padding: 4px 10px;
+  border: none;
+  cursor: pointer;
+  text-transform: lowercase;
+  font-family: 'Courier New', Courier, monospace;
+  flex-shrink: 0;
+  transition: opacity 0.1s;
+}
+
+.hps-cart-item__remove:hover {
+  opacity: 0.75;
+}
+
+.hps-cart-item__price {
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+  width: 120px;
+  text-align: right;
+}
+
+/* ---- Footer ---- */
+.hps-cart-box__empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #888;
+}
+
+.hps-cart-box__subtotal {
+  font-size: 11px;
+  font-weight: 700;
+  text-align: right;
+  padding: 10px 14px;
+  flex-shrink: 0;
+}
+
+.hps-cart-box__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-top: 1px solid #ccc;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.hps-cart-box__shipping {
+  font-size: 9px;
+  color: #888;
+  flex: 1;
+  line-height: 1.5;
+}
+
+.hps-cart-box__btns {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.hps-cart-page-btn {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: lowercase;
+  text-decoration: none;
+  padding: 5px 14px;
+  border: none;
+  cursor: pointer;
+  font-family: 'Courier New', Courier, monospace;
+  line-height: 1.6;
+  display: inline-block;
+  transition: opacity 0.1s;
+}
+
+.hps-cart-page-btn--secondary {
+  background: #000;
+  color: #fff;
+}
+
+.hps-cart-page-btn--primary {
+  background: #6b7c3f;
+  color: #fff;
+}
+
+.hps-cart-page-btn--secondary:hover,
+.hps-cart-page-btn--primary:hover {
+  opacity: 0.75;
+}

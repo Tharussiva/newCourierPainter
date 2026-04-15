@@ -6,6 +6,8 @@
   --hps-black: #000000;
   --hps-white: #ffffff;
   --hps-overlay: rgba(0, 0, 0, 0.45);
+  /* Adjust to match actual rendered header height (logo + padding) */
+  --hps-header-height: 90px;
 }
 
 /* --- Courier New site-wide font override --- */
@@ -15,32 +17,30 @@
   font-family: 'Courier New', Courier, monospace !important;
 }
 
-/* --- Full-bleed pages: flex column so header + main fill 100vh --- */
+/* --- Full-bleed pages: black background, body scrolls naturally --- */
 .template-index body,
 .template-collection body {
-  display: flex !important;
-  flex-direction: column !important;
-  height: 100vh !important;
-  overflow: hidden !important;
   background: var(--hps-black) !important;
-}
-
-.template-index #MainContent,
-.template-collection #MainContent {
-  flex: 1 !important;
-  overflow: hidden !important;
-  min-height: 0 !important;
-}
-
-.template-index .hps-homepage-section,
-.template-collection .hps-collection-section {
-  height: 100% !important;
 }
 
 /* --- Product page: white background --- */
 .template-product body {
   background: #ffffff !important;
   color: #000000 !important;
+}
+
+/* --- Hide sidebar on cart page --- */
+.template-cart .hps-sidebar {
+  display: none !important;
+}
+
+.template-cart .hps-content-row {
+  padding-right: 0 !important;
+}
+
+/* --- Hide header cart site-wide (sidebar cart handles this) --- */
+.hps-cart-header-btn {
+  display: none !important;
 }
 
 /* --- Cart drawer: dark on black-background pages --- */

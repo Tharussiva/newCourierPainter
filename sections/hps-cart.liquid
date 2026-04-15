@@ -1,0 +1,92 @@
+{{ 'hps-cart.css' | asset_url | stylesheet_tag }}
+
+{%- if cart == empty -%}
+
+  <div class="hps-cart-page">
+    <div class="hps-cart-box">
+      <div class="hps-cart-box__header">cart</div>
+      <div class="hps-cart-box__empty">your cart is empty.</div>
+      <div class="hps-cart-box__footer">
+        <span></span>
+        <div class="hps-cart-box__btns">
+          <a href="{{ routes.root_url }}" class="hps-cart-page-btn hps-cart-page-btn--secondary">keep shopping</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{%- else -%}
+
+  <div class="hps-cart-page">
+    <div class="hps-cart-box">
+      <div class="hps-cart-box__header">cart</div>
+      <div class="hps-cart-box__count">{{ cart.item_count }} item{% if cart.item_count != 1 %}s{% endif %} in your cart.</div>
+
+      <div class="hps-cart-items">
+        {%- for item in cart.items -%}
+          <div class="hps-cart-item">
+            {%- if item.image -%}
+              <a href="{{ item.url }}" class="hps-cart-item__img-wrap">
+                <img
+                  src="{{ item.image | image_url: width: 160 }}"
+                  alt="{{ item.image.alt | escape }}"
+                  width="80"
+                  height="80"
+                  class="hps-cart-item__img"
+                  loading="lazy"
+                >
+              </a>
+            {%- endif -%}
+
+            <div class="hps-cart-item__info">
+              <span class="hps-cart-item__title">{{ item.product.title }}</span>
+              {%- for option in item.options_with_values -%}
+                <span class="hps-cart-item__variant">{{ option.name | downcase }}: {{ option.value | downcase }}</span>
+              {%- endfor -%}
+              {%- if item.quantity > 1 -%}
+                <span class="hps-cart-item__variant">qty: {{ item.quantity }}</span>
+              {%- endif -%}
+            </div>
+
+            <form action="{{ routes.cart_change_url }}" method="post">
+              <input type="hidden" name="id" value="{{ item.key }}">
+              <input type="hidden" name="quantity" value="0">
+              <button type="submit" class="hps-cart-item__remove">remove</button>
+            </form>
+
+            <div class="hps-cart-item__price">{{ item.final_line_price | money }}</div>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <div class="hps-cart-box__subtotal">subtotal: {{ cart.total_price | money }}</div>
+
+      <div class="hps-cart-box__footer">
+        {%- if section.settings.shipping_note != blank -%}
+          <span class="hps-cart-box__shipping">{{ section.settings.shipping_note }}</span>
+        {%- else -%}
+          <span></span>
+        {%- endif -%}
+        <div class="hps-cart-box__btns">
+          <a href="{{ routes.root_url }}" class="hps-cart-page-btn hps-cart-page-btn--secondary">keep shopping</a>
+          <a href="{{ routes.checkout_url }}" class="hps-cart-page-btn hps-cart-page-btn--primary">checkout now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "HPS Cart",
+  "settings": [
+    {
+      "type": "text",
+      "id": "shipping_note",
+      "label": "Shipping note",
+      "default": "* free shipping on all orders over \u20ac250, some exceptions may apply"
+    }
+  ]
+}
+{% endschema %}

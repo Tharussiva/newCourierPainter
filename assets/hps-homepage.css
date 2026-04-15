@@ -10,27 +10,20 @@
   padding: 0 !important;
 }
 
-/* ---- Page shell: full viewport, no scroll at body level ---- */
+/* ---- Page shell: fixed height so body can still scroll to reveal footer ---- */
 .hps-page {
-  height: 100%;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  height: calc(100vh - var(--hps-header-height, 90px));
   background: #fff;
   color: #000;
 }
 
-/* ---- Content row: centred container holding sidebar + grid ---- */
+/* ---- Content row: fills hps-page height, flex row ---- */
 .hps-content-row {
   display: flex;
-  flex: 1;
-  overflow: hidden;
+  height: 100%;
   width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
   gap: var(--hps-nav-grid-gap, 24px);
   padding-top: var(--hps-content-top-gap, 0px);
-  padding-right: calc(130px + var(--hps-nav-grid-gap, 24px)); /* matches left side: sidebar + gap */
 }
 
 /* ---- Sidebar: transparent, no background ---- */
@@ -38,12 +31,16 @@
   width: 130px;
   min-width: 130px;
   flex-shrink: 0;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   /* intentionally no background-color */
   overflow-y: auto;
   scrollbar-width: none;
+  /* push sidebar so the grid that follows lands at true page center:
+     50vw - 375px(half grid) - 130px(sidebar) - 24px(gap) = 50vw - 529px */
+  margin-left: max(0px, calc(50vw - 529px));
 }
 
 .hps-sidebar::-webkit-scrollbar {
@@ -80,33 +77,120 @@
   color: #6b7c3f;
 }
 
+/* ---- Sidebar cart ---- */
+.hps-sidebar-cart {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  margin-top: 18px;
+  border: 1px solid #000;
+  overflow: hidden;
+}
 
-/* ---- Scrollable grid area ---- */
-.hps-grid-area {
+.hps-sidebar-cart__count {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: lowercase;
+  color: #000;
+  background: #c8c8c8;
+  margin: 0;
+  text-align: center;
+  line-height: 1.6;
+  padding: 4px 8px;
+  border-bottom: 1px solid #000;
+}
+
+.hps-sidebar-cart__subtotal {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: lowercase;
+  color: #000;
+  background: #fff;
+  margin: 0;
+  text-align: center;
+  line-height: 1.6;
+  padding: 4px 8px;
+  border-bottom: 1px solid #000;
+}
+
+.hps-sidebar-cart__subtotal-label {
+  font-size: 8px;
+  color: #888;
+  font-weight: 400;
+}
+
+.hps-sidebar-cart__link {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: lowercase;
+  color: #000;
+  background: #fff;
+  text-decoration: none;
+  text-align: center;
+  padding: 5px 8px;
+  line-height: 1.6;
+  border-bottom: 1px solid #000;
+  transition: background 0.1s, color 0.1s;
+}
+
+.hps-sidebar-cart__link:hover {
+  background: #000;
+  color: #fff;
+}
+
+.hps-sidebar-cart__checkout {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: lowercase;
+  color: #fff;
+  background: #6b7c3f;
+  text-decoration: none;
+  text-align: center;
+  padding: 5px 8px;
+  line-height: 1.6;
+  transition: opacity 0.1s;
+}
+
+.hps-sidebar-cart__checkout:hover {
+  background: #000;
+}
+
+
+/* ---- Scrollable main content: fills .hps-content-row height, scrolls internally.
+        min-height: 0 lets the flex item shrink below content size.
+        overscroll-behavior auto chains to body scroll when grid hits bottom (reveals footer). ---- */
+.hps-main-content {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
+  overscroll-behavior-y: auto;
   min-width: 0;
   scrollbar-width: thin;
   scrollbar-color: #aaa #fff;
 }
 
-.hps-grid-area::-webkit-scrollbar {
+.hps-main-content::-webkit-scrollbar {
   width: 3px;
 }
 
-.hps-grid-area::-webkit-scrollbar-track {
+.hps-main-content::-webkit-scrollbar-track {
   background: #fff;
 }
 
-.hps-grid-area::-webkit-scrollbar-thumb {
+.hps-main-content::-webkit-scrollbar-thumb {
   background: #aaa;
 }
 
 /* ---- Product grid ---- */
 .hps-grid {
   display: grid;
-  grid-template-columns: repeat(var(--hps-cols, 6), 1fr);
+  grid-template-columns: repeat(var(--hps-cols, 5), 1fr);
   gap: 0;
+  max-width: 750px;
+  margin: 0;
 }
 
 /* ---- Product card ---- */
@@ -157,7 +241,7 @@
 }
 
 .hps-product-card__title {
-  font-size: 14px;
+  font-size: 10px;
   font-weight: 700;
   line-height: 1.25;
   text-transform: uppercase;
@@ -165,10 +249,10 @@
 }
 
 .hps-product-card__price {
-  font-size: 13px;
+  font-size: 9px;
   font-weight: 700;
   display: block;
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
 /* ---- Collection title ---- */
@@ -192,6 +276,7 @@
 
   .hps-content-row {
     flex-direction: column;
+    height: auto;
     overflow: visible;
     max-width: 100%;
   }
@@ -224,7 +309,7 @@
     display: none;
   }
 
-  .hps-grid-area {
+  .hps-main-content {
     height: auto;
     overflow-y: visible;
   }
