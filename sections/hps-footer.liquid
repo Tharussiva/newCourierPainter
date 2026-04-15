@@ -1,0 +1,55 @@
+{{ 'hps-footer.css' | asset_url | stylesheet_tag }}
+
+<footer class="hps-footer">
+  <div class="hps-footer__inner">
+
+    {%- for i in (1..3) -%}
+      {%- liquid
+        case i
+          when 1
+            assign col_heading = section.settings.col1_heading
+            assign col_menu    = section.settings.col1_menu
+          when 2
+            assign col_heading = section.settings.col2_heading
+            assign col_menu    = section.settings.col2_menu
+          when 3
+            assign col_heading = section.settings.col3_heading
+            assign col_menu    = section.settings.col3_menu
+        endcase
+        assign linklists_menu = linklists[col_menu]
+      -%}
+      <div class="hps-footer__col">
+        {%- if col_heading != blank -%}
+          <p class="hps-footer__heading">{{ col_heading }}</p>
+        {%- endif -%}
+        {%- if linklists_menu != blank -%}
+          <ul class="hps-footer__list">
+            {%- for link in linklists_menu.links -%}
+              <li><a href="{{ link.url }}" class="hps-footer__link">{{ link.title }}</a></li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+
+  </div>
+
+  <div class="hps-footer__bottom">
+    <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}</span>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "HPS Footer",
+  "settings": [
+    { "type": "text",    "id": "col1_heading", "label": "Column 1 heading", "default": "Shop" },
+    { "type": "link_list", "id": "col1_menu",  "label": "Column 1 menu" },
+    { "type": "text",    "id": "col2_heading", "label": "Column 2 heading", "default": "Info" },
+    { "type": "link_list", "id": "col2_menu",  "label": "Column 2 menu" },
+    { "type": "text",    "id": "col3_heading", "label": "Column 3 heading", "default": "Follow" },
+    { "type": "link_list", "id": "col3_menu",  "label": "Column 3 menu" }
+  ],
+  "presets": [{ "name": "HPS Footer" }]
+}
+{% endschema %}

@@ -1,0 +1,144 @@
+{{ 'hps-homepage.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --hps-content-top-gap: {{ section.settings.content_top_gap }}px;
+    --hps-nav-grid-gap: {{ section.settings.nav_grid_gap }}px;
+  }
+{%- endstyle -%}
+
+{%- comment -%} DEV DEFAULTS — remove before handoff {%- endcomment -%}
+{%- assign dev_menu = 'new-courier-painter-menu' -%}
+{%- assign dev_collection = 'all-products-tharus-new' -%}
+{%- assign _menu_handle = section.settings.menu -%}
+{%- if _menu_handle == blank or _menu_handle == 'main-menu' -%}{%- assign _menu_handle = dev_menu -%}{%- endif -%}
+{%- assign _collection_handle = section.settings.collection | default: dev_collection -%}
+{%- assign grid_collection = collections[_collection_handle] -%}
+
+<div class="hps-page">
+
+  <!-- Content row: sidebar + scrollable grid, centred -->
+  <div class="hps-content-row">
+
+    {%- render 'hps-sidebar', menu: _menu_handle -%}
+
+    <div class="hps-grid-area">
+      <div
+        class="hps-grid"
+        style="--hps-cols: {{ section.settings.grid_columns_desktop }};"
+      >
+        {%- if grid_collection != blank -%}
+          {%- for product in grid_collection.products limit: section.settings.products_to_show -%}
+            <a href="{{ product.url }}" class="hps-product-card">
+              <div class="hps-product-card__media">
+                {%- if product.featured_image != blank -%}
+                  {{
+                    product.featured_image
+                    | image_url: width: 600
+                    | image_tag:
+                      loading: 'lazy',
+                      alt: product.title,
+                      widths: '300, 400, 600, 800',
+                      class: 'hps-product-card__img'
+                  }}
+                {%- else -%}
+                  <div class="hps-product-card__img" style="background:#1a1a1a;"></div>
+                {%- endif -%}
+                <div class="hps-product-card__overlay" aria-hidden="true">
+                  <span class="hps-product-card__title">{{ product.title }}</span>
+                  <span class="hps-product-card__price">
+                    {{- product.price | money -}}
+                  </span>
+                </div>
+              </div>
+            </a>
+          {%- endfor -%}
+        {%- else -%}
+          <div style="color:#fff;padding:40px;grid-column:1/-1;">
+            Select a collection in section settings to populate the grid.
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+{% schema %}
+{
+  "name": "HPS Homepage",
+  "tag": "section",
+  "class": "hps-homepage-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout spacing"
+    },
+    {
+      "type": "range",
+      "id": "content_top_gap",
+      "min": 0,
+      "max": 64,
+      "step": 4,
+      "default": 0,
+      "unit": "px",
+      "label": "Gap below logo bar"
+    },
+    {
+      "type": "range",
+      "id": "nav_grid_gap",
+      "min": 8,
+      "max": 80,
+      "step": 4,
+      "default": 24,
+      "unit": "px",
+      "label": "Gap between nav and grid"
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "Sidebar navigation menu",
+      "info": "Create a navigation menu in Online Store → Navigation and assign it here."
+    },
+    {
+      "type": "header",
+      "content": "Product grid"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection",
+      "info": "Products from this collection will fill the grid."
+    },
+    {
+      "type": "range",
+      "id": "grid_columns_desktop",
+      "min": 3,
+      "max": 8,
+      "step": 1,
+      "default": 6,
+      "label": "Columns — fewer = larger items, more = smaller"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 8,
+      "max": 200,
+      "step": 8,
+      "default": 96,
+      "label": "Max products to show"
+    }
+  ],
+  "presets": [
+    {
+      "name": "HPS Homepage"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,81 @@
+/* ============================================
+   HPS Footer
+   House Painting Service
+   ============================================ */
+
+.hps-footer {
+  width: 100%;
+  padding: 32px 0 20px;
+  font-family: 'Courier New', Courier, monospace;
+  background: #fff;
+  color: #000;
+}
+
+.hps-footer__inner {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.hps-footer__col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+}
+
+.hps-footer__heading {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #000;
+  margin: 0 0 8px;
+}
+
+.hps-footer__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.hps-footer__link {
+  display: block;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #000;
+  text-decoration: none;
+  line-height: 1.6;
+  transition: opacity 0.12s ease;
+}
+
+.hps-footer__link:hover {
+  opacity: 0.45;
+}
+
+.hps-footer__bottom {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #aaa;
+}
+
+/* ---- Responsive ---- */
+@media screen and (max-width: 599px) {
+  .hps-footer__inner {
+    flex-direction: column;
+    align-items: center;
+    gap: 36px;
+  }
+}

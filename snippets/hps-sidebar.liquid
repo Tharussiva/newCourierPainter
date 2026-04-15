@@ -1,0 +1,40 @@
+{%- comment -%}
+  HPS Sidebar Snippet — House Painting Service
+  Parameters:
+    - menu: link_list handle (required)
+  Note: logo is rendered in the section header, not here.
+{%- endcomment -%}
+
+<aside class="hps-sidebar">
+
+  {%- assign nav_menu = linklists[menu] -%}
+  {%- if nav_menu.links.size > 0 -%}
+    <nav class="hps-nav" aria-label="Category navigation">
+      {%- for link in nav_menu.links -%}
+        <a
+          href="{{ link.url }}"
+          class="hps-nav__link{% if link.active %} hps-nav__link--active{% endif %}"
+        >
+          {{- link.title -}}
+        </a>
+      {%- endfor -%}
+    </nav>
+  {%- endif -%}
+
+
+</aside>
+
+<script>
+  (function () {
+    document.addEventListener('cart:refresh', function (event) {
+      if (!event.detail || !event.detail.cartData) return;
+      var cart = event.detail.cartData;
+      document.querySelectorAll('.hps-cart-count').forEach(function (el) {
+        el.textContent = cart.item_count;
+      });
+      document.querySelectorAll('.hps-cart-total').forEach(function (el) {
+        el.textContent = cart.total_price_formatted || '';
+      });
+    });
+  })();
+</script>

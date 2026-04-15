@@ -1,0 +1,287 @@
+<product-info
+  id="MainProduct-{{ section.id }}"
+  data-section="{{ section.id }}"
+  data-product-id="{{ product.id }}"
+  data-update-url="true"
+  data-url="{{ product.url }}"
+>
+  {{- 'hps-product.css' | asset_url | stylesheet_tag -}}
+  {{- 'component-price.css' | asset_url | stylesheet_tag -}}
+  {{- 'component-rating.css' | asset_url | stylesheet_tag -}}
+
+  {%- unless product.has_only_default_variant -%}
+    {{- 'component-product-variant-picker.css' | asset_url | stylesheet_tag -}}
+    {{- 'component-swatch-input.css' | asset_url | stylesheet_tag -}}
+    {{- 'component-swatch.css' | asset_url | stylesheet_tag -}}
+  {%- endunless -%}
+
+  {%- style -%}
+    #MainProduct-{{ section.id }} { padding-top: 0; padding-bottom: 0; }
+  {%- endstyle -%}
+
+  <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+
+  {%- if request.design_mode -%}
+    <script src="{{ 'theme-editor.js' | asset_url }}" defer="defer"></script>
+  {%- endif -%}
+
+  {%- assign product_form_id = 'product-form-' | append: section.id -%}
+
+  <div class="hps-product-wrap">
+
+    <!-- ── Thumbnails (col 1) ── -->
+    <div class="hps-gallery__thumbs">
+      {%- for image in product.images -%}
+        <button
+          class="hps-gallery__thumb{% if forloop.first %} is-active{% endif %}"
+          data-index="{{ forloop.index0 }}"
+          aria-label="{{ image.alt | default: product.title }}"
+        >
+          {{
+            image
+            | image_url: width: 160
+            | image_tag:
+              loading: 'lazy',
+              alt: image.alt | default: product.title,
+              widths: '80, 120, 160'
+          }}
+        </button>
+      {%- endfor -%}
+    </div>
+
+    <!-- ── Main image (col 2) ── -->
+    <div class="hps-gallery__main">
+      {%- for image in product.images -%}
+        {%- if forloop.first -%}{%- assign img_loading = 'eager' -%}{%- else -%}{%- assign img_loading = 'lazy' -%}{%- endif -%}
+        <div class="hps-gallery__slide{% if forloop.first %} is-active{% endif %}" data-index="{{ forloop.index0 }}">
+          {{
+            image
+            | image_url: width: 1800
+            | image_tag:
+              loading: img_loading,
+              alt: image.alt | default: product.title,
+              widths: '900, 1200, 1800',
+              class: 'hps-gallery__img',
+              width: nil,
+              height: nil
+          }}
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var wrap = document.querySelector('.hps-product-wrap');
+        if (!wrap) return;
+
+        wrap.querySelectorAll('.hps-gallery__thumb').forEach(function (thumb) {
+          thumb.addEventListener('click', function () {
+            var idx = this.dataset.index;
+            wrap.querySelectorAll('.hps-gallery__thumb').forEach(function (t) { t.classList.remove('is-active'); });
+            wrap.querySelectorAll('.hps-gallery__slide').forEach(function (s) { s.classList.remove('is-active'); });
+            this.classList.add('is-active');
+            wrap.querySelector('.hps-gallery__slide[data-index="' + idx + '"]').classList.add('is-active');
+          });
+        });
+
+        wrap.querySelectorAll('.hps-gallery__slide').forEach(function (slide) {
+          var img = slide.querySelector('.hps-gallery__img, img');
+          if (!img) return;
+
+          slide.addEventListener('mouseenter', function () {
+            slide.classList.add('is-zooming');
+          });
+
+          slide.addEventListener('mouseleave', function () {
+            slide.classList.remove('is-zooming');
+            img.style.transformOrigin = 'center center';
+          });
+
+          slide.addEventListener('mousemove', function (e) {
+            var rect = slide.getBoundingClientRect();
+            var x = ((e.clientX - rect.left) / rect.width) * 100;
+            var y = ((e.clientY - rect.top) / rect.height) * 100;
+            img.style.transformOrigin = x + '% ' + y + '%';
+          });
+        });
+      });
+    </script>
+
+    <!-- ── Info column (col 3) ── -->
+    <section id="ProductInfo-{{ section.id }}" class="hps-product-info">
+
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+
+          {%- when 'title' -%}
+            <h1 class="hps-product__title" {{ block.shopify_attributes }}>
+              {{- product.title | escape -}}
+            </h1>
+
+          {%- when 'description' -%}
+            {%- if product.description != blank -%}
+              <div class="hps-product__description rte" {{ block.shopify_attributes }}>
+                {{ product.description }}
+              </div>
+            {%- endif -%}
+
+          {%- when 'price' -%}
+            <div id="price-{{ section.id }}" class="hps-product__price" role="status" {{ block.shopify_attributes }}>
+              {%- render 'price',
+                product: product,
+                use_variant: true,
+                show_badges: false,
+                price_class: 'price--large'
+              -%}
+            </div>
+
+          {%- when 'variant_picker' -%}
+            {%- assign variant_block = block -%}
+
+          {%- when 'buy_buttons' -%}
+            <div class="hps-product__actions-row">
+              {%- if variant_block -%}
+                <div class="hps-product__actions-picker">
+                  {%- render 'product-variant-picker',
+                    product: product,
+                    block: variant_block,
+                    product_form_id: product_form_id
+                  -%}
+                </div>
+              {%- endif -%}
+              <div class="hps-product__actions-buy">
+                {%- render 'buy-buttons',
+                  block: block,
+                  product: product,
+                  product_form_id: product_form_id,
+                  section_id: section.id,
+                  show_pickup_availability: false
+                -%}
+              </div>
+            </div>
+
+        {%- endcase -%}
+      {%- endfor -%}
+
+    </section>
+
+  </div>
+
+</product-info>
+
+{% schema %}
+{
+  "name": "HPS Product",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "gallery_layout",
+      "label": "Gallery layout",
+      "default": "thumbnail_slider",
+      "options": [
+        { "value": "stacked",          "label": "Stacked" },
+        { "value": "thumbnail_slider", "label": "Thumbnail slider" },
+        { "value": "thumbnail",        "label": "Thumbnails below" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "media_size",
+      "label": "Image size",
+      "default": "large",
+      "options": [
+        { "value": "small",  "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large",  "label": "Large" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "mobile_thumbnails",
+      "label": "Mobile thumbnails",
+      "default": "hide",
+      "options": [
+        { "value": "show",    "label": "Show" },
+        { "value": "hide",    "label": "Hide" },
+        { "value": "columns", "label": "Columns" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_variants",
+      "label": "Hide variant media",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_video_looping",
+      "label": "Loop videos",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_info",
+      "label": "Sticky info panel",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "limit": 1
+    },
+    {
+      "type": "price",
+      "name": "Price",
+      "limit": 1
+    },
+    {
+      "type": "variant_picker",
+      "name": "Variant picker",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "picker_type",
+          "label": "Type",
+          "default": "dropdown",
+          "options": [
+            { "value": "dropdown", "label": "Dropdown" },
+            { "value": "button",   "label": "Pills" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "buy_buttons",
+      "name": "Buy buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_dynamic_checkout",
+          "label": "Show dynamic checkout button",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "show_gift_card_recipient",
+          "label": "Show gift card recipient form",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "HPS Product" }
+  ]
+}
+{% endschema %}

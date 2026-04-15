@@ -10,6 +10,8 @@
   {% endif %}
 >
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+  {{ 'hps-homepage.css' | asset_url | stylesheet_tag }}
+  {{ 'hps-product.css' | asset_url | stylesheet_tag }}
   {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
   {{ 'component-slider.css' | asset_url | stylesheet_tag }}
@@ -27,16 +29,14 @@
 
   {%- style -%}
     .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+      padding-top: 0;
+      padding-bottom: 0;
+      --hps-logo-width: {{ section.settings.logo_width | default: 110 }}px;
     }
-
-    @media screen and (min-width: 750px) {
-      .section-{{ section.id }}-padding {
-        padding-top: {{ section.settings.padding_top }}px;
-        padding-bottom: {{ section.settings.padding_bottom }}px;
-      }
-    }
+    .hps-gallery__main { height: 580px; min-width: 0; grid-column: 2; }
+    .hps-gallery__slide { display: none; width: 100%; height: 100%; }
+    .hps-gallery__slide.is-active { display: block; }
+    .hps-gallery__main img, .hps-gallery__img { display: block !important; max-width: 100% !important; width: 100% !important; height: 100% !important; object-fit: contain !important; }
   {%- endstyle -%}
 
   <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
@@ -73,16 +73,44 @@
   {%- endif -%}
 
   {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
-  <div class="page-width">
-    <div class="product product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--mobile-{{ section.settings.mobile_thumbnails }} grid grid--1-col {% if product.media.size > 0 %}grid--2-col-tablet{% else %}product--no-media{% endif %}">
-      <div class="grid__item product__media-wrapper">
-        {% render 'product-media-gallery', variant_images: variant_images %}
-      </div>
-      <div class="product__info-wrapper grid__item{% if settings.page_width > 1400 and section.settings.media_size == "small" %} product__info-wrapper--extra-padding{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-        <section
-          id="ProductInfo-{{ section.id }}"
-          class="product__info-container{% if section.settings.enable_sticky_info %} product__column-sticky{% endif %}"
-        >
+
+  <!-- HPS: 3-col product layout (thumbs | image | info) -->
+  <div class="hps-product-wrap">
+
+    <!-- col 1: thumbnails -->
+    <div class="hps-gallery__thumbs" id="HpsGalleryThumbs-{{ section.id }}">
+      {%- for media in product.media -%}
+        <button class="hps-gallery__thumb{% if forloop.first %} is-active{% endif %}"
+                type="button"
+                data-index="{{ forloop.index0 }}"
+                aria-label="{{ media.alt | default: product.title | escape }}">
+          <img src="{{ media | image_url: width: 144 }}" alt="" loading="lazy">
+        </button>
+      {%- endfor -%}
+    </div>
+
+    <!-- col 2: main image -->
+    <div class="hps-gallery__main" id="HpsGalleryMain-{{ section.id }}" style="grid-column:2;min-width:0;height:580px;overflow:hidden;">
+      {%- for media in product.media -%}
+        <div class="hps-gallery__slide{% if forloop.first %} is-active{% endif %}"
+             style="{% unless forloop.first %}display:none;{% endunless %}width:100%;height:100%;overflow:hidden;"
+             data-index="{{ forloop.index0 }}"
+             data-media-id="{{ media.id }}">
+          <img class="hps-gallery__img"
+               style="display:block;width:100%;max-width:100%;height:100%;object-fit:contain;object-position:center top;"
+               src="{{ media | image_url: width: 900 }}"
+               alt="{{ media.alt | default: product.title | escape }}"
+               loading="lazy">
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <!-- col 3: product info -->
+    <div class="hps-product-info">
+      <section
+        id="ProductInfo-{{ section.id }}"
+        class="product__info-container{% if section.settings.enable_sticky_info %} product__column-sticky{% endif %}"
+      >
           {%- assign product_form_id = 'product-form-' | append: section.id -%}
 
           {%- for block in section.blocks -%}
@@ -680,9 +708,28 @@
             {{ 'products.product.view_full_details' | t }}
             {{- 'icon-arrow.svg' | inline_asset_content -}}
           </a>
-        </section>
-      </div>
-    </div>
+      </section>
+    </div><!-- /.hps-product-info -->
+  </div><!-- /.hps-product-wrap -->
+
+  <script>
+    (function() {
+      var sid = '{{ section.id }}';
+      var thumbsEl = document.getElementById('HpsGalleryThumbs-' + sid);
+      var mainEl   = document.getElementById('HpsGalleryMain-' + sid);
+      if (!thumbsEl || !mainEl) return;
+      thumbsEl.addEventListener('click', function(e) {
+        var btn = e.target.closest('.hps-gallery__thumb');
+        if (!btn) return;
+        var idx = btn.dataset.index;
+        thumbsEl.querySelectorAll('.hps-gallery__thumb').forEach(function(t) { t.classList.remove('is-active'); });
+        mainEl.querySelectorAll('.hps-gallery__slide').forEach(function(s) { s.classList.remove('is-active'); });
+        btn.classList.add('is-active');
+        var slide = mainEl.querySelector('[data-index="' + idx + '"]');
+        if (slide) slide.classList.add('is-active');
+      });
+    })();
+  </script>
 
     {% render 'product-media-modal', variant_images: variant_images %}
 
@@ -735,7 +782,6 @@
     <script type="application/ld+json">
       {{ product | structured_data }}
     </script>
-  </div>
 </product-info>
 
 {% schema %}
@@ -2089,6 +2135,31 @@
     }
   ],
   "settings": [
+    {
+      "type": "header",
+      "content": "HPS Layout"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 40,
+      "max": 220,
+      "step": 10,
+      "default": 110,
+      "unit": "px",
+      "label": "Logo size"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "Sidebar navigation menu"
+    },
     {
       "type": "checkbox",
       "id": "enable_sticky_info",

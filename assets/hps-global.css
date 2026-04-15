@@ -1,0 +1,99 @@
+/* ============================================
+   HPS Global Overrides — House Painting Service
+   ============================================ */
+
+:root {
+  --hps-black: #000000;
+  --hps-white: #ffffff;
+  --hps-overlay: rgba(0, 0, 0, 0.45);
+}
+
+/* --- Courier New site-wide font override --- */
+*,
+*::before,
+*::after {
+  font-family: 'Courier New', Courier, monospace !important;
+}
+
+/* --- Full-bleed pages: flex column so header + main fill 100vh --- */
+.template-index body,
+.template-collection body {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100vh !important;
+  overflow: hidden !important;
+  background: var(--hps-black) !important;
+}
+
+.template-index #MainContent,
+.template-collection #MainContent {
+  flex: 1 !important;
+  overflow: hidden !important;
+  min-height: 0 !important;
+}
+
+.template-index .hps-homepage-section,
+.template-collection .hps-collection-section {
+  height: 100% !important;
+}
+
+/* --- Product page: white background --- */
+.template-product body {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* --- Cart drawer: dark on black-background pages --- */
+.template-index cart-drawer .drawer__inner,
+.template-collection cart-drawer .drawer__inner {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+.template-index cart-drawer .drawer__close svg,
+.template-collection cart-drawer .drawer__close svg {
+  fill: #ffffff !important;
+}
+
+.template-index cart-drawer .cart-item__name,
+.template-collection cart-drawer .cart-item__name,
+.template-index cart-drawer .cart-item__price,
+.template-collection cart-drawer .cart-item__price,
+.template-index cart-drawer .totals__total,
+.template-collection cart-drawer .totals__total,
+.template-index cart-drawer .totals__subtotal,
+.template-collection cart-drawer .totals__subtotal,
+.template-index cart-drawer h2,
+.template-collection cart-drawer h2,
+.template-index cart-drawer .price,
+.template-collection cart-drawer .price,
+.template-index cart-drawer .caption-large,
+.template-collection cart-drawer .caption-large {
+  color: #ffffff !important;
+}
+
+.template-index cart-drawer .button--secondary,
+.template-collection cart-drawer .button--secondary {
+  background: transparent !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+.template-index cart-drawer .cart__checkout-button,
+.template-collection cart-drawer .cart__checkout-button {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-color: #ffffff !important;
+}
+
+/* --- Cart drawer: light on product pages --- */
+.template-product cart-drawer .drawer__inner {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+.template-product cart-drawer .cart__checkout-button {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #000000 !important;
+}
