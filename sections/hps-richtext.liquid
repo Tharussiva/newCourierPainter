@@ -1,0 +1,331 @@
+{%- style -%}
+  #hps-richtext-{{ section.id }} {
+    --hps-rt-bg: {{ section.settings.bg_color }};
+    --hps-rt-fg: {{ section.settings.text_color }};
+    --hps-rt-link: {{ section.settings.link_color }};
+    --hps-rt-max-width: {{ section.settings.content_max_width }}px;
+    --hps-rt-padding-top: {{ section.settings.padding_top }}px;
+    --hps-rt-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --hps-rt-heading-size: {{ section.settings.heading_size }}px;
+    --hps-rt-heading-weight: {{ section.settings.heading_weight }};
+    --hps-rt-heading-transform: {{ section.settings.heading_transform }};
+    --hps-rt-heading-align: {{ section.settings.heading_align }};
+    --hps-rt-heading-margin-bottom: {{ section.settings.heading_margin_bottom }}px;
+    --hps-rt-heading-letter-spacing: {{ section.settings.heading_letter_spacing | times: 0.01 }}em;
+    --hps-rt-body-size: {{ section.settings.body_size }}px;
+    --hps-rt-body-align: {{ section.settings.body_align }};
+    --hps-rt-body-line-height: {{ section.settings.body_line_height | divided_by: 100.0 }};
+  }
+{%- endstyle -%}
+
+<div id="hps-richtext-{{ section.id }}" class="hps-richtext">
+  <div class="hps-richtext__content">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+
+        {%- when 'heading' -%}
+          {%- if block.settings.text != blank -%}
+            <h2 class="hps-richtext__heading" {{ block.shopify_attributes }}>
+              {{- block.settings.text -}}
+            </h2>
+          {%- endif -%}
+
+        {%- when 'text' -%}
+          {%- if block.settings.text != blank -%}
+            <div class="hps-richtext__body rte" {{ block.shopify_attributes }}>
+              {{ block.settings.text }}
+            </div>
+          {%- endif -%}
+
+        {%- when 'spacer' -%}
+          <div class="hps-richtext__spacer" style="height: {{ block.settings.height }}px" {{ block.shopify_attributes }}></div>
+
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .hps-richtext {
+    width: 100%;
+    background: var(--hps-rt-bg, transparent);
+    color: var(--hps-rt-fg, #000);
+    padding-top: var(--hps-rt-padding-top, 48px);
+    padding-bottom: var(--hps-rt-padding-bottom, 24px);
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+  }
+
+  .hps-richtext__content {
+    max-width: var(--hps-rt-max-width, 760px);
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .hps-richtext__heading {
+    font-family: inherit !important;
+    font-size: var(--hps-rt-heading-size, 14px) !important;
+    font-weight: var(--hps-rt-heading-weight, 700) !important;
+    text-transform: var(--hps-rt-heading-transform, none) !important;
+    text-align: var(--hps-rt-heading-align, left) !important;
+    letter-spacing: var(--hps-rt-heading-letter-spacing, 0em) !important;
+    line-height: 1.3 !important;
+    color: inherit !important;
+    margin: 0 0 var(--hps-rt-heading-margin-bottom, 16px) !important;
+    word-break: normal !important;
+  }
+
+  .hps-richtext__body {
+    font-size: var(--hps-rt-body-size, 11px);
+    line-height: var(--hps-rt-body-line-height, 1.6);
+    text-align: var(--hps-rt-body-align, left);
+    color: inherit;
+  }
+
+  .hps-richtext__body p {
+    margin: 0 0 1em;
+  }
+
+  .hps-richtext__body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .hps-richtext__body a {
+    color: var(--hps-rt-link, inherit);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .hps-richtext__body a:hover {
+    text-decoration: none;
+  }
+
+  .hps-richtext__body ul,
+  .hps-richtext__body ol {
+    margin: 0 0 1em 1.4em;
+    padding: 0;
+  }
+
+  .hps-richtext__body li {
+    margin-bottom: 0.4em;
+  }
+
+  .hps-richtext__spacer {
+    width: 100%;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "HPS Rich text",
+  "tag": "section",
+  "class": "hps-richtext-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 360,
+      "max": 1000,
+      "step": 20,
+      "default": 760,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 48,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 24,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Heading style"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 10,
+      "max": 48,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading weight",
+      "default": "700",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "700", "label": "Bold" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_transform",
+      "label": "Heading case",
+      "default": "none",
+      "options": [
+        { "value": "none",       "label": "As typed" },
+        { "value": "uppercase",  "label": "Uppercase" },
+        { "value": "lowercase",  "label": "Lowercase" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_align",
+      "label": "Heading alignment",
+      "default": "left",
+      "options": [
+        { "value": "left",   "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right",  "label": "Right" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "heading_letter_spacing",
+      "label": "Heading letter spacing",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 0,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "heading_margin_bottom",
+      "label": "Space below heading",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Body style"
+    },
+    {
+      "type": "select",
+      "id": "body_align",
+      "label": "Body alignment",
+      "default": "left",
+      "options": [
+        { "value": "left",   "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "body_size",
+      "label": "Body text size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "default": 11,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "body_line_height",
+      "label": "Body line height",
+      "min": 110,
+      "max": 220,
+      "step": 5,
+      "default": 160,
+      "unit": "%"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link",
+      "default": "#000000"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Heading",
+          "default": "Contact us"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Drop us a message and we'll get back to you as soon as possible.</p>"
+        }
+      ]
+    },
+    {
+      "type": "spacer",
+      "name": "Spacer",
+      "settings": [
+        {
+          "type": "range",
+          "id": "height",
+          "label": "Height",
+          "min": 4,
+          "max": 120,
+          "step": 4,
+          "default": 24,
+          "unit": "px"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "HPS Rich text"
+    }
+  ]
+}
+{% endschema %}

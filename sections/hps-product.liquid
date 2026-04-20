@@ -33,6 +33,8 @@
 
   <div class="hps-product-wrap">
 
+    <h1 class="hps-product__title-mobile">{{ product.title | escape }}</h1>
+
     <!-- ── Gallery (col 1): main image + thumbnails below ── -->
     <div class="hps-gallery">
 
@@ -55,7 +57,7 @@
         {%- endfor -%}
       </div>
 
-      <div class="hps-gallery__thumbs">
+      <div class="hps-gallery__thumbs hps-gallery__thumbs--mobile-{{ section.settings.mobile_thumbnails }}">
         {%- for image in product.images -%}
           <button
             class="hps-gallery__thumb{% if forloop.first %} is-active{% endif %}"
@@ -91,25 +93,41 @@
           });
         });
 
+        var setOrigin = function (slide, img, e) {
+          var rect = slide.getBoundingClientRect();
+          var x = ((e.clientX - rect.left) / rect.width) * 100;
+          var y = ((e.clientY - rect.top) / rect.height) * 100;
+          img.style.transformOrigin = x + '% ' + y + '%';
+        };
+
+        var exitZoom = function (slide) {
+          slide.classList.remove('is-zooming');
+          var img = slide.querySelector('.hps-gallery__img, img');
+          if (img) img.style.transformOrigin = 'center center';
+        };
+
         wrap.querySelectorAll('.hps-gallery__slide').forEach(function (slide) {
           var img = slide.querySelector('.hps-gallery__img, img');
           if (!img) return;
 
-          slide.addEventListener('mouseenter', function () {
-            slide.classList.add('is-zooming');
-          });
-
-          slide.addEventListener('mouseleave', function () {
-            slide.classList.remove('is-zooming');
-            img.style.transformOrigin = 'center center';
+          slide.addEventListener('click', function (e) {
+            if (slide.classList.contains('is-zooming')) {
+              exitZoom(slide);
+            } else {
+              slide.classList.add('is-zooming');
+              setOrigin(slide, img, e);
+            }
           });
 
           slide.addEventListener('mousemove', function (e) {
-            var rect = slide.getBoundingClientRect();
-            var x = ((e.clientX - rect.left) / rect.width) * 100;
-            var y = ((e.clientY - rect.top) / rect.height) * 100;
-            img.style.transformOrigin = x + '% ' + y + '%';
+            if (!slide.classList.contains('is-zooming')) return;
+            setOrigin(slide, img, e);
           });
+        });
+
+        document.addEventListener('keydown', function (e) {
+          if (e.key !== 'Escape') return;
+          wrap.querySelectorAll('.hps-gallery__slide.is-zooming').forEach(exitZoom);
         });
       });
     </script>

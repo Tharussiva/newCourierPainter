@@ -7,8 +7,17 @@
 
 <aside class="hps-sidebar">
 
+  {%- if request.page_type == 'product' -%}
+    <a href="{{ routes.root_url }}" class="hps-sidebar-keep-shopping">
+      <svg class="hps-sidebar-keep-shopping__icon" viewBox="0 0 14 14" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true">
+        <path d="M10 2 L4 7 L10 12" />
+      </svg>
+      <span>keep shopping</span>
+    </a>
+  {%- endif -%}
+
   {%- assign nav_menu = linklists[menu] -%}
-  {%- if nav_menu.links.size > 0 -%}
+  {%- if request.page_type != 'product' and request.page_type != 'page' and nav_menu.links.size > 0 -%}
     {%- assign active_link_title = 'all' -%}
     {%- for link in nav_menu.links -%}
       {%- if link.active -%}{%- assign active_link_title = link.title -%}{%- endif -%}

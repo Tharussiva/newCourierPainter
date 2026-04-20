@@ -38,16 +38,16 @@
       },
       "block_order": [
         "title",
-        "description",
-        "price",
         "variant_picker",
         "buy_buttons",
+        "price",
+        "description",
         "product_info_popup"
       ],
       "settings": {
         "gallery_layout": "thumbnail_slider",
         "media_size": "large",
-        "mobile_thumbnails": "hide",
+        "mobile_thumbnails": "show",
         "hide_variants": true,
         "enable_video_looping": false,
         "enable_sticky_info": false

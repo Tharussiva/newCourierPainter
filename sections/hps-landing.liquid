@@ -1,0 +1,400 @@
+{%- style -%}
+  #hps-landing-{{ section.id }} {
+    --hps-landing-bg: {{ section.settings.bg_color | default: '#000000' }};
+    --hps-landing-fg: {{ section.settings.text_color | default: '#ffffff' }};
+    --hps-landing-hover-bg: {{ section.settings.hover_bg_color | default: '#6b7c3f' }};
+    --hps-landing-hover-fg: {{ section.settings.hover_text_color | default: '#ffffff' }};
+    --hps-landing-logo-width: {{ section.settings.logo_width | default: 160 }}px;
+    --hps-landing-overlay: {{ section.settings.bg_overlay_opacity | default: 0 | divided_by: 100.0 }};
+  }
+  {%- if section.settings.bg_image != blank %}
+  #hps-landing-{{ section.id }}.hps-landing {
+    background-image: url({{ section.settings.bg_image | image_url: width: 2400 }});
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  {%- endif -%}
+{%- endstyle -%}
+
+<div id="hps-landing-{{ section.id }}" class="hps-landing">
+  <div class="hps-landing__content">
+    {%- if section.settings.logo != blank -%}
+      <div class="hps-landing__logo">
+        {{
+          section.settings.logo
+          | image_url: width: 600
+          | image_tag:
+            loading: 'eager',
+            alt: shop.name,
+            widths: '160, 240, 320, 480, 600',
+            class: 'hps-landing__logo-img'
+        }}
+      </div>
+    {%- else -%}
+      <div class="hps-landing__logo hps-landing__logo--placeholder">
+        <span>logo</span>
+      </div>
+    {%- endif -%}
+
+    {%- assign has_links = false -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'nav_link' -%}{%- assign has_links = true -%}{%- endif -%}
+    {%- endfor -%}
+
+    {%- if has_links -%}
+      <nav class="hps-landing__nav" aria-label="Primary">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'nav_link' -%}
+            <a
+              href="{{ block.settings.url | default: '#' }}"
+              class="hps-landing__link"
+              {{ block.shopify_attributes }}
+            >
+              {{- block.settings.label | downcase -}}
+            </a>
+          {%- endif -%}
+        {%- endfor -%}
+      </nav>
+    {%- endif -%}
+  </div>
+
+  {%- assign has_socials = false -%}
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'social' and block.settings.url != blank -%}{%- assign has_socials = true -%}{%- endif -%}
+  {%- endfor -%}
+
+  {%- if has_socials -%}
+    <div class="hps-landing__socials">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'social' and block.settings.url != blank -%}
+          <a
+            href="{{ block.settings.url }}"
+            class="hps-landing__social"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="{{ block.settings.platform }}"
+            {{ block.shopify_attributes }}
+          >
+            {%- case block.settings.platform -%}
+              {%- when 'instagram' -%}
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                  <rect x="3" y="3" width="18" height="18" rx="4"/>
+                  <circle cx="12" cy="12" r="4"/>
+                  <circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/>
+                </svg>
+              {%- when 'tiktok' -%}
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+                  <path d="M16.5 3h2.6a5.3 5.3 0 0 0 4.4 4.4v2.8a8 8 0 0 1-4.5-1.4v6.4a6.8 6.8 0 1 1-6.8-6.8h.8v3h-.8a3.8 3.8 0 1 0 3.8 3.8V3z"/>
+                </svg>
+              {%- when 'facebook' -%}
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+                  <path d="M13.5 22v-9h3l.4-3.5H13.5V7.2c0-1 .3-1.7 1.7-1.7h1.8V2.3c-.3 0-1.4-.1-2.7-.1-2.7 0-4.5 1.6-4.5 4.6v2.7H6.8V13h2.9v9h3.8z"/>
+                </svg>
+              {%- when 'youtube' -%}
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+                  <path d="M23 7.2s-.2-1.6-.9-2.3c-.8-.9-1.7-.9-2.1-1C17 3.7 12 3.7 12 3.7s-5 0-8 .2c-.4.1-1.3.1-2.1 1-.7.7-.9 2.3-.9 2.3S.8 9 .8 10.8v1.7c0 1.8.2 3.6.2 3.6s.2 1.6.9 2.3c.8.9 1.9.9 2.4 1 1.7.2 7.7.2 7.7.2s5 0 8-.2c.4-.1 1.3-.1 2.1-1 .7-.7.9-2.3.9-2.3s.2-1.8.2-3.6v-1.7c0-1.8-.2-3.6-.2-3.6zM9.7 14.9V8.6l5.3 3.1-5.3 3.2z"/>
+                </svg>
+              {%- when 'x' -%}
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+                  <path d="M17.5 3h3.3l-7.2 8.3L22 21h-6.7l-5.3-6.7L3.9 21H.6l7.7-8.9L0 3h6.8l4.8 6.1L17.5 3zm-1.2 16.2h1.8L7 4.8H5l11.3 14.4z"/>
+                </svg>
+            {%- endcase -%}
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  /* Landing takes over the full viewport — hide site chrome */
+  .template-index .section-header,
+  .template-index .hps-sidebar,
+  .template-index .shopify-section-group-footer-group,
+  .template-index footer,
+  .template-index .skip-to-content-link {
+    display: none !important;
+  }
+
+  .template-index .hps-page {
+    height: 100vh !important;
+    padding: 0 !important;
+    background: transparent !important;
+  }
+
+  .template-index .hps-content-row {
+    gap: 0 !important;
+    padding: 0 !important;
+    height: 100vh !important;
+    flex-direction: column !important;
+  }
+
+  .template-index main {
+    width: 100%;
+    height: 100vh;
+    flex: 1;
+  }
+
+  /* Landing layout */
+  .hps-landing {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 48px 24px 40px;
+    box-sizing: border-box;
+    background-color: var(--hps-landing-bg);
+    color: var(--hps-landing-fg);
+  }
+
+  /* Optional overlay when a background image is set — tints with bg color */
+  .hps-landing::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--hps-landing-bg);
+    opacity: var(--hps-landing-overlay, 0);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hps-landing > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hps-landing__content {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 64px;
+  }
+
+  /* Logo */
+  .hps-landing__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hps-landing__logo-img {
+    display: block;
+    max-width: var(--hps-landing-logo-width, 160px);
+    width: 100%;
+    height: auto;
+  }
+
+  .hps-landing__logo--placeholder {
+    width: var(--hps-landing-logo-width, 160px);
+    aspect-ratio: 3 / 1;
+    border: 1px dashed rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* Nav list */
+  .hps-landing__nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hps-landing__link {
+    display: inline-block;
+    color: var(--hps-landing-fg);
+    background: transparent;
+    text-decoration: none;
+    font-size: 12px;
+    line-height: 1.2;
+    padding: 2px 10px;
+    text-transform: lowercase;
+    transition: background-color 0.1s ease, color 0.1s ease;
+  }
+
+  .hps-landing__link:hover,
+  .hps-landing__link:focus-visible {
+    background: var(--hps-landing-hover-bg);
+    color: var(--hps-landing-hover-fg);
+    outline: none;
+  }
+
+  /* Socials */
+  .hps-landing__socials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin-top: auto;
+    padding-top: 32px;
+  }
+
+  .hps-landing__social {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--hps-landing-fg);
+    opacity: 0.6;
+    text-decoration: none;
+    transition: opacity 0.15s ease;
+  }
+
+  .hps-landing__social:hover,
+  .hps-landing__social:focus-visible {
+    opacity: 1;
+    outline: none;
+  }
+
+  @media screen and (max-width: 599px) {
+    .hps-landing {
+      padding: 32px 16px 28px;
+    }
+
+    .hps-landing__content {
+      gap: 40px;
+    }
+
+    .hps-landing__link {
+      font-size: 11px;
+    }
+
+    .hps-landing__socials {
+      gap: 14px;
+      padding-top: 24px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "HPS Landing",
+  "tag": "section",
+  "class": "hps-landing-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Brand"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 80,
+      "max": 400,
+      "step": 10,
+      "default": 160,
+      "unit": "px",
+      "label": "Logo width"
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#000000"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background image",
+      "info": "Overrides the color. Use a high-resolution image."
+    },
+    {
+      "type": "range",
+      "id": "bg_overlay_opacity",
+      "label": "Image overlay tint",
+      "info": "Darkens/tints the image using the background color, for text readability.",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Text colors"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "hover_bg_color",
+      "label": "Hover background",
+      "default": "#6b7c3f"
+    },
+    {
+      "type": "color",
+      "id": "hover_text_color",
+      "label": "Hover text",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "nav_link",
+      "name": "Nav link",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "shop"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "URL"
+        }
+      ]
+    },
+    {
+      "type": "social",
+      "name": "Social icon",
+      "settings": [
+        {
+          "type": "select",
+          "id": "platform",
+          "label": "Platform",
+          "default": "instagram",
+          "options": [
+            { "value": "instagram", "label": "Instagram" },
+            { "value": "tiktok",    "label": "TikTok" },
+            { "value": "facebook",  "label": "Facebook" },
+            { "value": "youtube",   "label": "YouTube" },
+            { "value": "x",         "label": "X (Twitter)" }
+          ]
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "HPS Landing"
+    }
+  ]
+}
+{% endschema %}

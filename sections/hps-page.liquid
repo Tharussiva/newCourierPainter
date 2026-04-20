@@ -1,0 +1,634 @@
+{%- style -%}
+  #hps-page-{{ section.id }} {
+    --hps-page-bg: {{ section.settings.bg_color }};
+    --hps-page-fg: {{ section.settings.text_color }};
+    --hps-page-link: {{ section.settings.link_color }};
+    --hps-page-max-width: {{ section.settings.content_max_width }}px;
+    --hps-page-padding-top: {{ section.settings.padding_top }}px;
+    --hps-page-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --hps-page-title-size: {{ section.settings.title_size }}px;
+    --hps-page-title-weight: {{ section.settings.title_weight }};
+    --hps-page-title-transform: {{ section.settings.title_transform }};
+    --hps-page-title-align: {{ section.settings.title_align }};
+    --hps-page-title-margin-bottom: {{ section.settings.title_margin_bottom }}px;
+    --hps-page-title-letter-spacing: {{ section.settings.title_letter_spacing | times: 0.01 }}em;
+    --hps-page-body-size: {{ section.settings.body_size }}px;
+    --hps-page-body-align: {{ section.settings.body_align }};
+    --hps-page-body-line-height: {{ section.settings.body_line_height | divided_by: 100.0 }};
+    --hps-page-h2-size: {{ section.settings.h2_size }}px;
+    --hps-page-h2-weight: {{ section.settings.h2_weight }};
+    --hps-page-h2-transform: {{ section.settings.h2_transform }};
+    --hps-page-h2-margin-top: {{ section.settings.h2_margin_top }}px;
+    --hps-page-h2-margin-bottom: {{ section.settings.h2_margin_bottom }}px;
+    --hps-page-h3-size: {{ section.settings.h3_size }}px;
+    --hps-page-h3-weight: {{ section.settings.h3_weight }};
+    --hps-page-h3-transform: {{ section.settings.h3_transform }};
+    --hps-page-h3-margin-top: {{ section.settings.h3_margin_top }}px;
+    --hps-page-h3-margin-bottom: {{ section.settings.h3_margin_bottom }}px;
+    --hps-page-h4-size: {{ section.settings.h4_size }}px;
+    --hps-page-h4-weight: {{ section.settings.h4_weight }};
+    --hps-page-h4-transform: {{ section.settings.h4_transform }};
+    --hps-page-h4-margin-top: {{ section.settings.h4_margin_top }}px;
+    --hps-page-h4-margin-bottom: {{ section.settings.h4_margin_bottom }}px;
+  }
+{%- endstyle -%}
+
+<div id="hps-page-{{ section.id }}" class="hps-page-wrap hps-page-wrap--{{ section.settings.layout_type }}">
+  <article class="hps-page-content">
+    {%- if section.settings.show_title and page.title != blank -%}
+      <h1 class="hps-page-title">{{ page.title }}</h1>
+    {%- endif -%}
+
+    {%- if page.content != blank -%}
+      <div class="hps-page-body rte">
+        {{ page.content }}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.show_shop_cta -%}
+      <div class="hps-page-cta">
+        <a href="{{ section.settings.shop_cta_url | default: '/collections/all' }}" class="hps-page-cta__btn">
+          <span>{{ section.settings.shop_cta_label | default: 'go to shop' }}</span>
+          <svg viewBox="0 0 14 14" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true">
+            <path d="M4 2 L10 7 L4 12" />
+          </svg>
+        </a>
+      </div>
+    {%- endif -%}
+  </article>
+</div>
+
+{% stylesheet %}
+  /* Page template owns its own layout: free up the viewport, take the sidebar
+     out of flow so the centered content block isn't offset by the homepage
+     sidebar-centering math. */
+  .template-page .hps-page {
+    height: auto;
+    overflow: visible;
+  }
+
+  .template-page .hps-content-row {
+    height: auto;
+    overflow: visible;
+    position: relative;
+    gap: 0;
+    padding-top: 0;
+  }
+
+  .template-page .hps-main-content {
+    height: auto;
+    overflow-y: visible;
+    width: 100%;
+    flex: 1 1 auto;
+  }
+
+  /* Hide the sidebar entirely on pages — the "go to shop" CTA below replaces it. */
+  .template-page .hps-sidebar {
+    display: none !important;
+  }
+
+  .hps-page-wrap {
+    display: block;
+    width: 100%;
+    background: var(--hps-page-bg, #fff);
+    color: var(--hps-page-fg, #000);
+    padding-top: var(--hps-page-padding-top, 64px);
+    padding-bottom: var(--hps-page-padding-bottom, 64px);
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+  }
+
+  .hps-page-wrap .hps-page-content {
+    display: block;
+    width: 100%;
+    max-width: var(--hps-page-max-width, 600px);
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+
+  .hps-page-wrap .hps-page-title {
+    font-size: var(--hps-page-title-size, 20px) !important;
+    font-weight: var(--hps-page-title-weight, 700) !important;
+    line-height: 1.25 !important;
+    letter-spacing: var(--hps-page-title-letter-spacing, 0em) !important;
+    text-transform: var(--hps-page-title-transform, uppercase) !important;
+    text-align: var(--hps-page-title-align, center) !important;
+    color: inherit;
+    margin: 0 0 var(--hps-page-title-margin-bottom, 32px) !important;
+    font-family: inherit !important;
+    word-break: normal;
+  }
+
+  .hps-page-wrap .hps-page-body {
+    font-size: var(--hps-page-body-size, 11px);
+    line-height: var(--hps-page-body-line-height, 1.6);
+    text-align: var(--hps-page-body-align, left);
+    color: inherit;
+    max-width: 100%;
+  }
+
+  /* "Go to shop" CTA at the bottom of the page content */
+  .hps-page-cta {
+    margin-top: 48px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .hps-page-cta__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 160px;
+    padding: 8px 18px;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.6;
+    text-transform: lowercase;
+    text-decoration: none;
+    color: #fff;
+    background: #000;
+    border: 1px solid #000;
+    transition: background 0.1s ease, color 0.1s ease;
+  }
+
+  .hps-page-cta__btn:hover {
+    background: #fff;
+    color: #000;
+  }
+
+  .hps-page-body p {
+    margin: 0 0 1em;
+  }
+
+  .hps-page-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Body headings — aggressive overrides to beat Dawn's h1/h2/h3 defaults */
+  .hps-page-wrap .hps-page-body h1,
+  .hps-page-wrap .hps-page-body h2,
+  .hps-page-wrap .hps-page-body h3,
+  .hps-page-wrap .hps-page-body h4,
+  .hps-page-wrap .hps-page-body h5,
+  .hps-page-wrap .hps-page-body h6 {
+    font-family: inherit !important;
+    letter-spacing: 0.04em !important;
+    line-height: 1.3 !important;
+    color: inherit !important;
+    word-break: normal !important;
+  }
+
+  .hps-page-wrap .hps-page-body h1,
+  .hps-page-wrap .hps-page-body h2 {
+    font-size: var(--hps-page-h2-size, 14px) !important;
+    font-weight: var(--hps-page-h2-weight, 700) !important;
+    text-transform: var(--hps-page-h2-transform, uppercase) !important;
+    margin-top: var(--hps-page-h2-margin-top, 32px) !important;
+    margin-bottom: var(--hps-page-h2-margin-bottom, 12px) !important;
+  }
+
+  .hps-page-wrap .hps-page-body h3 {
+    font-size: var(--hps-page-h3-size, 13px) !important;
+    font-weight: var(--hps-page-h3-weight, 700) !important;
+    text-transform: var(--hps-page-h3-transform, uppercase) !important;
+    margin-top: var(--hps-page-h3-margin-top, 24px) !important;
+    margin-bottom: var(--hps-page-h3-margin-bottom, 10px) !important;
+  }
+
+  .hps-page-wrap .hps-page-body h4,
+  .hps-page-wrap .hps-page-body h5,
+  .hps-page-wrap .hps-page-body h6 {
+    font-size: var(--hps-page-h4-size, 12px) !important;
+    font-weight: var(--hps-page-h4-weight, 700) !important;
+    text-transform: var(--hps-page-h4-transform, uppercase) !important;
+    margin-top: var(--hps-page-h4-margin-top, 20px) !important;
+    margin-bottom: var(--hps-page-h4-margin-bottom, 8px) !important;
+  }
+
+  .hps-page-wrap .hps-page-body h1:first-child,
+  .hps-page-wrap .hps-page-body h2:first-child,
+  .hps-page-wrap .hps-page-body h3:first-child,
+  .hps-page-wrap .hps-page-body h4:first-child,
+  .hps-page-wrap .hps-page-body h5:first-child,
+  .hps-page-wrap .hps-page-body h6:first-child {
+    margin-top: 0 !important;
+  }
+
+  .hps-page-body ul,
+  .hps-page-body ol {
+    margin: 0 0 1em 1.5em;
+    padding: 0;
+  }
+
+  .hps-page-body li {
+    margin-bottom: 0.4em;
+  }
+
+  .hps-page-body a {
+    color: var(--hps-page-link, inherit);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .hps-page-body a:hover {
+    text-decoration: none;
+  }
+
+  .hps-page-body img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1.5em 0;
+  }
+
+  .hps-page-body hr {
+    border: none;
+    border-top: 1px solid currentColor;
+    opacity: 0.2;
+    margin: 2em 0;
+  }
+
+  .hps-page-body blockquote {
+    margin: 1.5em 0;
+    padding-left: 1em;
+    border-left: 1px solid currentColor;
+    opacity: 0.85;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "HPS Page",
+  "tag": "section",
+  "class": "hps-page-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout_type",
+      "label": "Layout preset",
+      "default": "centered",
+      "options": [
+        { "value": "centered", "label": "Centered (narrow)" },
+        { "value": "left",     "label": "Left-aligned (wide)" }
+      ],
+      "info": "Preset only affects default title alignment. Max-width and alignments below are fully customizable."
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 360,
+      "max": 1000,
+      "step": 20,
+      "default": 600,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "default": 72,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "default": 72,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Title"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show page title",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "title_align",
+      "label": "Title alignment",
+      "default": "center",
+      "options": [
+        { "value": "left",   "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right",  "label": "Right" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title size",
+      "min": 12,
+      "max": 56,
+      "step": 1,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Title weight",
+      "default": "700",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "700", "label": "Bold" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "title_transform",
+      "label": "Title case",
+      "default": "uppercase",
+      "options": [
+        { "value": "none",       "label": "As typed" },
+        { "value": "uppercase",  "label": "Uppercase" },
+        { "value": "lowercase",  "label": "Lowercase" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "title_letter_spacing",
+      "label": "Title letter spacing",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 4,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "title_margin_bottom",
+      "label": "Space below title",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 32,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Body"
+    },
+    {
+      "type": "select",
+      "id": "body_align",
+      "label": "Body alignment",
+      "default": "left",
+      "options": [
+        { "value": "left",   "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "body_size",
+      "label": "Body text size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "default": 11,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "body_line_height",
+      "label": "Body line height",
+      "min": 110,
+      "max": 220,
+      "step": 5,
+      "default": 160,
+      "unit": "%"
+    },
+    {
+      "type": "header",
+      "content": "Body heading H2"
+    },
+    {
+      "type": "range",
+      "id": "h2_size",
+      "label": "H2 size",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "h2_weight",
+      "label": "H2 weight",
+      "default": "700",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "700", "label": "Bold" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "h2_transform",
+      "label": "H2 case",
+      "default": "uppercase",
+      "options": [
+        { "value": "none",       "label": "As typed" },
+        { "value": "uppercase",  "label": "Uppercase" },
+        { "value": "lowercase",  "label": "Lowercase" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "h2_margin_top",
+      "label": "H2 space above",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "default": 32,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "h2_margin_bottom",
+      "label": "H2 space below",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Body heading H3"
+    },
+    {
+      "type": "range",
+      "id": "h3_size",
+      "label": "H3 size",
+      "min": 10,
+      "max": 36,
+      "step": 1,
+      "default": 13,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "h3_weight",
+      "label": "H3 weight",
+      "default": "700",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "700", "label": "Bold" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "h3_transform",
+      "label": "H3 case",
+      "default": "uppercase",
+      "options": [
+        { "value": "none",       "label": "As typed" },
+        { "value": "uppercase",  "label": "Uppercase" },
+        { "value": "lowercase",  "label": "Lowercase" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "h3_margin_top",
+      "label": "H3 space above",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "default": 24,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "h3_margin_bottom",
+      "label": "H3 space below",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "default": 10,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Body heading H4"
+    },
+    {
+      "type": "range",
+      "id": "h4_size",
+      "label": "H4 size",
+      "min": 10,
+      "max": 32,
+      "step": 1,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "h4_weight",
+      "label": "H4 weight",
+      "default": "700",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "700", "label": "Bold" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "h4_transform",
+      "label": "H4 case",
+      "default": "uppercase",
+      "options": [
+        { "value": "none",       "label": "As typed" },
+        { "value": "uppercase",  "label": "Uppercase" },
+        { "value": "lowercase",  "label": "Lowercase" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "h4_margin_top",
+      "label": "H4 space above",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "h4_margin_bottom",
+      "label": "H4 space below",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "default": 8,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Shop CTA"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shop_cta",
+      "label": "Show \"go to shop\" button at bottom",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "shop_cta_label",
+      "label": "Button label",
+      "default": "go to shop"
+    },
+    {
+      "type": "url",
+      "id": "shop_cta_url",
+      "label": "Button URL",
+      "info": "Defaults to /collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link",
+      "default": "#000000"
+    }
+  ],
+  "presets": [
+    {
+      "name": "HPS Page"
+    }
+  ]
+}
+{% endschema %}

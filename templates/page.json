@@ -1,14 +1,45 @@
 {
   "sections": {
     "main": {
-      "type": "main-page",
+      "type": "hps-page",
       "settings": {
-        "padding_top": 28,
-        "padding_bottom": 28
+        "layout_type": "centered",
+        "content_max_width": 760,
+        "padding_top": 180,
+        "padding_bottom": 120,
+        "show_title": true,
+        "title_align": "left",
+        "title_size": 11,
+        "title_weight": "700",
+        "title_transform": "none",
+        "title_letter_spacing": 0,
+        "title_margin_bottom": 16,
+        "body_align": "left",
+        "body_size": 11,
+        "body_line_height": 160,
+        "h2_size": 14,
+        "h2_weight": "700",
+        "h2_transform": "uppercase",
+        "h2_margin_top": 32,
+        "h2_margin_bottom": 12,
+        "h3_size": 13,
+        "h3_weight": "700",
+        "h3_transform": "uppercase",
+        "h3_margin_top": 24,
+        "h3_margin_bottom": 10,
+        "h4_size": 12,
+        "h4_weight": "700",
+        "h4_transform": "uppercase",
+        "h4_margin_top": 20,
+        "h4_margin_bottom": 8,
+        "show_shop_cta": true,
+        "shop_cta_label": "go to shop",
+        "shop_cta_url": "/collections/all",
+        "bg_color": "#ffffff",
+        "text_color": "#000000",
+        "link_color": "#000000"
       }
     }
   },
-  "order": [
-    "main"
-  ]
+  "order": ["main"]
 }

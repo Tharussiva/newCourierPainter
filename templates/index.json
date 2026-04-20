@@ -1,9 +1,39 @@
 {
   "sections": {
-    "hps-homepage": {
-      "type": "hps-homepage",
-      "settings": {}
+    "landing": {
+      "type": "hps-landing",
+      "blocks": {
+        "shop_link": {
+          "type": "nav_link",
+          "settings": {
+            "label": "shop",
+            "url": "/collections/all"
+          }
+        },
+        "instagram": {
+          "type": "social",
+          "settings": {
+            "platform": "instagram",
+            "url": ""
+          }
+        },
+        "tiktok": {
+          "type": "social",
+          "settings": {
+            "platform": "tiktok",
+            "url": ""
+          }
+        }
+      },
+      "block_order": ["shop_link", "instagram", "tiktok"],
+      "settings": {
+        "logo_width": 160,
+        "bg_color": "#000000",
+        "text_color": "#ffffff",
+        "hover_bg_color": "#6b7c3f",
+        "hover_text_color": "#ffffff"
+      }
     }
   },
-  "order": ["hps-homepage"]
+  "order": ["landing"]
 }

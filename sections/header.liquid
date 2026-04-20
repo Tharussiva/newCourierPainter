@@ -17,7 +17,15 @@
 
 <{{ header_tag }}{% if header_tag == 'sticky-header' %} data-sticky-type="{{ section.settings.sticky_header_type }}"{% endif %} class="hps-logo-header{% if section.settings.show_line_separator %} hps-logo-header--border{% endif %}">
   <div class="hps-logo-header__inner">
-    <div class="hps-logo-header__side"></div>
+    <div class="hps-logo-header__side">
+      {%- if request.page_type == 'product' -%}
+        <a href="{{ routes.collections_url }}/all" class="hps-header-back" aria-label="Back" onclick="if (document.referrer &amp;&amp; document.referrer.startsWith(window.location.origin)) { event.preventDefault(); history.back(); }">
+          <svg viewBox="0 0 14 14" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true">
+            <path d="M10 2 L4 7 L10 12" />
+          </svg>
+        </a>
+      {%- endif -%}
+    </div>
     {%- if request.page_type == 'index' -%}<h1 class="hps-logo-heading">{%- endif -%}
     <a href="{{ routes.root_url }}" class="hps-logo" aria-label="{{ shop.name }}">
       {%- if settings.logo != blank -%}
@@ -76,7 +84,7 @@
   }
 
   .hps-logo-header--border {
-    border-bottom: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e0e0e0;
   }
 
   .hps-logo-header__inner {
@@ -169,6 +177,7 @@
       top: 0;
       background: #fff;
       z-index: 100;
+      border-bottom: 1px solid #e0e0e0;
     }
 
     .hps-logo-header__inner {
@@ -178,6 +187,22 @@
     .hps-logo-header__side--right {
       position: static;
       margin-left: auto;
+    }
+
+    .template-product .hps-logo-header__side {
+      display: flex;
+      align-items: center;
+      margin-right: 10px;
+    }
+
+    .hps-header-back {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      color: #000;
+      text-decoration: none;
     }
 
     .hps-cart-header-btn {
@@ -195,7 +220,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      height: 30px;
+      height: 24px;
       font-size: 11px;
       line-height: 1;
       text-decoration: none;
@@ -208,7 +233,7 @@
       min-width: 36px;
       padding: 0 8px;
       border: 1px solid #c8c8c8;
-      color: #000;
+      color: #c8c8c8;
     }
 
     .hps-mobile-cart__checkout {
@@ -217,6 +242,23 @@
       color: #6b7c3f;
       text-transform: lowercase;
       font-weight: 700;
+    }
+
+    /* Cart page: center the logo, hide the mobile cart buttons, drop the border */
+    .template-cart .hps-logo-header {
+      border-bottom: none;
+    }
+
+    .template-cart .hps-logo-header__inner {
+      justify-content: center;
+    }
+
+    .template-cart .hps-mobile-cart {
+      display: none;
+    }
+
+    .template-cart .hps-logo-header__side--right {
+      display: none;
     }
   }
 {% endstylesheet %}

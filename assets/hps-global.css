@@ -97,3 +97,180 @@
   color: #ffffff !important;
   border-color: #000000 !important;
 }
+
+/* ============================================
+   HPS Form Fields — Supreme-style bordered boxes
+   Applies to contact form, newsletter, login/register
+   ============================================ */
+
+/* Field wrapper */
+.field,
+.contact__fields .field,
+.newsletter-form__field-wrapper {
+  position: relative;
+  width: 100%;
+  margin: 0 0 12px;
+}
+
+/* Inputs, textareas, selects */
+.field__input,
+.field input,
+.contact__fields input,
+.customer input[type='text'],
+.customer input[type='email'],
+.customer input[type='password'],
+.newsletter-form__field-wrapper input,
+.newsletter-form input,
+select.select__select,
+.select__select,
+textarea.text-area,
+.field textarea,
+.contact textarea {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background: #fff !important;
+  border: 1px solid #c8c8c8 !important;
+  border-radius: 0 !important;
+  color: #000 !important;
+  font-family: 'Courier New', Courier, monospace !important;
+  font-size: 11px !important;
+  font-weight: 400 !important;
+  padding: 12px 14px !important;
+  height: auto !important;
+  min-height: 44px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  line-height: 1.4 !important;
+  text-transform: lowercase !important;
+  box-shadow: none !important;
+  letter-spacing: 0 !important;
+  outline: none !important;
+}
+
+.field textarea,
+.contact textarea,
+textarea.text-area {
+  min-height: 160px !important;
+  resize: vertical;
+}
+
+/* Focused state — subtle black border */
+.field__input:focus,
+.field input:focus,
+.contact__fields input:focus,
+.newsletter-form__field-wrapper input:focus,
+textarea:focus,
+select.select__select:focus {
+  border-color: #000 !important;
+}
+
+/* Placeholder text (labels are the placeholders in this style) */
+.field__input::placeholder,
+.field input::placeholder,
+.contact__fields input::placeholder,
+.newsletter-form__field-wrapper input::placeholder,
+textarea::placeholder {
+  color: #000 !important;
+  opacity: 1 !important;
+  text-transform: lowercase !important;
+  font-family: inherit !important;
+  font-size: 11px !important;
+}
+
+/* Hide Dawn's floating labels — we use placeholders instead */
+.field__label,
+.customer .field__label {
+  display: none !important;
+}
+
+/* Hide Dawn's pseudo-element borders on field */
+.field:before,
+.field:after {
+  display: none !important;
+}
+
+/* Contact form: 2-column layout for name/email pairs */
+.contact .contact__fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.contact .contact__fields .field {
+  margin: 0;
+}
+
+@media (max-width: 599px) {
+  .contact .contact__fields {
+    grid-template-columns: 1fr;
+  }
+}
+
+.contact .field--with-error {
+  grid-column: span 1;
+}
+
+/* Message textarea takes full width below the grid */
+.contact > form > .field,
+.contact > form > .contact__fields ~ .field {
+  margin-top: 12px;
+}
+
+/* Form submit button — black, blocky */
+.contact button[type='submit'],
+.contact .button,
+.newsletter-form__button,
+.customer button[type='submit'],
+.customer .button {
+  background: #000 !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 0 !important;
+  font-family: 'Courier New', Courier, monospace !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: lowercase !important;
+  padding: 10px 24px !important;
+  cursor: pointer !important;
+  height: auto !important;
+  min-height: 0 !important;
+  box-shadow: none !important;
+  letter-spacing: 0.02em !important;
+  transition: opacity 0.1s !important;
+}
+
+.contact button[type='submit']:hover,
+.contact .button:hover,
+.newsletter-form__button:hover,
+.customer button[type='submit']:hover,
+.customer .button:hover {
+  opacity: 0.75 !important;
+  background: #000 !important;
+  color: #fff !important;
+}
+
+/* Dawn wraps buttons with ::before/::after shadow rings — kill them */
+.contact button[type='submit']::before,
+.contact button[type='submit']::after,
+.contact .button::before,
+.contact .button::after,
+.newsletter-form__button::before,
+.newsletter-form__button::after,
+.customer button[type='submit']::before,
+.customer button[type='submit']::after,
+.customer .button::before,
+.customer .button::after {
+  display: none !important;
+}
+
+/* Form error state */
+.field--with-error .field__input,
+.field--with-error input {
+  border-color: #c00 !important;
+}
+
+.form__message {
+  font-family: 'Courier New', Courier, monospace !important;
+  font-size: 11px !important;
+  margin-bottom: 16px !important;
+}

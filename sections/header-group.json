@@ -10,7 +10,7 @@
         "menu": "main-menu",
         "menu_type_desktop": "dropdown",
         "header_padding": 28,
-        "sticky_header_type": "always",
+        "sticky_header_type": "on-scroll-up",
         "show_line_separator": false,
         "enable_country_selector": true,
         "enable_language_selector": true,
