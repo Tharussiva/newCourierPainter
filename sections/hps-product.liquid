@@ -33,44 +33,47 @@
 
   <div class="hps-product-wrap">
 
-    <!-- ── Thumbnails (col 1) ── -->
-    <div class="hps-gallery__thumbs">
-      {%- for image in product.images -%}
-        <button
-          class="hps-gallery__thumb{% if forloop.first %} is-active{% endif %}"
-          data-index="{{ forloop.index0 }}"
-          aria-label="{{ image.alt | default: product.title }}"
-        >
-          {{
-            image
-            | image_url: width: 160
-            | image_tag:
-              loading: 'lazy',
-              alt: image.alt | default: product.title,
-              widths: '80, 120, 160'
-          }}
-        </button>
-      {%- endfor -%}
-    </div>
+    <!-- ── Gallery (col 1): main image + thumbnails below ── -->
+    <div class="hps-gallery">
 
-    <!-- ── Main image (col 2) ── -->
-    <div class="hps-gallery__main">
-      {%- for image in product.images -%}
-        {%- if forloop.first -%}{%- assign img_loading = 'eager' -%}{%- else -%}{%- assign img_loading = 'lazy' -%}{%- endif -%}
-        <div class="hps-gallery__slide{% if forloop.first %} is-active{% endif %}" data-index="{{ forloop.index0 }}">
-          {{
-            image
-            | image_url: width: 1800
-            | image_tag:
-              loading: img_loading,
-              alt: image.alt | default: product.title,
-              widths: '900, 1200, 1800',
-              class: 'hps-gallery__img',
-              width: nil,
-              height: nil
-          }}
-        </div>
-      {%- endfor -%}
+      <div class="hps-gallery__main">
+        {%- for image in product.images -%}
+          {%- if forloop.first -%}{%- assign img_loading = 'eager' -%}{%- else -%}{%- assign img_loading = 'lazy' -%}{%- endif -%}
+          <div class="hps-gallery__slide{% if forloop.first %} is-active{% endif %}" data-index="{{ forloop.index0 }}">
+            {{
+              image
+              | image_url: width: 1800
+              | image_tag:
+                loading: img_loading,
+                alt: image.alt | default: product.title,
+                widths: '900, 1200, 1800',
+                class: 'hps-gallery__img',
+                width: nil,
+                height: nil
+            }}
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <div class="hps-gallery__thumbs">
+        {%- for image in product.images -%}
+          <button
+            class="hps-gallery__thumb{% if forloop.first %} is-active{% endif %}"
+            data-index="{{ forloop.index0 }}"
+            aria-label="{{ image.alt | default: product.title }}"
+          >
+            {{
+              image
+              | image_url: width: 160
+              | image_tag:
+                loading: 'lazy',
+                alt: image.alt | default: product.title,
+                widths: '80, 120, 160'
+            }}
+          </button>
+        {%- endfor -%}
+      </div>
+
     </div>
 
     <script>

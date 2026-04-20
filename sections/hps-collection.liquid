@@ -30,12 +30,23 @@
           {%- else -%}
             <div class="hps-product-card__img" style="background:#1a1a1a;"></div>
           {%- endif -%}
+          {%- if product.tags contains 'new' -%}
+            <span class="hps-product-card__badge">new</span>
+          {%- endif -%}
           <div class="hps-product-card__overlay" aria-hidden="true">
             <span class="hps-product-card__title">{{ product.title }}</span>
             <span class="hps-product-card__price">
               {{- product.price | money -}}
             </span>
           </div>
+        </div>
+        <div class="hps-product-card__info">
+          <span class="hps-product-card__info-title">{{ product.title }}</span>
+          {%- if product.available -%}
+            <span class="hps-product-card__info-price">{{ product.price | money }}</span>
+          {%- else -%}
+            <span class="hps-product-card__info-soldout">sold out</span>
+          {%- endif -%}
         </div>
       </a>
     {%- endfor -%}

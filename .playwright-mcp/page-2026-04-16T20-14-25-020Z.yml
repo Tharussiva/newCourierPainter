@@ -1,0 +1,365 @@
+- generic [active] [ref=e1]:
+  - alertdialog "Cookie consent" [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - heading "Cookie consent" [level=2] [ref=e5]
+        - paragraph [ref=e6]:
+          - text: We and our partners, including Shopify, use cookies and other technologies to personalize your experience, show you ads, and perform analytics, and we will not use cookies or other technologies for these purposes unless you accept them. Learn more in our
+          - link "Privacy Policy" [ref=e7] [cursor=pointer]:
+            - /url: https://housepaintingservice.net/policies/privacy-policy
+      - generic [ref=e8]:
+        - button "Manage preferences" [ref=e9]
+        - button "Accept" [ref=e10]
+        - button "Decline" [ref=e11]
+  - link "Skip to content" [ref=e12] [cursor=pointer]:
+    - /url: "#MainContent"
+  - heading "House Painting Service" [level=1] [ref=e16]:
+    - link "House Painting Service" [ref=e17] [cursor=pointer]:
+      - /url: /
+      - img "House Painting Service" [ref=e18]
+  - generic [ref=e20]:
+    - complementary [ref=e21]:
+      - navigation "Category navigation" [ref=e22]:
+        - link "Latest" [ref=e23] [cursor=pointer]:
+          - /url: /collections/latest-drops
+        - link "Tops" [ref=e24] [cursor=pointer]:
+          - /url: /collections/tops
+        - link "T-shirts" [ref=e25] [cursor=pointer]:
+          - /url: /collections/t-shirts
+        - link "Hoodies" [ref=e26] [cursor=pointer]:
+          - /url: /collections/hoodies
+        - link "Long sleeve" [ref=e27] [cursor=pointer]:
+          - /url: /collections/long-sleeve
+        - link "Shirts" [ref=e28] [cursor=pointer]:
+          - /url: /collections/shirts
+        - link "Polos" [ref=e29] [cursor=pointer]:
+          - /url: /collections/polos
+        - link "Pants" [ref=e30] [cursor=pointer]:
+          - /url: /collections/pants
+        - link "Sweatpants" [ref=e31] [cursor=pointer]:
+          - /url: /collections/sweatpants
+        - link "Shorts" [ref=e32] [cursor=pointer]:
+          - /url: /collections/shorts
+        - link "Denim" [ref=e33] [cursor=pointer]:
+          - /url: /collections/denim
+        - link "Jackets" [ref=e34] [cursor=pointer]:
+          - /url: /collections/jackets-and-vests
+        - link "Hats" [ref=e35] [cursor=pointer]:
+          - /url: /collections/hats
+        - link "Bags" [ref=e36] [cursor=pointer]:
+          - /url: /collections/bags
+      - generic [ref=e37]:
+        - paragraph [ref=e38]: 0 items in cart
+        - paragraph [ref=e39]:
+          - text: subtotal
+          - text: 0,00 kr
+        - link "view/edit cart" [ref=e40] [cursor=pointer]:
+          - /url: /cart
+        - link "checkout now" [ref=e41] [cursor=pointer]:
+          - /url: /checkout
+    - main [ref=e42]:
+      - generic [ref=e44]:
+        - link "Black Embossed BL Hoodie" [ref=e45] [cursor=pointer]:
+          - /url: /products/embossed-bl-hoodie-1
+          - generic [ref=e46]:
+            - img "Black Embossed BL Hoodie" [ref=e47]
+            - generic [ref=e48]:
+              - generic [ref=e49]: Black Embossed BL Hoodie
+              - generic [ref=e50]: 800,00 kr
+        - link "BL Tee - Chili Pepper" [ref=e51] [cursor=pointer]:
+          - /url: /products/hps-bl-tee-chilli-pepper
+          - generic [ref=e52]:
+            - img "BL Tee - Chili Pepper" [ref=e53]
+            - generic [ref=e54]:
+              - generic [ref=e55]: BL Tee - Chili Pepper
+              - generic [ref=e56]: 400,00 kr
+        - link "BL Baby tee Blue" [ref=e57] [cursor=pointer]:
+          - /url: /products/bl-baby-tee-blue
+          - generic [ref=e58]:
+            - img "BL Baby tee Blue" [ref=e59]
+            - generic [ref=e60]:
+              - generic [ref=e61]: BL Baby tee Blue
+              - generic [ref=e62]: 350,00 kr
+        - link "Grey Zip-Up Hoodie" [ref=e63] [cursor=pointer]:
+          - /url: /products/grey-zip-up-hoodie
+          - generic [ref=e64]:
+            - img "Grey Zip-Up Hoodie" [ref=e65]
+            - generic [ref=e66]:
+              - generic [ref=e67]: Grey Zip-Up Hoodie
+              - generic [ref=e68]: 800,00 kr
+        - link "Hurtig Hue" [ref=e69] [cursor=pointer]:
+          - /url: /products/hurtigt-hue
+          - generic [ref=e70]:
+            - img "Hurtig Hue" [ref=e71]
+            - generic [ref=e72]:
+              - generic [ref=e73]: Hurtig Hue
+              - generic [ref=e74]: 250,00 kr
+        - link "HPS Alphabet Tee - Cloud Creme" [ref=e75] [cursor=pointer]:
+          - /url: /products/hps-alphabet-tee-cloud-creme
+          - generic [ref=e76]:
+            - img "HPS Alphabet Tee - Cloud Creme" [ref=e77]
+            - generic [ref=e78]:
+              - generic [ref=e79]: HPS Alphabet Tee - Cloud Creme
+              - generic [ref=e80]: 400,00 kr
+        - link "Big Logo Hoodie - Black" [ref=e81] [cursor=pointer]:
+          - /url: /products/bl-hoodie
+          - generic [ref=e82]:
+            - img "Big Logo Hoodie - Black" [ref=e83]
+            - generic [ref=e84]:
+              - generic [ref=e85]: Big Logo Hoodie - Black
+              - generic [ref=e86]: 800,00 kr
+        - link "CL Crewneck" [ref=e87] [cursor=pointer]:
+          - /url: /products/cl-crewneck-1
+          - generic [ref=e88]:
+            - img "CL Crewneck" [ref=e89]
+            - generic [ref=e90]:
+              - generic [ref=e91]: CL Crewneck
+              - generic [ref=e92]: 750,00 kr
+        - link "Big logo Long Sleeve - Black" [ref=e93] [cursor=pointer]:
+          - /url: /products/big-logo-long-sleeve-black
+          - generic [ref=e94]:
+            - img "Big logo Long Sleeve - Black" [ref=e95]
+            - generic [ref=e96]:
+              - generic [ref=e97]: Big logo Long Sleeve - Black
+              - generic [ref=e98]: 650,00 kr
+        - link "SL Denim Jeans" [ref=e99] [cursor=pointer]:
+          - /url: /products/sl-denim-jeans
+          - generic [ref=e100]:
+            - img "SL Denim Jeans" [ref=e101]
+            - generic [ref=e102]:
+              - generic [ref=e103]: SL Denim Jeans
+              - generic [ref=e104]: 1.100,00 kr
+        - link "Small Tote" [ref=e105] [cursor=pointer]:
+          - /url: /products/small-tote
+          - generic [ref=e106]:
+            - img "Small Tote" [ref=e107]
+            - generic [ref=e108]:
+              - generic [ref=e109]: Small Tote
+              - generic [ref=e110]: 300,00 kr
+        - link "BL Hooded Sweatshirt - Olive Branch" [ref=e111] [cursor=pointer]:
+          - /url: /products/bl-hooded-sweatshirt-olive-branch
+          - generic [ref=e112]:
+            - img "BL Hooded Sweatshirt - Olive Branch" [ref=e113]
+            - generic [ref=e114]:
+              - generic [ref=e115]: BL Hooded Sweatshirt - Olive Branch
+              - generic [ref=e116]: 800,00 kr
+        - link "L/S Polo" [ref=e117] [cursor=pointer]:
+          - /url: /products/polo-l-s
+          - generic [ref=e118]:
+            - img "L/S Polo" [ref=e119]
+            - generic [ref=e120]:
+              - generic [ref=e121]: L/S Polo
+              - generic [ref=e122]: 650,00 kr
+        - link "Zipped Hoodie Spellout" [ref=e123] [cursor=pointer]:
+          - /url: /products/zipped-hoodie-spellout
+          - generic [ref=e124]:
+            - img "Zipped Hoodie Spellout" [ref=e125]
+            - generic [ref=e126]:
+              - generic [ref=e127]: Zipped Hoodie Spellout
+              - generic [ref=e128]: 950,00 kr
+        - link "Hooded Sweatshirt BL" [ref=e129] [cursor=pointer]:
+          - /url: /products/bl-hooded-sweatshirt-brown
+          - generic [ref=e130]:
+            - img "Hooded Sweatshirt BL" [ref=e131]
+            - generic [ref=e132]:
+              - generic [ref=e133]: Hooded Sweatshirt BL
+              - generic [ref=e134]: 800,00 kr
+        - link "Denim Chore Jacket" [ref=e135] [cursor=pointer]:
+          - /url: /products/denim-chore-jacket
+          - generic [ref=e136]:
+            - img "Denim Chore Jacket" [ref=e137]
+            - generic [ref=e138]:
+              - generic [ref=e139]: Denim Chore Jacket
+              - generic [ref=e140]: 1.600,00 kr
+        - link "DS Sweatpants - Olive Branch" [ref=e141] [cursor=pointer]:
+          - /url: /products/ds-sweatpants-olive-branch
+          - generic [ref=e142]:
+            - img "DS Sweatpants - Olive Branch" [ref=e143]
+            - generic [ref=e144]:
+              - generic [ref=e145]: DS Sweatpants - Olive Branch
+              - generic [ref=e146]: 700,00 kr
+        - link "Waffle Tank Top" [ref=e147] [cursor=pointer]:
+          - /url: /products/waffel-tank-top
+          - generic [ref=e148]:
+            - img "Waffle Tank Top" [ref=e149]
+            - generic [ref=e150]:
+              - generic [ref=e151]: Waffle Tank Top
+              - generic [ref=e152]: 350,00 kr
+        - link "White Bling Tee" [ref=e153] [cursor=pointer]:
+          - /url: /products/white-bling-tee
+          - generic [ref=e154]:
+            - img "White Bling Tee" [ref=e155]
+            - generic [ref=e156]:
+              - generic [ref=e157]: White Bling Tee
+              - generic [ref=e158]: 400,00 kr
+        - link "Black Bling Tee" [ref=e159] [cursor=pointer]:
+          - /url: /products/tee-copy
+          - generic [ref=e160]:
+            - img "Black Bling Tee" [ref=e161]
+            - generic [ref=e162]:
+              - generic [ref=e163]: Black Bling Tee
+              - generic [ref=e164]: 400,00 kr
+        - link "Sweatpants Spellout" [ref=e165] [cursor=pointer]:
+          - /url: /products/sweatpants-spellout
+          - generic [ref=e166]:
+            - img "Sweatpants Spellout" [ref=e167]
+            - generic [ref=e168]:
+              - generic [ref=e169]: Sweatpants Spellout
+              - generic [ref=e170]: 750,00 kr
+        - link "Hooded Waffle BL" [ref=e171] [cursor=pointer]:
+          - /url: /products/bl-hooded-l-s-waffle
+          - generic [ref=e172]:
+            - img "Hooded Waffle BL" [ref=e173]
+            - generic [ref=e174]:
+              - generic [ref=e175]: Hooded Waffle BL
+              - generic [ref=e176]: 750,00 kr
+        - link "Pearl Long Sleeve - Black" [ref=e177] [cursor=pointer]:
+          - /url: /products/l-s-pearl
+          - generic [ref=e178]:
+            - img "Pearl Long Sleeve - Black" [ref=e179]
+            - generic [ref=e180]:
+              - generic [ref=e181]: Pearl Long Sleeve - Black
+              - generic [ref=e182]: 700,00 kr
+        - link "BL Doodle T-shirt - White" [ref=e183] [cursor=pointer]:
+          - /url: /products/bl-doodle-t-shirt-white
+          - generic [ref=e184]:
+            - img "BL Doodle T-shirt - White" [ref=e185]
+            - generic [ref=e186]:
+              - generic [ref=e187]: BL Doodle T-shirt - White
+              - generic [ref=e188]: 400,00 kr
+        - link "Big Tote Snow Camo" [ref=e189] [cursor=pointer]:
+          - /url: /products/big-tote-snow-camo
+          - generic [ref=e190]:
+            - img "Big Tote Snow Camo" [ref=e191]
+            - generic [ref=e192]:
+              - generic [ref=e193]: Big Tote Snow Camo
+              - generic [ref=e194]: 400,00 kr
+        - link "Sweatpants Embossed" [ref=e195] [cursor=pointer]:
+          - /url: /products/grey-embossed-sweatpants-barrel-leg
+          - generic [ref=e196]:
+            - img "Sweatpants Embossed" [ref=e197]
+            - generic [ref=e198]:
+              - generic [ref=e199]: Sweatpants Embossed
+              - generic [ref=e200]: 700,00 kr
+        - link "Hidden Logo Beanie - Black" [ref=e201] [cursor=pointer]:
+          - /url: /products/hue
+          - generic [ref=e202]:
+            - img "Hidden Logo Beanie - Black" [ref=e203]
+            - generic [ref=e204]:
+              - generic [ref=e205]: Hidden Logo Beanie - Black
+              - generic [ref=e206]: 350,00 kr
+        - link "Chain Tee" [ref=e207] [cursor=pointer]:
+          - /url: /products/chain-tee
+          - generic [ref=e208]:
+            - img "Chain Tee" [ref=e209]
+            - generic [ref=e210]:
+              - generic [ref=e211]: Chain Tee
+              - generic [ref=e212]: 400,00 kr
+        - link "Jester T-shirt - White" [ref=e213] [cursor=pointer]:
+          - /url: /products/jester-t-shirt-white
+          - generic [ref=e214]:
+            - img "Jester T-shirt - White" [ref=e215]
+            - generic [ref=e216]:
+              - generic [ref=e217]: Jester T-shirt - White
+              - generic [ref=e218]: 400,00 kr
+        - link "Big Tote Pink Camo" [ref=e219] [cursor=pointer]:
+          - /url: /products/big-tote
+          - generic [ref=e220]:
+            - img "Big Tote Pink Camo" [ref=e221]
+            - generic [ref=e222]:
+              - generic [ref=e223]: Big Tote Pink Camo
+              - generic [ref=e224]: 400,00 kr
+        - link "SL Denim Shorts" [ref=e225] [cursor=pointer]:
+          - /url: /products/sl-denim-shorts
+          - generic [ref=e226]:
+            - img "SL Denim Shorts" [ref=e227]
+            - generic [ref=e228]:
+              - generic [ref=e229]: SL Denim Shorts
+              - generic [ref=e230]: 800,00 kr
+        - link "HPS CHAIR" [ref=e231] [cursor=pointer]:
+          - /url: /products/hps-chair
+          - generic [ref=e232]:
+            - img "HPS CHAIR" [ref=e233]
+            - generic [ref=e234]:
+              - generic [ref=e235]: HPS CHAIR
+              - generic [ref=e236]: 10.000,00 kr
+        - link "HPS ICE CHAIN" [ref=e237] [cursor=pointer]:
+          - /url: /products/hps-ice-chain
+          - generic [ref=e238]:
+            - img "HPS ICE CHAIN" [ref=e239]
+            - generic [ref=e240]:
+              - generic [ref=e241]: HPS ICE CHAIN
+              - generic [ref=e242]: 25.000,00 kr
+  - contentinfo [ref=e244]:
+    - generic [ref=e245]:
+      - paragraph [ref=e247]: Shop
+      - generic [ref=e248]:
+        - paragraph [ref=e249]: Info
+        - list [ref=e250]:
+          - listitem [ref=e251]:
+            - link "About" [ref=e252] [cursor=pointer]:
+              - /url: /pages/about
+          - listitem [ref=e253]:
+            - link "Contact" [ref=e254] [cursor=pointer]:
+              - /url: /pages/contact
+          - listitem [ref=e255]:
+            - link "Request a Return" [ref=e256] [cursor=pointer]:
+              - /url: https://www.returnflows.com/da/housepaintingservice-net
+          - listitem [ref=e257]:
+            - link "Returns & Exchanges" [ref=e258] [cursor=pointer]:
+              - /url: /policies/refund-policy
+          - listitem [ref=e259]:
+            - link "Shipping Policy" [ref=e260] [cursor=pointer]:
+              - /url: /policies/shipping-policy
+          - listitem [ref=e261]:
+            - link "Privacy Policy" [ref=e262] [cursor=pointer]:
+              - /url: /policies/privacy-policy
+          - listitem [ref=e263]:
+            - link "Terms & Conditions" [ref=e264] [cursor=pointer]:
+              - /url: /policies/terms-of-service
+      - generic [ref=e265]:
+        - paragraph [ref=e266]: Follow
+        - list [ref=e267]:
+          - listitem [ref=e268]:
+            - link "About" [ref=e269] [cursor=pointer]:
+              - /url: /pages/about
+          - listitem [ref=e270]:
+            - link "Contact" [ref=e271] [cursor=pointer]:
+              - /url: /pages/contact
+          - listitem [ref=e272]:
+            - link "Request a Return" [ref=e273] [cursor=pointer]:
+              - /url: https://www.returnflows.com/da/housepaintingservice-net
+          - listitem [ref=e274]:
+            - link "Returns & Exchanges" [ref=e275] [cursor=pointer]:
+              - /url: /policies/refund-policy
+          - listitem [ref=e276]:
+            - link "Shipping Policy" [ref=e277] [cursor=pointer]:
+              - /url: /policies/shipping-policy
+          - listitem [ref=e278]:
+            - link "Privacy Policy" [ref=e279] [cursor=pointer]:
+              - /url: /policies/privacy-policy
+          - listitem [ref=e280]:
+            - link "Terms & Conditions" [ref=e281] [cursor=pointer]:
+              - /url: /policies/terms-of-service
+    - generic [ref=e282]: © 2026 House Painting Service
+  - iframe [ref=e284]:
+    - generic [ref=f2e4]:
+      - button [ref=f2e7] [cursor=pointer]:
+        - img [ref=f2e9]
+        - img [ref=f2e12]
+      - generic [ref=f2e15]:
+        - generic [ref=f2e18]:
+          - link "Logo" [ref=f2e19] [cursor=pointer]:
+            - /url: https://admin.shopify.com/store/house-painting-service
+            - img "Logo" [ref=f2e20]
+          - generic [ref=f2e22]:
+            - generic [ref=f2e23]: Development (56e964-MacBook-Pro-tilhrende-Tharus)
+            - generic [ref=f2e24]: Draft
+        - generic [ref=f2e26]:
+          - button "Hide bar" [ref=f2e28] [cursor=pointer]:
+            - generic [ref=f2e29]: Hide bar
+          - button "Exit preview" [ref=f2e31] [cursor=pointer]:
+            - generic [ref=f2e32]: Exit preview
+          - button "Copy link" [ref=f2e35] [cursor=pointer]:
+            - img [ref=f2e39]
+            - generic [ref=f2e41]: Copy link

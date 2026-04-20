@@ -9,16 +9,34 @@
 
   {%- assign nav_menu = linklists[menu] -%}
   {%- if nav_menu.links.size > 0 -%}
-    <nav class="hps-nav" aria-label="Category navigation">
-      {%- for link in nav_menu.links -%}
-        <a
-          href="{{ link.url }}"
-          class="hps-nav__link{% if link.active %} hps-nav__link--active{% endif %}"
-        >
-          {{- link.title -}}
-        </a>
-      {%- endfor -%}
-    </nav>
+    {%- assign active_link_title = 'all' -%}
+    {%- for link in nav_menu.links -%}
+      {%- if link.active -%}{%- assign active_link_title = link.title -%}{%- endif -%}
+    {%- endfor -%}
+    <details class="hps-nav-dropdown">
+      <summary class="hps-nav-dropdown__summary">
+        <span class="hps-nav-dropdown__label">{{ active_link_title | downcase }}</span>
+        <span class="hps-nav-dropdown__chevron" aria-hidden="true">
+          <svg viewBox="0 0 8 6" width="8" height="6" fill="currentColor">
+            <path d="M0 0 L8 0 L4 6 Z" />
+          </svg>
+        </span>
+      </summary>
+      <nav class="hps-nav" aria-label="Category navigation">
+        {%- for link in nav_menu.links -%}
+          <a
+            href="{{ link.url }}"
+            class="hps-nav__link{% if link.active %} hps-nav__link--active{% endif %}"
+          >
+            {{- link.title -}}
+          </a>
+        {%- endfor -%}
+        {%- assign _nav_remainder = nav_menu.links.size | modulo: 2 -%}
+        {%- if _nav_remainder != 0 -%}
+          <span class="hps-nav__filler" aria-hidden="true"></span>
+        {%- endif -%}
+      </nav>
+    </details>
   {%- endif -%}
 
   <div class="hps-sidebar-cart">
@@ -37,6 +55,39 @@
 
 <script>
   (function () {
+    var desktopMQ = window.matchMedia('(min-width: 990px)');
+    var syncNav = function () {
+      document.querySelectorAll('.hps-nav-dropdown').forEach(function (d) {
+        if (desktopMQ.matches) d.setAttribute('open', '');
+        else d.removeAttribute('open');
+      });
+    };
+    syncNav();
+    desktopMQ.addEventListener('change', syncNav);
+
+    // Mobile: hide sidebar when scrolling down, reveal when scrolling up
+    var mobileMQ = window.matchMedia('(max-width: 989px)');
+    var sidebar = document.querySelector('.hps-sidebar');
+    if (sidebar) {
+      var lastY = window.scrollY;
+      var threshold = 8;
+      window.addEventListener('scroll', function () {
+        if (!mobileMQ.matches) {
+          sidebar.classList.remove('hps-sidebar--scrolled-down');
+          return;
+        }
+        var y = window.scrollY;
+        var delta = y - lastY;
+        if (Math.abs(delta) < threshold) return;
+        if (delta > 0 && y > 80) {
+          sidebar.classList.add('hps-sidebar--scrolled-down');
+        } else if (delta < 0) {
+          sidebar.classList.remove('hps-sidebar--scrolled-down');
+        }
+        lastY = y;
+      }, { passive: true });
+    }
+
     subscribe('cart-update', function (event) {
       if (!event || !event.cartData) return;
       var cart = event.cartData;
