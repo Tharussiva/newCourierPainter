@@ -34,6 +34,16 @@
 
   </div>
 
+  {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
+    <ul class="hps-footer__payments" role="list" aria-label="Accepted payment methods">
+      {%- for type in shop.enabled_payment_types -%}
+        <li class="hps-footer__payment-item">
+          {{ type | payment_type_svg_tag }}
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+
   <div class="hps-footer__bottom">
     <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}</span>
   </div>
@@ -48,7 +58,15 @@
     { "type": "text",    "id": "col2_heading", "label": "Column 2 heading", "default": "Info" },
     { "type": "link_list", "id": "col2_menu",  "label": "Column 2 menu" },
     { "type": "text",    "id": "col3_heading", "label": "Column 3 heading", "default": "Follow" },
-    { "type": "link_list", "id": "col3_menu",  "label": "Column 3 menu" }
+    { "type": "link_list", "id": "col3_menu",  "label": "Column 3 menu" },
+    { "type": "header",  "content": "Payment icons" },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show accepted payment icons",
+      "info": "Displays only the payment methods you have activated in Shopify → Settings → Payments.",
+      "default": true
+    }
   ],
   "presets": [{ "name": "HPS Footer" }]
 }

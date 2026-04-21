@@ -9,10 +9,11 @@
   }
   {%- if section.settings.bg_image != blank %}
   #hps-landing-{{ section.id }}.hps-landing {
-    background-image: url({{ section.settings.bg_image | image_url: width: 2400 }});
-    background-size: cover;
-    background-position: center;
+    background-image: url({{ section.settings.bg_image | image_url: width: 3200 }});
+    background-size: {{ section.settings.bg_size | default: 'cover' }};
+    background-position: {{ section.settings.bg_position | default: 'center center' }};
     background-repeat: no-repeat;
+    background-color: var(--hps-landing-bg);
   }
   {%- endif -%}
 {%- endstyle -%}
@@ -312,7 +313,36 @@
       "type": "image_picker",
       "id": "bg_image",
       "label": "Background image",
-      "info": "Overrides the color. Use a high-resolution image."
+      "info": "Overrides the color. Use a high-resolution image (min 2400px wide recommended)."
+    },
+    {
+      "type": "select",
+      "id": "bg_size",
+      "label": "Image fit",
+      "info": "Cover fills the screen (may crop). Contain shows the whole image (may letterbox). Fill stretches the image (may distort).",
+      "options": [
+        { "value": "cover",     "label": "Cover (fills screen, may crop)" },
+        { "value": "contain",   "label": "Contain (fits inside, may letterbox)" },
+        { "value": "100% 100%", "label": "Fill (stretch to screen)" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "bg_position",
+      "label": "Image position",
+      "options": [
+        { "value": "center center", "label": "Center" },
+        { "value": "center top",    "label": "Top" },
+        { "value": "center bottom", "label": "Bottom" },
+        { "value": "left center",   "label": "Left" },
+        { "value": "right center",  "label": "Right" },
+        { "value": "left top",      "label": "Top left" },
+        { "value": "right top",     "label": "Top right" },
+        { "value": "left bottom",   "label": "Bottom left" },
+        { "value": "right bottom",  "label": "Bottom right" }
+      ],
+      "default": "center center"
     },
     {
       "type": "range",

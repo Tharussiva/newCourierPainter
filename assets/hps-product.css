@@ -13,32 +13,34 @@ product-info {
   overflow-x: hidden;
 }
 
-/* ── 2-column grid: gallery | info ── */
+/* ── Gallery centered on viewport, info floats to the right (Supreme style) ── */
 .hps-product-wrap {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 340px;
-  column-gap: 32px;
-  row-gap: 0;
-  max-width: 1000px;
+  position: relative;
+  display: flex;
+  justify-content: center;
   width: 100%;
+  max-width: none;
   box-sizing: border-box;
-  margin: 0 auto;
+  margin: 0;
   padding: 48px 40px 80px;
-  align-items: center;
 }
 
-/* ── Gallery column (col 1): main image with thumbnails below ── */
+/* ── Gallery: fixed width, centered horizontally on the viewport ── */
 .hps-gallery {
-  grid-column: 1;
+  width: 500px;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   gap: 12px;
   min-width: 0;
 }
 
-/* ── Product info column (col 2) ── */
+/* ── Product info: absolutely positioned to the right of the centered gallery ── */
 .hps-product-info {
-  grid-column: 2;
+  position: absolute;
+  top: 48px;
+  left: calc(50% + 250px + 32px);
+  width: 340px;
 }
 
 /* Strip Dawn padding/margin from info container */
@@ -167,6 +169,7 @@ product-info {
   display: flex;
   gap: 8px;
   align-items: flex-end;
+  justify-content: flex-start;
 }
 
 .template-product .hps-product__actions-picker {
@@ -174,7 +177,17 @@ product-info {
 }
 
 .template-product .hps-product__actions-buy {
-  flex: 1;
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+}
+
+.template-product .hps-product__actions-buy product-form,
+.template-product .hps-product__actions-buy .product-form,
+.template-product .hps-product__actions-buy .product-form__buttons {
+  display: block;
+  width: 100%;
+  margin: 0;
 }
 
 .template-product .product-form__input {
@@ -293,7 +306,7 @@ product-info {
   width: 100% !important;
   height: 100% !important;
   object-fit: contain !important;
-  object-position: center center !important;
+  object-position: center top !important;
   transition: transform 0.4s ease !important;
 }
 
@@ -304,15 +317,25 @@ product-info {
 }
 
 /* ── Responsive: tablet ── */
-@media screen and (max-width: 989px) {
+@media screen and (max-width: 1139px) {
   .hps-product-wrap {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     row-gap: 24px;
     padding: 16px 16px 48px;
   }
 
-  .hps-gallery      { grid-column: 1; }
-  .hps-product-info { grid-column: 1; }
+  .hps-gallery {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .hps-product-info {
+    position: static;
+    left: auto;
+    width: 100%;
+  }
 
   /* Hide the block-based title (shown on desktop) and show the mobile duplicate */
   .hps-product__title {

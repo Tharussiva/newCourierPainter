@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HPS — Sidebar cart variants</title>
+<style>
+  :root {
+    --fg: #111;
+    --muted: #777;
+    --line: rgba(0,0,0,0.85);
+    --green: #6b7c3f;
+    --page: #ededed;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--page); color: var(--fg); font-family: 'Courier New', Courier, monospace; }
+  header {
+    padding: 32px 40px 24px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    background: #fff;
+  }
+  header h1 { margin: 0; font-size: 14px; font-weight: 700; text-transform: lowercase; letter-spacing: 0.04em; }
+  header p  { margin: 0; font-size: 11px; color: var(--muted); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 40px;
+    padding: 40px;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+  .tile {
+    background: #fff;
+    padding: 32px 24px;
+    border: 1px solid #000;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .tile__label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #000;
+    border-bottom: 1px dashed #000;
+    padding-bottom: 8px;
+    margin: 0;
+  }
+  .tile__desc { font-size: 10px; color: var(--muted); margin: 0; line-height: 1.5; }
+  .tile__stage {
+    background: #fff;
+    padding: 18px 14px;
+    border: 1px dotted #ccc;
+    width: 220px;
+    margin-top: auto;
+  }
+
+  /* ────────────────────────────────────────────── */
+  /* 0 — Current design                              */
+  /* ────────────────────────────────────────────── */
+  .v0 {
+    display: flex; flex-direction: column; align-items: stretch;
+    width: 100%; border: 1px solid #000; overflow: hidden;
+  }
+  .v0__count { font-size: 10px; font-weight: 700; text-transform: lowercase; background: #c8c8c8; margin: 0; text-align: center; padding: 4px 8px; border-bottom: 1px solid #000; }
+  .v0__sub   { font-size: 10px; font-weight: 700; text-transform: lowercase; background: #fff; margin: 0; text-align: center; padding: 4px 8px; border-bottom: 1px solid #000; }
+  .v0__sub small { font-size: 8px; color: #888; font-weight: 400; }
+  .v0__link  { display: block; font-size: 10px; font-weight: 600; text-transform: lowercase; color: #000; background: #fff; text-decoration: none; text-align: center; padding: 5px 8px; border-bottom: 1px solid #000; }
+  .v0__go    { display: block; font-size: 10px; font-weight: 700; text-transform: lowercase; color: #fff; background: var(--green); text-decoration: none; text-align: center; padding: 5px 8px; }
+  .v0__link:hover { background: #000; color: #fff; }
+  .v0__go:hover   { background: #000; }
+
+  /* ────────────────────────────────────────────── */
+  /* 1 — Minimal list                                */
+  /* ────────────────────────────────────────────── */
+  .v1 { display: flex; flex-direction: column; gap: 0; }
+  .v1__row { display: flex; justify-content: space-between; align-items: baseline; font-size: 10px; padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,0.18); text-transform: lowercase; }
+  .v1__row--sub { font-weight: 700; }
+  .v1__row small { color: #888; font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .v1__links { display: flex; gap: 20px; padding-top: 10px; }
+  .v1__links a { font-size: 10px; text-transform: lowercase; text-decoration: none; color: #000; border-bottom: 1px solid #000; padding-bottom: 1px; transition: opacity .1s; }
+  .v1__links a:hover { opacity: 0.45; }
+  .v1__links .go { margin-left: auto; color: var(--green); border-color: var(--green); }
+  .v1__links .go:hover { color: #000; border-color: #000; opacity: 1; }
+
+  /* ────────────────────────────────────────────── */
+  /* 2 — Inverted block                              */
+  /* ────────────────────────────────────────────── */
+  .v2 { background: #000; color: #fff; padding: 14px 14px 10px; display: flex; flex-direction: column; gap: 8px; }
+  .v2__top { display: flex; justify-content: space-between; font-size: 10px; text-transform: lowercase; }
+  .v2__top b { font-weight: 700; }
+  .v2__amount { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; line-height: 1; padding: 4px 0 8px; border-bottom: 1px solid rgba(255,255,255,0.2); }
+  .v2__actions { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .v2__actions a { font-size: 10px; font-weight: 700; text-transform: lowercase; text-align: center; text-decoration: none; padding: 6px; }
+  .v2__actions .edit { color: #fff; border: 1px solid rgba(255,255,255,0.4); }
+  .v2__actions .edit:hover { background: #fff; color: #000; border-color: #fff; }
+  .v2__actions .go { color: #000; background: var(--green); }
+  .v2__actions .go:hover { background: #fff; }
+
+  /* ────────────────────────────────────────────── */
+  /* 3 — Receipt strip                               */
+  /* ────────────────────────────────────────────── */
+  .v3 { width: 100%; font-size: 10px; text-transform: lowercase; }
+  .v3 hr { border: none; border-top: 1px dashed #000; margin: 6px 0; }
+  .v3__head { display: flex; justify-content: space-between; font-weight: 700; letter-spacing: 0.04em; }
+  .v3__rows { display: flex; flex-direction: column; gap: 2px; padding: 2px 0; }
+  .v3__rows span { display: flex; justify-content: space-between; }
+  .v3__rows small { color: #888; font-size: 9px; }
+  .v3__total { display: flex; justify-content: space-between; font-weight: 700; font-size: 11px; padding-top: 2px; }
+  .v3__btns { display: flex; gap: 6px; padding-top: 8px; }
+  .v3__btns a { flex: 1; text-align: center; font-size: 10px; font-weight: 700; text-transform: lowercase; padding: 6px; text-decoration: none; }
+  .v3__btns .edit { color: #000; border: 1px solid #000; }
+  .v3__btns .edit:hover { background: #000; color: #fff; }
+  .v3__btns .go { color: #fff; background: #000; }
+  .v3__btns .go:hover { background: var(--green); }
+
+  /* ────────────────────────────────────────────── */
+  /* 4 — Compact single row                          */
+  /* ────────────────────────────────────────────── */
+  .v4 { display: flex; align-items: stretch; border: 1px solid #000; font-size: 10px; text-transform: lowercase; width: 100%; }
+  .v4__info { flex: 1; padding: 6px 8px; display: flex; flex-direction: column; justify-content: center; line-height: 1.2; }
+  .v4__info b { font-weight: 700; }
+  .v4__info small { color: #888; font-size: 9px; }
+  .v4__edit, .v4__go { display: inline-flex; align-items: center; justify-content: center; padding: 0 10px; text-decoration: none; font-weight: 700; border-left: 1px solid #000; }
+  .v4__edit { color: #000; background: #fff; }
+  .v4__edit:hover { background: #000; color: #fff; }
+  .v4__go { color: #fff; background: var(--green); }
+  .v4__go:hover { background: #000; }
+
+  footer { padding: 24px 40px 48px; font-size: 10px; color: var(--muted); border-top: 1px solid var(--line); background: #fff; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>sidebar cart — design variants</h1>
+    <p>hover to preview interactions · fixed 220px sidebar width</p>
+  </header>
+
+  <div class="grid">
+
+    <div class="tile">
+      <p class="tile__label">0 · current</p>
+      <p class="tile__desc">Stacked rows inside a black-bordered box. Grey count banner, white subtotal, white edit link, green checkout button. Reference point.</p>
+      <div class="tile__stage">
+        <div class="v0">
+          <p class="v0__count"><b>2</b> items in cart</p>
+          <p class="v0__sub"><small>subtotal</small><br>€45.00</p>
+          <a href="#" class="v0__link">view/edit cart</a>
+          <a href="#" class="v0__go">checkout now</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="tile">
+      <p class="tile__label">1 · minimal list</p>
+      <p class="tile__desc">No box. Typographic rows with hairline dividers. Links are underlined inline text. Editorial and quiet — disappears until you need it.</p>
+      <div class="tile__stage">
+        <div class="v1">
+          <div class="v1__row"><span>items</span><span>2</span></div>
+          <div class="v1__row v1__row--sub"><span><small>subtotal</small></span><span>€45.00</span></div>
+          <div class="v1__links">
+            <a href="#">view/edit</a>
+            <a href="#" class="go">checkout →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tile">
+      <p class="tile__label">2 · inverted block</p>
+      <p class="tile__desc">Black block with big subtotal figure. Outline "edit" button, green solid "checkout". Assertive — reads like a ticket stub.</p>
+      <div class="tile__stage">
+        <div class="v2">
+          <div class="v2__top"><span>cart</span><b>2 items</b></div>
+          <div class="v2__amount">€45.00</div>
+          <div class="v2__actions">
+            <a href="#" class="edit">view/edit</a>
+            <a href="#" class="go">checkout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tile">
+      <p class="tile__label">3 · receipt strip</p>
+      <p class="tile__desc">Dashed dividers, itemized-style layout. Plays up the monospace receipt vibe. Line items could be listed here on cart overflow too.</p>
+      <div class="tile__stage">
+        <div class="v3">
+          <div class="v3__head"><span>cart</span><span>×2</span></div>
+          <hr>
+          <div class="v3__rows">
+            <span><small>worn out tee</small><small>€20.00</small></span>
+            <span><small>painter cap</small><small>€25.00</small></span>
+          </div>
+          <hr>
+          <div class="v3__total"><span>subtotal</span><span>€45.00</span></div>
+          <div class="v3__btns">
+            <a href="#" class="edit">edit</a>
+            <a href="#" class="go">checkout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tile">
+      <p class="tile__label">4 · compact single row</p>
+      <p class="tile__desc">Dense horizontal bar. Pure status indicator with inline actions. Saves vertical space when the sidebar is crowded.</p>
+      <div class="tile__stage">
+        <div class="v4">
+          <div class="v4__info"><b>2 items</b><small>€45.00</small></div>
+          <a href="#" class="v4__edit">edit</a>
+          <a href="#" class="v4__go">→</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <header style="border-top: 1px solid var(--line); margin-top: 20px;">
+    <h1>receipt strip — variants</h1>
+    <p>iterations on option 3 · including a dark version</p>
+  </header>
+
+  <div class="grid">
+
+    <div class="tile">
+      <p class="tile__label">3a · classic receipt</p>
+      <p class="tile__desc">Refined original. Dashed rules top and bottom of the line-items block. Black buttons.</p>
+      <div class="tile__stage">
+        <div class="r r-a">
+          <div class="r__head"><span>cart</span><span>×2</span></div>
+          <hr>
+          <div class="r__rows">
+            <span><small>worn out tee</small><small>€20.00</small></span>
+            <span><small>painter cap</small><small>€25.00</small></span>
+          </div>
+          <hr>
+          <div class="r__total"><span>subtotal</span><span>€45.00</span></div>
+          <div class="r__btns">
+            <a href="#" class="edit">edit</a>
+            <a href="#" class="go">checkout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tile">
+      <p class="tile__label">3b · dark receipt</p>
+      <p class="tile__desc">Inverted — black paper, bone-white ink. Dashed rules become rgba white. Green checkout stays as a warm accent.</p>
+      <div class="tile__stage" style="background:#000;border-color:#222;">
+        <div class="r r-b">
+          <div class="r__head"><span>cart</span><span>×2</span></div>
+          <hr>
+          <div class="r__rows">
+            <span><small>worn out tee</small><small>€20.00</small></span>
+            <span><small>painter cap</small><small>€25.00</small></span>
+          </div>
+          <hr>
+          <div class="r__total"><span>subtotal</span><span>€45.00</span></div>
+          <div class="r__btns">
+            <a href="#" class="edit">edit</a>
+            <a href="#" class="go">checkout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tile">
+      <p class="tile__label">3c · thermal print</p>
+      <p class="tile__desc">Warm off-white paper stock with heavier dashes and a double-rule under the total. Reads like a till receipt.</p>
+      <div class="tile__stage" style="background:#f5f0e4;border-color:#000;">
+        <div class="r r-c">
+          <div class="r__head"><span>cart</span><span>×2</span></div>
+          <hr>
+          <div class="r__rows">
+            <span><small>worn out tee</small><small>€20.00</small></span>
+            <span><small>painter cap</small><small>€25.00</small></span>
+          </div>
+          <hr class="r__double">
+          <div class="r__total"><span>subtotal</span><span>€45.00</span></div>
+          <hr class="r__double">
+          <div class="r__btns">
+            <a href="#" class="edit">edit</a>
+            <a href="#" class="go">checkout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tile">
+      <p class="tile__label">3d · dramatic total</p>
+      <p class="tile__desc">Same skeleton but the subtotal is a bold display figure. The rest fades into supporting typography. Good for selling the price.</p>
+      <div class="tile__stage">
+        <div class="r r-d">
+          <div class="r__head"><span>cart</span><span>×2</span></div>
+          <hr>
+          <div class="r__rows">
+            <span><small>worn out tee</small><small>€20.00</small></span>
+            <span><small>painter cap</small><small>€25.00</small></span>
+          </div>
+          <hr>
+          <div class="r__total r__total--big">
+            <span>subtotal</span>
+            <span class="r__big">€45<small>.00</small></span>
+          </div>
+          <div class="r__btns">
+            <a href="#" class="edit">edit</a>
+            <a href="#" class="go">checkout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tile">
+      <p class="tile__label">3e · quiet receipt</p>
+      <p class="tile__desc">Only one dashed divider (above total). Items and head run free, no box feel — maximum restraint.</p>
+      <div class="tile__stage">
+        <div class="r r-e">
+          <div class="r__head"><span>cart (2)</span></div>
+          <div class="r__rows">
+            <span><small>worn out tee</small><small>€20.00</small></span>
+            <span><small>painter cap</small><small>€25.00</small></span>
+          </div>
+          <hr>
+          <div class="r__total"><span>subtotal</span><span>€45.00</span></div>
+          <div class="r__btns">
+            <a href="#" class="edit">view/edit</a>
+            <a href="#" class="go">checkout →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tile">
+      <p class="tile__label">3f · dark + green rule</p>
+      <p class="tile__desc">Dark receipt with the total divider switched to solid green — a single colored accent that ties to the brand hover.</p>
+      <div class="tile__stage" style="background:#111;border-color:#222;">
+        <div class="r r-f">
+          <div class="r__head"><span>cart</span><span>×2</span></div>
+          <hr>
+          <div class="r__rows">
+            <span><small>worn out tee</small><small>€20.00</small></span>
+            <span><small>painter cap</small><small>€25.00</small></span>
+          </div>
+          <hr class="r__accent">
+          <div class="r__total"><span>subtotal</span><span>€45.00</span></div>
+          <div class="r__btns">
+            <a href="#" class="edit">edit</a>
+            <a href="#" class="go">checkout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <style>
+    /* Shared receipt skeleton */
+    .r { width: 100%; font-size: 10px; text-transform: lowercase; }
+    .r hr { border: none; border-top: 1px dashed currentColor; margin: 6px 0; opacity: 0.7; }
+    .r__head { display: flex; justify-content: space-between; font-weight: 700; letter-spacing: 0.04em; }
+    .r__rows { display: flex; flex-direction: column; gap: 2px; padding: 2px 0; }
+    .r__rows span { display: flex; justify-content: space-between; }
+    .r__rows small { font-size: 9px; opacity: 0.65; }
+    .r__total { display: flex; justify-content: space-between; font-weight: 700; font-size: 11px; padding-top: 2px; }
+    .r__btns { display: flex; gap: 6px; padding-top: 8px; }
+    .r__btns a { flex: 1; text-align: center; font-size: 10px; font-weight: 700; text-transform: lowercase; padding: 6px; text-decoration: none; transition: background .15s ease, color .15s ease; }
+
+    /* 3a classic */
+    .r-a { color: #000; }
+    .r-a .edit { color: #000; border: 1px solid #000; }
+    .r-a .edit:hover { background: #000; color: #fff; }
+    .r-a .go { color: #fff; background: #000; }
+    .r-a .go:hover { background: var(--green); }
+
+    /* 3b dark */
+    .r-b { color: #fff; }
+    .r-b .edit { color: #fff; border: 1px solid rgba(255,255,255,0.4); }
+    .r-b .edit:hover { background: #fff; color: #000; border-color: #fff; }
+    .r-b .go { color: #000; background: var(--green); }
+    .r-b .go:hover { background: #fff; color: #000; }
+
+    /* 3c thermal */
+    .r-c { color: #111; }
+    .r-c hr { opacity: 1; }
+    .r-c .r__double { border-top: 3px double #111; margin: 6px 0; }
+    .r-c .edit { color: #111; border: 1px solid #111; }
+    .r-c .edit:hover { background: #111; color: #f5f0e4; }
+    .r-c .go { color: #f5f0e4; background: #111; }
+    .r-c .go:hover { background: var(--green); color: #fff; }
+
+    /* 3d dramatic */
+    .r-d { color: #000; }
+    .r-d .r__total--big { align-items: baseline; padding: 4px 0 2px; }
+    .r-d .r__big { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
+    .r-d .r__big small { font-size: 11px; font-weight: 700; }
+    .r-d .edit { color: #000; border: 1px solid #000; }
+    .r-d .edit:hover { background: #000; color: #fff; }
+    .r-d .go { color: #fff; background: #000; }
+    .r-d .go:hover { background: var(--green); }
+
+    /* 3e quiet */
+    .r-e { color: #000; }
+    .r-e .r__head { font-size: 10px; opacity: 0.75; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; }
+    .r-e .r__btns a { padding: 4px 0; }
+    .r-e .edit { color: #000; border-bottom: 1px solid #000; border-radius: 0; }
+    .r-e .edit:hover { opacity: 0.5; }
+    .r-e .go { color: var(--green); border-bottom: 1px solid var(--green); border-radius: 0; }
+    .r-e .go:hover { color: #000; border-color: #000; }
+
+    /* 3f dark + green accent */
+    .r-f { color: #fff; }
+    .r-f .r__accent { border-top: 1px solid var(--green); opacity: 1; }
+    .r-f .edit { color: #fff; border: 1px solid rgba(255,255,255,0.3); }
+    .r-f .edit:hover { background: #fff; color: #000; border-color: #fff; }
+    .r-f .go { color: #fff; background: var(--green); }
+    .r-f .go:hover { background: #fff; color: #000; }
+  </style>
+
+  <footer>
+    file: design-previews/cart-variants.html · won't be pushed to Shopify · tell Claude which variant to promote (or mix ideas)
+  </footer>
+</body>
+</html>

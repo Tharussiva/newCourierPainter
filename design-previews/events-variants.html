@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HPS — Events section variants</title>
+<style>
+  :root {
+    --fg: #111;
+    --muted: #777;
+    --line: rgba(0,0,0,0.85);
+    --green: #6b7c3f;
+    --page: #ededed;
+    --red: #c03f2b;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--page); color: var(--fg); font-family: 'Courier New', Courier, monospace; }
+  header {
+    padding: 32px 40px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    background: #fff;
+    border-bottom: 1px solid var(--line);
+  }
+  header h1 { margin: 0; font-size: 14px; font-weight: 700; text-transform: lowercase; letter-spacing: 0.04em; }
+  header p  { margin: 0; font-size: 11px; color: var(--muted); }
+
+  .block {
+    padding: 56px 40px;
+    border-bottom: 1px solid var(--line);
+    background: #fff;
+  }
+  .block__label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    max-width: 1200px;
+    margin: 0 auto 28px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #000;
+  }
+  .block__label h2 {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0;
+  }
+  .block__label p {
+    margin: 0;
+    font-size: 10px;
+    color: var(--muted);
+    max-width: 480px;
+    text-align: right;
+    line-height: 1.5;
+  }
+  .block__stage {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .block__stage + .block__stage {
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 1px dotted #ccc;
+  }
+  .stage-caption {
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin: 0 0 16px;
+  }
+
+  footer { padding: 24px 40px 48px; font-size: 10px; color: var(--muted); background: #fff; }
+
+  /* ─────────────────────────────────────────────────────── */
+  /* shared section title                                     */
+  /* ─────────────────────────────────────────────────────── */
+  .ev-heading {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 0 0 20px;
+  }
+
+  /* ─────────────────────────────────────────────────────── */
+  /* 1 · receipt list                                         */
+  /* ─────────────────────────────────────────────────────── */
+  .v1 { max-width: 1000px; margin: 0 auto; }
+  .v1 hr { border: none; border-top: 1px dashed #000; margin: 0; }
+  .v1__row {
+    display: grid;
+    grid-template-columns: 180px 1fr 160px;
+    gap: 32px;
+    padding: 14px 0;
+    align-items: start;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+  .v1__row + .v1__row { border-top: 1px dashed #000; }
+  .v1__date { font-weight: 700; }
+  .v1__date small { display: block; font-weight: 400; opacity: 0.6; font-size: 10px; padding-top: 2px; }
+  .v1__body { min-width: 0; }
+  .v1__body h3 { margin: 0 0 2px; font-size: 12px; font-weight: 700; text-transform: lowercase; letter-spacing: 0.02em; }
+  .v1__body p { margin: 0; font-size: 10px; opacity: 0.75; line-height: 1.55; }
+  .v1__body .loc { font-size: 10px; opacity: 0.6; text-transform: lowercase; margin-bottom: 4px; }
+  .v1__cta {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+  }
+  .v1__cta a {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: lowercase;
+    padding: 6px 12px;
+    color: #000;
+    border: 1px solid #000;
+    text-decoration: none;
+    transition: background .15s ease, color .15s ease;
+    white-space: nowrap;
+  }
+  .v1__cta a:hover { background: #000; color: #fff; }
+  .v1__row--past { opacity: 0.45; }
+  .v1__row--past .v1__cta a { display: none; }
+  .v1__row--cancelled h3::after { content: ' · cancelled'; color: var(--red); font-weight: 400; opacity: 0.75; }
+  .v1__row--cancelled .v1__cta a { display: none; }
+
+  .v1__empty {
+    text-align: center;
+    padding: 32px 0;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-top: 1px dashed #000;
+    border-bottom: 1px dashed #000;
+  }
+
+  /* ─────────────────────────────────────────────────────── */
+  /* 2 · date-block grid                                      */
+  /* ─────────────────────────────────────────────────────── */
+  .v2 { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .v2__card { border: 1px solid #000; padding: 0; background: #fff; display: flex; flex-direction: column; }
+  .v2__date {
+    background: #000;
+    color: #fff;
+    padding: 16px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 11px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .v2__date small { font-weight: 400; opacity: 0.7; font-size: 10px; }
+  .v2__body { padding: 16px 16px 14px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+  .v2__body h3 { margin: 0; font-size: 13px; font-weight: 700; text-transform: lowercase; line-height: 1.3; }
+  .v2__body .loc { font-size: 10px; opacity: 0.55; text-transform: lowercase; letter-spacing: 0.04em; }
+  .v2__body p { margin: 0; font-size: 11px; line-height: 1.6; opacity: 0.85; }
+  .v2__cta { margin-top: auto; padding-top: 8px; }
+  .v2__cta a {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: lowercase;
+    padding: 6px 12px;
+    color: #fff;
+    background: var(--green);
+    text-decoration: none;
+    transition: background .15s ease;
+  }
+  .v2__cta a:hover { background: #000; }
+  .v2__card--past { opacity: 0.55; }
+  .v2__card--past .v2__cta { display: none; }
+  .v2__card--cancelled .v2__date { background: var(--red); }
+  .v2__card--cancelled .v2__cta a { background: transparent; color: #000; border: 1px solid #000; pointer-events: none; opacity: 0.4; }
+
+  .v2__empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 48px 0;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px dashed #000;
+  }
+
+  /* ─────────────────────────────────────────────────────── */
+  /* 3 · poster wall                                          */
+  /* ─────────────────────────────────────────────────────── */
+  .v3 { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .v3__poster {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    background: #222 center/cover no-repeat;
+    color: #fff;
+    overflow: hidden;
+    text-decoration: none;
+    display: block;
+  }
+  .v3__poster--a { background-image: linear-gradient(135deg, #0c2b2e, #3b5c40); }
+  .v3__poster--b { background-image: linear-gradient(135deg, #2d1d0e, #6b7c3f); }
+  .v3__poster--c { background-image: linear-gradient(135deg, #1a1a1a, #4a4a4a); }
+  .v3__poster--d { background-image: linear-gradient(135deg, #402020, #c03f2b); }
+  .v3__poster::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.75));
+    pointer-events: none;
+  }
+  .v3__meta {
+    position: absolute;
+    inset: auto 14px 14px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .v3__meta span { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.75; font-weight: 700; }
+  .v3__meta h3 { margin: 0; font-size: 13px; font-weight: 700; text-transform: lowercase; line-height: 1.25; }
+  .v3__meta small { font-size: 9px; opacity: 0.7; text-transform: lowercase; letter-spacing: 0.02em; }
+  .v3__tag {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 1;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 3px 7px;
+    background: #fff;
+    color: #000;
+  }
+  .v3__tag--past { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.6); }
+  .v3__tag--cancelled { background: var(--red); color: #fff; }
+  .v3__poster--past::after { background: linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.85)); }
+
+  .v3__empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 48px 0;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px dashed #000;
+  }
+
+  /* ─────────────────────────────────────────────────────── */
+  /* 4 · editorial / large type                               */
+  /* ─────────────────────────────────────────────────────── */
+  .v4 { max-width: 860px; margin: 0 auto; }
+  .v4__row { padding: 32px 0; border-bottom: 1px solid #000; display: grid; grid-template-columns: 120px 1fr auto; gap: 32px; align-items: end; }
+  .v4__row:last-child { border-bottom: none; }
+  .v4__num { font-size: 60px; font-weight: 700; line-height: 1; letter-spacing: -0.02em; }
+  .v4__num small { display: block; font-size: 10px; font-weight: 400; letter-spacing: 0.1em; opacity: 0.55; text-transform: uppercase; padding-top: 6px; }
+  .v4__body h3 { margin: 0 0 6px; font-size: 22px; font-weight: 700; text-transform: lowercase; letter-spacing: -0.01em; }
+  .v4__body p { margin: 0; font-size: 11px; line-height: 1.6; opacity: 0.75; max-width: 60ch; }
+  .v4__body .loc { font-size: 10px; opacity: 0.55; text-transform: lowercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .v4__cta a { font-size: 10px; font-weight: 700; text-transform: lowercase; padding: 8px 14px; background: #000; color: #fff; text-decoration: none; }
+  .v4__cta a:hover { background: var(--green); }
+  .v4__row--past { opacity: 0.4; }
+  .v4__row--past .v4__cta { display: none; }
+  .v4__row--cancelled .v4__body h3 { text-decoration: line-through; text-decoration-thickness: 2px; }
+  .v4__row--cancelled .v4__cta a { background: transparent; color: var(--red); pointer-events: none; }
+
+  .v4__empty {
+    text-align: center;
+    padding: 60px 0;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .v4__empty::before, .v4__empty::after { content: ' — '; opacity: 0.4; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>events section — design variants</h1>
+  <p>dummy data · preview for confirmation before building as a real section</p>
+</header>
+
+<!-- ─────────────────────────────────────────── 1 -->
+<section class="block">
+  <div class="block__label">
+    <h2>1 · receipt list</h2>
+    <p>Tight typographic rows on a dashed grid — consistent with the cart receipt style. Date left, details middle, CTA right. Past events dim, cancelled get an inline tag.</p>
+  </div>
+
+  <div class="block__stage">
+    <p class="stage-caption">with events</p>
+    <div class="v1">
+      <h2 class="ev-heading">Events</h2>
+      <hr>
+      <div class="v1__row">
+        <div class="v1__date">sat 14 jun 2026<small>19:00 — 22:00</small></div>
+        <div class="v1__body">
+          <h3>paper sculpture workshop</h3>
+          <p class="loc">roskilde, dk · studio hps</p>
+          <p>An evening of layered paper, scraps and glue. Bring something to wear that you don't mind getting messy.</p>
+        </div>
+        <div class="v1__cta"><a href="#">rsvp →</a></div>
+      </div>
+      <div class="v1__row">
+        <div class="v1__date">fri 30 may 2026<small>20:00</small></div>
+        <div class="v1__body">
+          <h3>hps × studio lund</h3>
+          <p class="loc">københavn</p>
+          <p>Collab launch with new capsule and signed prints. First 30 guests get the tote.</p>
+        </div>
+        <div class="v1__cta"><a href="#">get tickets →</a></div>
+      </div>
+      <div class="v1__row v1__row--past">
+        <div class="v1__date">2–4 aug 2025<small>daily 11:00–18:00</small></div>
+        <div class="v1__body">
+          <h3>summer pop-up store</h3>
+          <p class="loc">aarhus, dk</p>
+          <p>Three-day residency in jægergårdsgade.</p>
+        </div>
+        <div class="v1__cta"><a href="#">—</a></div>
+      </div>
+      <div class="v1__row v1__row--cancelled">
+        <div class="v1__date">tba</div>
+        <div class="v1__body">
+          <h3>warehouse sale</h3>
+          <p class="loc">location tba</p>
+        </div>
+        <div class="v1__cta"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block__stage">
+    <p class="stage-caption">empty state</p>
+    <div class="v1">
+      <h2 class="ev-heading">Events</h2>
+      <div class="v1__empty">no events scheduled</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────── 2 -->
+<section class="block">
+  <div class="block__label">
+    <h2>2 · date-block grid</h2>
+    <p>Three-column card grid with a solid black date header stamped on top. Works well with or without images; cancelled events switch the date header to red.</p>
+  </div>
+
+  <div class="block__stage">
+    <p class="stage-caption">with events</p>
+    <h2 class="ev-heading">Events</h2>
+    <div class="v2">
+      <div class="v2__card">
+        <div class="v2__date"><span>sat 14 jun</span><small>19:00</small></div>
+        <div class="v2__body">
+          <h3>paper sculpture workshop</h3>
+          <span class="loc">roskilde · studio hps</span>
+          <p>An evening of layered paper, scraps and glue.</p>
+          <div class="v2__cta"><a href="#">rsvp</a></div>
+        </div>
+      </div>
+      <div class="v2__card">
+        <div class="v2__date"><span>fri 30 may</span><small>20:00</small></div>
+        <div class="v2__body">
+          <h3>hps × studio lund</h3>
+          <span class="loc">københavn</span>
+          <p>Collab launch with new capsule.</p>
+          <div class="v2__cta"><a href="#">tickets</a></div>
+        </div>
+      </div>
+      <div class="v2__card v2__card--past">
+        <div class="v2__date"><span>2–4 aug 2025</span><small>past</small></div>
+        <div class="v2__body">
+          <h3>summer pop-up store</h3>
+          <span class="loc">aarhus</span>
+          <p>Three-day residency.</p>
+          <div class="v2__cta"><a href="#">—</a></div>
+        </div>
+      </div>
+      <div class="v2__card v2__card--cancelled">
+        <div class="v2__date"><span>tba</span><small>cancelled</small></div>
+        <div class="v2__body">
+          <h3>warehouse sale</h3>
+          <span class="loc">location tba</span>
+          <p>Postponed.</p>
+          <div class="v2__cta"><a href="#">cancelled</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block__stage">
+    <p class="stage-caption">empty state</p>
+    <h2 class="ev-heading">Events</h2>
+    <div class="v2">
+      <div class="v2__empty">no events scheduled</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────── 3 -->
+<section class="block">
+  <div class="block__label">
+    <h2>3 · poster wall</h2>
+    <p>Image-forward poster grid. Title and date overlay on hover/static. Most visually striking but depends on having event artwork. Gradients here stand in for uploaded flyers.</p>
+  </div>
+
+  <div class="block__stage">
+    <p class="stage-caption">with events</p>
+    <h2 class="ev-heading">Events</h2>
+    <div class="v3">
+      <a class="v3__poster v3__poster--a" href="#">
+        <span class="v3__tag">upcoming</span>
+        <div class="v3__meta">
+          <span>sat 14 jun · 19:00</span>
+          <h3>paper sculpture workshop</h3>
+          <small>roskilde, dk</small>
+        </div>
+      </a>
+      <a class="v3__poster v3__poster--b" href="#">
+        <span class="v3__tag">upcoming</span>
+        <div class="v3__meta">
+          <span>fri 30 may · 20:00</span>
+          <h3>hps × studio lund</h3>
+          <small>københavn</small>
+        </div>
+      </a>
+      <a class="v3__poster v3__poster--c v3__poster--past" href="#">
+        <span class="v3__tag v3__tag--past">past</span>
+        <div class="v3__meta">
+          <span>2–4 aug 2025</span>
+          <h3>summer pop-up</h3>
+          <small>aarhus</small>
+        </div>
+      </a>
+      <a class="v3__poster v3__poster--d" href="#">
+        <span class="v3__tag v3__tag--cancelled">cancelled</span>
+        <div class="v3__meta">
+          <span>tba</span>
+          <h3>warehouse sale</h3>
+          <small>location tba</small>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="block__stage">
+    <p class="stage-caption">empty state</p>
+    <h2 class="ev-heading">Events</h2>
+    <div class="v3">
+      <div class="v3__empty">no events scheduled</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────── 4 -->
+<section class="block">
+  <div class="block__label">
+    <h2>4 · editorial / large type</h2>
+    <p>Magazine-style list with oversized sequence number, dramatic titles, and a bottom keyline per row. Cancelled events get a strikethrough title. Most restrained, works well text-only.</p>
+  </div>
+
+  <div class="block__stage">
+    <p class="stage-caption">with events</p>
+    <div class="v4">
+      <h2 class="ev-heading">Events</h2>
+      <div class="v4__row">
+        <div class="v4__num">01<small>sat 14 jun 2026</small></div>
+        <div class="v4__body">
+          <div class="loc">roskilde, dk · studio hps · 19:00</div>
+          <h3>paper sculpture workshop</h3>
+          <p>An evening of layered paper, scraps and glue. Bring something to wear that you don't mind getting messy.</p>
+        </div>
+        <div class="v4__cta"><a href="#">rsvp</a></div>
+      </div>
+      <div class="v4__row">
+        <div class="v4__num">02<small>fri 30 may 2026</small></div>
+        <div class="v4__body">
+          <div class="loc">københavn · 20:00</div>
+          <h3>hps × studio lund</h3>
+          <p>Collab launch with new capsule and signed prints. First 30 guests get the tote.</p>
+        </div>
+        <div class="v4__cta"><a href="#">tickets</a></div>
+      </div>
+      <div class="v4__row v4__row--past">
+        <div class="v4__num">03<small>aug 2025</small></div>
+        <div class="v4__body">
+          <div class="loc">aarhus · past event</div>
+          <h3>summer pop-up store</h3>
+          <p>Three-day residency in jægergårdsgade.</p>
+        </div>
+        <div class="v4__cta"><a href="#">—</a></div>
+      </div>
+      <div class="v4__row v4__row--cancelled">
+        <div class="v4__num">04<small>tba</small></div>
+        <div class="v4__body">
+          <div class="loc">location tba · cancelled</div>
+          <h3>warehouse sale</h3>
+        </div>
+        <div class="v4__cta"><a href="#">cancelled</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block__stage">
+    <p class="stage-caption">empty state</p>
+    <div class="v4">
+      <h2 class="ev-heading">Events</h2>
+      <div class="v4__empty">no events scheduled</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  file: design-previews/events-variants.html · local preview only · tell Claude which variant (or combination) to build into the theme
+</footer>
+
+</body>
+</html>

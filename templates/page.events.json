@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "main": {
+      "type": "hps-events",
+      "settings": {
+        "heading": "Events",
+        "empty_text": "no events scheduled",
+        "max_events": 0,
+        "padding_top": 96,
+        "padding_bottom": 96,
+        "bg_color": "#ffffff",
+        "text_color": "#000000"
+      }
+    }
+  },
+  "order": ["main"]
+}

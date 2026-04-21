@@ -8,7 +8,7 @@
 <aside class="hps-sidebar">
 
   {%- if request.page_type == 'product' -%}
-    <a href="{{ routes.root_url }}" class="hps-sidebar-keep-shopping">
+    <a href="{{ routes.collections_url }}/all" class="hps-sidebar-keep-shopping">
       <svg class="hps-sidebar-keep-shopping__icon" viewBox="0 0 14 14" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true">
         <path d="M10 2 L4 7 L10 12" />
       </svg>
@@ -48,16 +48,32 @@
     </details>
   {%- endif -%}
 
-  <div class="hps-sidebar-cart">
-    <p class="hps-sidebar-cart__count">
-      <span class="hps-cart-count">{{ cart.item_count }}</span>
-      {%- if cart.item_count == 1 %} item in cart{% else %} items in cart{% endif -%}
-    </p>
-    <p class="hps-sidebar-cart__subtotal">
-      <span class="hps-sidebar-cart__subtotal-label">subtotal</span><br><span class="hps-cart-total">{{ cart.total_price | money }}</span>
-    </p>
-    <a href="/cart" class="hps-sidebar-cart__link">view/edit cart</a>
-    <a href="/checkout" class="hps-sidebar-cart__checkout">checkout now</a>
+  <div class="hps-sidebar-cart{% if cart.item_count == 0 %} hps-sidebar-cart--empty{% endif %}">
+    <div class="hps-sidebar-cart__head">
+      <span>cart</span>
+      <span>&times;<span class="hps-cart-count">{{ cart.item_count }}</span></span>
+    </div>
+    <hr class="hps-sidebar-cart__rule">
+    <ul class="hps-sidebar-cart__rows" data-hps-cart-rows>
+      {%- for item in cart.items -%}
+        <li>
+          <small class="hps-sidebar-cart__row-title">
+            <span class="hps-sidebar-cart__row-qty">{{ item.quantity }}x</span>
+            {{ item.product.title | downcase }}
+          </small>
+        </li>
+      {%- endfor -%}
+    </ul>
+    <p class="hps-sidebar-cart__empty">cart empty</p>
+    <hr class="hps-sidebar-cart__rule">
+    <div class="hps-sidebar-cart__total">
+      <span>subtotal</span>
+      <span class="hps-cart-total">{{ cart.total_price | money }}</span>
+    </div>
+    <div class="hps-sidebar-cart__btns">
+      <a href="{{ routes.cart_url }}" class="hps-sidebar-cart__edit">edit</a>
+      <a href="/checkout" class="hps-sidebar-cart__go">checkout</a>
+    </div>
   </div>
 
 </aside>
@@ -97,27 +113,62 @@
       }, { passive: true });
     }
 
-    subscribe('cart-update', function (event) {
-      if (!event || !event.cartData) return;
-      var cart = event.cartData;
+    function formatMoney(cents) {
+      return window.Shopify && Shopify.formatMoney
+        ? Shopify.formatMoney(cents, window.moneyFormat || '{{amount}}')
+        : (cents / 100).toFixed(2);
+    }
+
+    function applyCart(cart) {
+      if (!cart) return;
 
       document.querySelectorAll('.hps-cart-count').forEach(function (el) {
         el.textContent = cart.item_count;
       });
 
       document.querySelectorAll('.hps-cart-total').forEach(function (el) {
-        el.textContent = Shopify.formatMoney
-          ? Shopify.formatMoney(cart.total_price, window.moneyFormat || '{{amount}}')
-          : (cart.total_price / 100).toFixed(2);
+        el.textContent = formatMoney(cart.total_price);
       });
 
-      // Update "item / items in cart" label
-      document.querySelectorAll('.hps-sidebar-cart__count').forEach(function (el) {
-        var countEl = el.querySelector('.hps-cart-count');
-        if (countEl) countEl.textContent = cart.item_count;
-        el.childNodes[el.childNodes.length - 1].textContent =
-          cart.item_count === 1 ? ' item in cart' : ' items in cart';
+      document.querySelectorAll('[data-hps-cart-rows]').forEach(function (list) {
+        list.innerHTML = (cart.items || []).map(function (item) {
+          var title = (item.product_title || item.title || '').toLowerCase();
+          var qty = item.quantity || 1;
+          return '<li><small class="hps-sidebar-cart__row-title">' +
+            '<span class="hps-sidebar-cart__row-qty">' + qty + 'x</span> ' +
+            title + '</small></li>';
+        }).join('');
       });
+
+      document.querySelectorAll('.hps-sidebar-cart').forEach(function (el) {
+        el.classList.toggle('hps-sidebar-cart--empty', cart.item_count === 0);
+      });
+    }
+
+    function onCartUpdate(event) {
+      // cart-update event payloads vary (line item vs full cart), so always
+      // fetch the authoritative cart state.
+      fetch('/cart.js', { headers: { Accept: 'application/json' } })
+        .then(function (r) { return r.json(); })
+        .then(applyCart)
+        .catch(function () {});
+    }
+
+    if (typeof subscribe === 'function') {
+      subscribe('cart-update', onCartUpdate);
+    } else {
+      document.addEventListener('DOMContentLoaded', function () {
+        if (typeof subscribe === 'function') subscribe('cart-update', onCartUpdate);
+      });
+    }
+
+    // Reconcile sidebar against the live cart on every page load —
+    // server-rendered HTML can be stale (prefetch / bfcache / CDN).
+    onCartUpdate();
+
+    // Re-sync when the page is restored from the back-forward cache.
+    window.addEventListener('pageshow', function (e) {
+      if (e.persisted) onCartUpdate();
     });
   })();
 </script>

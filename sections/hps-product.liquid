@@ -165,7 +165,7 @@
 
           {%- when 'buy_buttons' -%}
             <div class="hps-product__actions-row">
-              {%- if variant_block -%}
+              {%- if variant_block and product.has_only_default_variant == false -%}
                 <div class="hps-product__actions-picker">
                   {%- render 'product-variant-picker',
                     product: product,

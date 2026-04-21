@@ -8,6 +8,9 @@
   --hps-overlay: rgba(0, 0, 0, 0.45);
   /* Adjust to match actual rendered header height (logo + padding) */
   --hps-header-height: 90px;
+  /* Body-copy letter spacing — tightens Courier New paragraphs.
+     Change here to adjust site-wide. */
+  --hps-body-letter-spacing: -0.02em;
 }
 
 /* --- Courier New site-wide font override --- */
@@ -15,6 +18,15 @@
 *::before,
 *::after {
   font-family: 'Courier New', Courier, monospace !important;
+}
+
+/* --- Tighten letter-spacing on body copy site-wide --- */
+p,
+li,
+.rte,
+.hps-page-body,
+.hps-events__desc {
+  letter-spacing: var(--hps-body-letter-spacing);
 }
 
 /* --- Full-bleed pages: black background, body scrolls naturally --- */
