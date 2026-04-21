@@ -1,0 +1,377 @@
+{%- liquid
+  assign active_policy = nil
+  for policy in shop.policies
+    if request.path == policy.url
+      assign active_policy = policy
+      break
+    endif
+  endfor
+-%}
+
+{%- style -%}
+  #hps-policy-{{ section.id }} {
+    --hps-policy-bg: {{ section.settings.bg_color }};
+    --hps-policy-fg: {{ section.settings.text_color }};
+    --hps-policy-link: {{ section.settings.link_color }};
+    --hps-policy-max-width: {{ section.settings.content_max_width }}px;
+    --hps-policy-padding-top: {{ section.settings.padding_top }}px;
+    --hps-policy-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --hps-policy-title-size: {{ section.settings.title_size }}px;
+    --hps-policy-body-size: {{ section.settings.body_size }}px;
+    --hps-policy-body-line-height: {{ section.settings.body_line_height | divided_by: 100.0 }};
+    --hps-policy-h2-size: {{ section.settings.h2_size }}px;
+    --hps-policy-h3-size: {{ section.settings.h3_size }}px;
+    --hps-policy-h4-size: {{ section.settings.h4_size }}px;
+  }
+{%- endstyle -%}
+
+<div id="hps-policy-{{ section.id }}" class="hps-policy-wrap">
+  <article class="hps-policy-content">
+    {%- if active_policy != nil -%}
+      <h1 class="hps-policy-title">{{ active_policy.title }}</h1>
+      <div class="hps-policy-body rte">
+        {{ active_policy.body }}
+      </div>
+    {%- else -%}
+      <p class="hps-policy-empty">policy not found.</p>
+    {%- endif -%}
+
+    {%- if section.settings.show_shop_cta -%}
+      <div class="hps-policy-cta">
+        <a href="{{ section.settings.shop_cta_url | default: '/collections/all' }}" class="hps-policy-cta__btn">
+          <span>{{ section.settings.shop_cta_label | default: 'go to shop' }}</span>
+          <svg viewBox="0 0 14 14" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true">
+            <path d="M4 2 L10 7 L4 12" />
+          </svg>
+        </a>
+      </div>
+    {%- endif -%}
+  </article>
+</div>
+
+{% stylesheet %}
+  .template-policy .hps-page {
+    height: auto;
+    overflow: visible;
+  }
+
+  .template-policy .hps-content-row {
+    height: auto;
+    overflow: visible;
+    position: relative;
+    gap: 0;
+    padding-top: 0;
+  }
+
+  .template-policy .hps-main-content {
+    height: auto;
+    overflow-y: visible;
+    width: 100%;
+    flex: 1 1 auto;
+  }
+
+  .template-policy .hps-sidebar {
+    display: none !important;
+  }
+
+  .hps-policy-wrap {
+    display: block;
+    width: 100%;
+    background: var(--hps-policy-bg, #fff);
+    color: var(--hps-policy-fg, #000);
+    padding-top: var(--hps-policy-padding-top, 120px);
+    padding-bottom: var(--hps-policy-padding-bottom, 120px);
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+  }
+
+  .hps-policy-wrap .hps-policy-content {
+    display: block;
+    width: 100%;
+    max-width: var(--hps-policy-max-width, 760px);
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+
+  .hps-policy-wrap .hps-policy-title {
+    font-size: var(--hps-policy-title-size, 14px) !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+    letter-spacing: 0.04em !important;
+    text-transform: uppercase !important;
+    text-align: left !important;
+    color: inherit;
+    margin: 0 0 32px !important;
+    font-family: inherit !important;
+  }
+
+  .hps-policy-wrap .hps-policy-body {
+    font-size: var(--hps-policy-body-size, 11px);
+    line-height: var(--hps-policy-body-line-height, 1.6);
+    text-align: left;
+    color: inherit;
+    letter-spacing: -0.02em;
+  }
+
+  .hps-policy-empty {
+    font-size: 11px;
+    text-transform: lowercase;
+    color: #777;
+  }
+
+  .hps-policy-body p {
+    margin: 0 0 1em;
+  }
+
+  .hps-policy-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .hps-policy-wrap .hps-policy-body h1,
+  .hps-policy-wrap .hps-policy-body h2,
+  .hps-policy-wrap .hps-policy-body h3,
+  .hps-policy-wrap .hps-policy-body h4,
+  .hps-policy-wrap .hps-policy-body h5,
+  .hps-policy-wrap .hps-policy-body h6 {
+    font-family: inherit !important;
+    letter-spacing: 0.04em !important;
+    line-height: 1.3 !important;
+    color: inherit !important;
+    text-transform: uppercase !important;
+    font-weight: 700 !important;
+  }
+
+  .hps-policy-wrap .hps-policy-body h1,
+  .hps-policy-wrap .hps-policy-body h2 {
+    font-size: var(--hps-policy-h2-size, 14px) !important;
+    margin: 32px 0 12px !important;
+  }
+
+  .hps-policy-wrap .hps-policy-body h3 {
+    font-size: var(--hps-policy-h3-size, 13px) !important;
+    margin: 24px 0 10px !important;
+  }
+
+  .hps-policy-wrap .hps-policy-body h4,
+  .hps-policy-wrap .hps-policy-body h5,
+  .hps-policy-wrap .hps-policy-body h6 {
+    font-size: var(--hps-policy-h4-size, 12px) !important;
+    margin: 20px 0 8px !important;
+  }
+
+  .hps-policy-wrap .hps-policy-body h1:first-child,
+  .hps-policy-wrap .hps-policy-body h2:first-child,
+  .hps-policy-wrap .hps-policy-body h3:first-child,
+  .hps-policy-wrap .hps-policy-body h4:first-child {
+    margin-top: 0 !important;
+  }
+
+  .hps-policy-body ul,
+  .hps-policy-body ol {
+    margin: 0 0 1em 1.5em;
+    padding: 0;
+  }
+
+  .hps-policy-body li {
+    margin-bottom: 0.4em;
+  }
+
+  .hps-policy-body a {
+    color: var(--hps-policy-link, inherit);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .hps-policy-body a:hover {
+    text-decoration: none;
+  }
+
+  .hps-policy-body hr {
+    border: none;
+    border-top: 1px solid currentColor;
+    opacity: 0.2;
+    margin: 2em 0;
+  }
+
+  .hps-policy-cta {
+    margin-top: 48px;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .hps-policy-cta__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 160px;
+    padding: 8px 18px;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.6;
+    text-transform: lowercase;
+    text-decoration: none;
+    color: #fff;
+    background: #000;
+    border: 1px solid #000;
+    transition: background 0.1s ease, color 0.1s ease;
+  }
+
+  .hps-policy-cta__btn:hover {
+    background: #fff;
+    color: #000;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "HPS Policy",
+  "tag": "section",
+  "class": "hps-policy-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 480,
+      "max": 1000,
+      "step": 20,
+      "default": 760,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 240,
+      "step": 4,
+      "default": 120,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 240,
+      "step": 4,
+      "default": 120,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Type sizes"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title size",
+      "min": 10,
+      "max": 32,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "body_size",
+      "label": "Body size",
+      "min": 10,
+      "max": 16,
+      "step": 1,
+      "default": 11,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "body_line_height",
+      "label": "Body line height",
+      "min": 120,
+      "max": 200,
+      "step": 5,
+      "default": 160,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "h2_size",
+      "label": "H2 size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "h3_size",
+      "label": "H3 size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "default": 13,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "h4_size",
+      "label": "H4 size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Back-to-shop link"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shop_cta",
+      "label": "Show \"go to shop\" button at bottom",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "shop_cta_label",
+      "label": "Button label",
+      "default": "go to shop"
+    },
+    {
+      "type": "url",
+      "id": "shop_cta_url",
+      "label": "Button URL",
+      "info": "Defaults to /collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link",
+      "default": "#000000"
+    }
+  ]
+}
+{% endschema %}

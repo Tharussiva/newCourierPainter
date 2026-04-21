@@ -80,7 +80,7 @@
 
 <script>
   (function () {
-    var desktopMQ = window.matchMedia('(min-width: 990px)');
+    var desktopMQ = window.matchMedia('(min-width: 1140px)');
     var syncNav = function () {
       document.querySelectorAll('.hps-nav-dropdown').forEach(function (d) {
         if (desktopMQ.matches) d.setAttribute('open', '');
@@ -89,29 +89,6 @@
     };
     syncNav();
     desktopMQ.addEventListener('change', syncNav);
-
-    // Mobile: hide sidebar when scrolling down, reveal when scrolling up
-    var mobileMQ = window.matchMedia('(max-width: 989px)');
-    var sidebar = document.querySelector('.hps-sidebar');
-    if (sidebar) {
-      var lastY = window.scrollY;
-      var threshold = 8;
-      window.addEventListener('scroll', function () {
-        if (!mobileMQ.matches) {
-          sidebar.classList.remove('hps-sidebar--scrolled-down');
-          return;
-        }
-        var y = window.scrollY;
-        var delta = y - lastY;
-        if (Math.abs(delta) < threshold) return;
-        if (delta > 0 && y > 80) {
-          sidebar.classList.add('hps-sidebar--scrolled-down');
-        } else if (delta < 0) {
-          sidebar.classList.remove('hps-sidebar--scrolled-down');
-        }
-        lastY = y;
-      }, { passive: true });
-    }
 
     function formatMoney(cents) {
       return window.Shopify && Shopify.formatMoney

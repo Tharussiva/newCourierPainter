@@ -84,7 +84,12 @@
                 type="button"
                 data-index="{{ forloop.index0 }}"
                 aria-label="{{ media.alt | default: product.title | escape }}">
-          <img src="{{ media | image_url: width: 144 }}" alt="" loading="lazy">
+          {%- assign thumb_ratio = media.preview_image.aspect_ratio | default: 1 -%}
+          <img src="{{ media | image_url: width: 144 }}"
+               width="144"
+               height="{{ 144 | divided_by: thumb_ratio | round }}"
+               alt=""
+               loading="lazy">
         </button>
       {%- endfor -%}
     </div>
@@ -96,9 +101,12 @@
              style="{% unless forloop.first %}display:none;{% endunless %}width:100%;height:100%;overflow:hidden;"
              data-index="{{ forloop.index0 }}"
              data-media-id="{{ media.id }}">
+          {%- assign main_ratio = media.preview_image.aspect_ratio | default: 1 -%}
           <img class="hps-gallery__img"
                style="display:block;width:100%;max-width:100%;height:100%;object-fit:contain;object-position:center top;"
                src="{{ media | image_url: width: 900 }}"
+               width="900"
+               height="{{ 900 | divided_by: main_ratio | round }}"
                alt="{{ media.alt | default: product.title | escape }}"
                loading="lazy">
         </div>

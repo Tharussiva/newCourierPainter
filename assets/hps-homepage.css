@@ -172,6 +172,10 @@
   display: block;
 }
 
+.hps-sidebar-cart--empty .hps-sidebar-cart__btns {
+  display: none;
+}
+
 .hps-sidebar-cart__rows li {
   display: block;
 }
@@ -433,8 +437,12 @@
   }
 
   .hps-sidebar {
+    position: static;
     width: 100%;
+    height: auto;
     min-width: 0;
+    left: auto;
+    top: auto;
     flex-direction: column;
     align-items: stretch;
     padding: 0;
@@ -442,14 +450,6 @@
     background: #fff;
     margin-left: 0;
     border-bottom: 1px solid #e0e0e0;
-    position: sticky;
-    top: var(--header-height, 80px);
-    z-index: 1;
-    transition: transform 0.2s ease;
-  }
-
-  .hps-sidebar--scrolled-down {
-    transform: translateY(calc(-100% - var(--header-height, 80px)));
   }
 
   /* ---- Mobile dropdown nav ---- */
@@ -533,6 +533,8 @@
     width: 100%;
     max-width: 100%;
     flex: 1 1 auto;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   /* ---- Mobile product grid: Supreme-style lines ---- */

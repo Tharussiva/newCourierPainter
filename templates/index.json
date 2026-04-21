@@ -33,7 +33,24 @@
         "hover_bg_color": "#6b7c3f",
         "hover_text_color": "#ffffff"
       }
+    },
+    "newsletter": {
+      "type": "hps-newsletter",
+      "settings": {
+        "heading": "mailing list",
+        "tag_text": "hps",
+        "email_placeholder": "email",
+        "button_label": "add me",
+        "fineprint": "unsubscribe anytime",
+        "success_message": "thanks — you’re on the list.",
+        "padding_y": 72,
+        "max_width": 480,
+        "bg_color": "#000000",
+        "text_color": "#ffffff",
+        "btn_bg_color": "#ffffff",
+        "btn_text_color": "#000000"
+      }
     }
   },
-  "order": ["landing"]
+  "order": ["landing", "newsletter"]
 }

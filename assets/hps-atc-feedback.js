@@ -32,23 +32,46 @@ if (!customElements.get('cart-notification')) {
        * Show "Added to cart" on the submit button, then restore after 2 s.
        */
       renderContents() {
-        const btn =
-          (this._activeEl && this._activeEl.closest
-            ? this._activeEl.closest('button[type="submit"]') || this._activeEl
-            : null) ||
-          document.querySelector('button[type="submit"][name="add"]');
-
+        // Resolve the submit button reliably. Never fall back to this._activeEl
+        // itself — on iOS Safari after a tap, document.activeElement is often
+        // <body>, which would cause querySelector('span') below to target the
+        // first span ANYWHERE in the page (logo, sidebar, etc.), making the
+        // feedback text appear far from the actual button.
+        let btn = null;
+        if (this._activeEl && typeof this._activeEl.closest === 'function') {
+          btn = this._activeEl.closest('button[type="submit"][name="add"]');
+        }
+        if (!btn) {
+          btn = document.querySelector('product-form button[type="submit"][name="add"]')
+             || document.querySelector('button[type="submit"][name="add"]');
+        }
         if (!btn) return;
 
-        const span = btn.querySelector('span');
+        // Force-exit the loading state so the feedback text is visible. Dawn's
+        // product-form.js removes '.loading' after renderContents() returns, but
+        // on slower/mobile paints the brief overlap (spinner + transparent text)
+        // makes the "Added to cart" swap flash invisibly. Removing it here — and
+        // re-hiding the spinner — guarantees a clean handoff.
+        btn.classList.remove('loading');
+        const spinner = btn.querySelector('.loading__spinner');
+        if (spinner) spinner.classList.add('hidden');
+
+        // Match only the direct-child text span (not any <span> nested inside
+        // the spinner SVG or elsewhere).
+        const span = btn.querySelector(':scope > span');
         if (!span) return;
 
-        const original = span.textContent.trim();
-        span.textContent = 'Added to cart';
+        // Preserve the true original label (not whatever's currently rendered —
+        // could be "Added to cart" from a rapid double-click).
+        if (!this._originalLabel) {
+          this._originalLabel = span.textContent.trim();
+        }
+        span.textContent = 'Added';
 
         clearTimeout(this._resetTimer);
+        const self = this;
         this._resetTimer = setTimeout(function () {
-          span.textContent = original;
+          span.textContent = self._originalLabel;
         }, 2000);
       }
     }

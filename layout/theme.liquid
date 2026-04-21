@@ -316,7 +316,11 @@
       <div class="hps-content-row">
         {%- render 'hps-sidebar', menu: _sidebar_menu -%}
         <main id="MainContent" class="hps-main-content content-for-layout focus-none" role="main" tabindex="-1">
-          {{ content_for_layout }}
+          {%- if request.page_type == 'policy' -%}
+            {% section 'hps-policy' %}
+          {%- else -%}
+            {{ content_for_layout }}
+          {%- endif -%}
         </main>
       </div>
     </div>

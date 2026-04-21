@@ -45,16 +45,10 @@
     {%- if request.page_type == 'index' -%}</h1>{%- endif -%}
     <div class="hps-logo-header__side hps-logo-header__side--right">
       <div class="hps-mobile-cart">
-        {%- if settings.cart_type == 'drawer' -%}
-          <button type="button" class="hps-mobile-cart__count" onclick="document.querySelector('cart-drawer').open(this)" aria-label="Open cart">
-            <span class="hps-cart-count">{{ cart.item_count }}</span>
-          </button>
-        {%- else -%}
-          <a href="{{ routes.cart_url }}" class="hps-mobile-cart__count" aria-label="View cart">
-            <span class="hps-cart-count">{{ cart.item_count }}</span>
-          </a>
-        {%- endif -%}
-        <a href="/checkout" class="hps-mobile-cart__checkout">checkout</a>
+        <a href="{{ routes.cart_url }}" class="hps-mobile-cart__count" aria-label="View cart">
+          <span class="hps-cart-count">{{ cart.item_count }}</span>
+        </a>
+        <a href="{{ routes.cart_url }}" class="hps-mobile-cart__checkout">checkout</a>
       </div>
       {%- if settings.cart_type == 'drawer' -%}
         <button class="hps-cart-header-btn" type="button" onclick="document.querySelector('cart-drawer').open(this)" aria-label="Open cart">
@@ -170,7 +164,7 @@
     display: none;
   }
 
-  @media screen and (max-width: 989px) {
+  @media screen and (max-width: 1139px) {
     .hps-logo-header {
       padding: 12px 16px 10px;
       position: sticky;
@@ -276,7 +270,7 @@
 
       this.setHeaderHeight();
 
-      window.matchMedia('(max-width: 990px)').addEventListener('change', this.setHeaderHeight.bind(this));
+      window.matchMedia('(max-width: 1140px)').addEventListener('change', this.setHeaderHeight.bind(this));
 
       if (this.headerIsAlwaysSticky) {
         this.header.classList.add('shopify-section-header-sticky');

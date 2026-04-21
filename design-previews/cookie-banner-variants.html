@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HPS — Cookie banner variants</title>
+<style>
+  :root {
+    --fg: #111;
+    --muted: #777;
+    --line: rgba(0,0,0,0.85);
+    --green: #6b7c3f;
+    --page: #ededed;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--page); color: var(--fg); font-family: 'Courier New', Courier, monospace; }
+  header {
+    padding: 32px 40px 24px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    background: #fff;
+  }
+  header h1 { margin: 0; font-size: 14px; font-weight: 700; text-transform: lowercase; letter-spacing: 0.04em; }
+  header p  { margin: 0; font-size: 11px; color: var(--muted); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 40px;
+    padding: 40px;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+  .tile {
+    background: #fff;
+    padding: 24px 24px 20px;
+    border: 1px solid #000;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .tile__label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #000;
+    border-bottom: 1px dashed #000;
+    padding-bottom: 8px;
+    margin: 0;
+  }
+  .tile__desc { font-size: 10px; color: var(--muted); margin: 0; line-height: 1.5; }
+  .tile__notes { font-size: 9px; color: #000; margin: 0; line-height: 1.5; letter-spacing: 0.04em; text-transform: uppercase; }
+
+  /* Mini-viewport: a faux page for staging the banner */
+  .stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border: 1px dotted #ccc;
+    background: #fff;
+  }
+  .stage--dark { background: #000; }
+  .stage__scaffold {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: rgba(0,0,0,0.15);
+    font-size: 10px;
+    text-transform: lowercase;
+    letter-spacing: 0.1em;
+    pointer-events: none;
+  }
+  .stage--dark .stage__scaffold { color: rgba(255,255,255,0.15); }
+
+  /* ─────────────────────────────────── */
+  /* 1 — Bottom bar, minimal             */
+  /* ─────────────────────────────────── */
+  .v1 {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    background: #fff;
+    border-top: 1px solid #000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    font-size: 9px;
+    text-transform: lowercase;
+  }
+  .v1__text { flex: 1; color: #000; line-height: 1.4; }
+  .v1__text a { color: #000; text-decoration: underline; }
+  .v1__btns { display: flex; gap: 6px; flex-shrink: 0; }
+  .v1__btn {
+    font-family: inherit;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 6px 12px;
+    border: 1px solid #000;
+    background: #fff;
+    color: #000;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .v1__btn--primary { background: #000; color: #fff; }
+  .v1__btn:hover { background: #000; color: #fff; }
+  .v1__btn--primary:hover { background: #fff; color: #000; }
+
+  /* ─────────────────────────────────── */
+  /* 2 — Bottom-left card                */
+  /* ─────────────────────────────────── */
+  .v2 {
+    position: absolute; left: 16px; bottom: 16px;
+    width: 62%; max-width: 280px;
+    background: #fff;
+    border: 1px solid #000;
+    padding: 0;
+    font-size: 9px;
+    text-transform: lowercase;
+  }
+  .v2__head {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-align: center;
+    padding: 5px 10px;
+    background: #c8c8c8;
+    border-bottom: 1px solid #000;
+  }
+  .v2__body { padding: 10px 12px; line-height: 1.5; color: #000; }
+  .v2__body a { color: #000; text-decoration: underline; }
+  .v2__btns { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid #000; }
+  .v2__btn {
+    font-family: inherit;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: lowercase;
+    padding: 7px;
+    text-align: center;
+    background: #fff;
+    color: #000;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .v2__btn--primary { background: #000; color: #fff; border-left: 1px solid #000; }
+  .v2__btn:hover { background: #000; color: #fff; }
+  .v2__btn--primary:hover { background: #fff; color: #000; }
+
+  /* ─────────────────────────────────── */
+  /* 3 — Inverted bottom-right           */
+  /* ─────────────────────────────────── */
+  .v3 {
+    position: absolute; right: 16px; bottom: 16px;
+    width: 62%; max-width: 300px;
+    background: #000;
+    color: #fff;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 9px;
+    text-transform: lowercase;
+  }
+  .v3__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+  }
+  .v3__head small { font-size: 8px; font-weight: 400; color: rgba(255,255,255,0.6); letter-spacing: 0.1em; }
+  .v3__body { line-height: 1.5; }
+  .v3__body a { color: #fff; text-decoration: underline; }
+  .v3__btns { display: flex; gap: 6px; }
+  .v3__btn {
+    flex: 1;
+    font-family: inherit;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 7px 10px;
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.4);
+    cursor: pointer;
+    line-height: 1;
+  }
+  .v3__btn--primary { background: #fff; color: #000; border-color: #fff; }
+  .v3__btn:hover { background: #fff; color: #000; border-color: #fff; }
+  .v3__btn--primary:hover { background: transparent; color: #fff; border-color: rgba(255,255,255,0.4); }
+
+  /* ─────────────────────────────────── */
+  /* 4 — Receipt strip                   */
+  /* ─────────────────────────────────── */
+  .v4 {
+    position: absolute; left: 16px; right: 16px; bottom: 16px;
+    background: #fff;
+    border: 1px solid #000;
+    padding: 10px 14px 12px;
+    font-size: 9px;
+    text-transform: lowercase;
+  }
+  .v4__head { display: flex; justify-content: space-between; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; font-size: 9px; }
+  .v4__rule { border: none; border-top: 1px dashed #000; margin: 6px 0; }
+  .v4__body { line-height: 1.5; color: #000; }
+  .v4__body a { color: #000; text-decoration: underline; }
+  .v4__btns { display: flex; gap: 6px; margin-top: 8px; }
+  .v4__btn {
+    flex: 1;
+    font-family: inherit;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: lowercase;
+    padding: 6px 10px;
+    text-align: center;
+    background: #fff;
+    color: #000;
+    border: 1px solid #000;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .v4__btn--primary { background: #000; color: #fff; }
+  .v4__btn:hover { background: #000; color: #fff; }
+  .v4__btn--primary:hover { background: #fff; color: #000; }
+
+  footer { padding: 24px 40px 48px; font-size: 10px; color: var(--muted); border-top: 1px solid var(--line); background: #fff; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>cookie banner — design variants</h1>
+    <p>stark courier aesthetic · same 4 options shown on light + dark stages</p>
+  </header>
+
+  <div class="grid">
+
+    <div class="tile">
+      <p class="tile__label">1 · bottom bar (minimal)</p>
+      <p class="tile__desc">Full-width sticky strip. Copy + two buttons, single row. The "disappears when acknowledged" option — least visual weight, reads like browser chrome.</p>
+      <p class="tile__notes">placement: sticky bottom · persists across pages</p>
+
+      <div class="stage">
+        <div class="stage__scaffold">product page</div>
+        <div class="v1">
+          <p class="v1__text">we use cookies to improve your experience. <a href="#">privacy policy</a></p>
+          <div class="v1__btns">
+            <button class="v1__btn">decline</button>
+            <button class="v1__btn v1__btn--primary">accept</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage stage--dark">
+        <div class="stage__scaffold">index / collection</div>
+        <div class="v1">
+          <p class="v1__text">we use cookies to improve your experience. <a href="#">privacy policy</a></p>
+          <div class="v1__btns">
+            <button class="v1__btn">decline</button>
+            <button class="v1__btn v1__btn--primary">accept</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tile">
+      <p class="tile__label">2 · corner card</p>
+      <p class="tile__desc">Pinned bottom-left, bordered box with grey header band. Mirrors the sidebar cart's cart-header aesthetic exactly. Most "on-brand" option.</p>
+      <p class="tile__notes">placement: fixed bottom-left · compact · blocks nothing</p>
+
+      <div class="stage">
+        <div class="stage__scaffold">product page</div>
+        <div class="v2">
+          <div class="v2__head">cookies</div>
+          <div class="v2__body">this site uses cookies to improve your experience. <a href="#">read more</a></div>
+          <div class="v2__btns">
+            <button class="v2__btn">decline</button>
+            <button class="v2__btn v2__btn--primary">accept</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage stage--dark">
+        <div class="stage__scaffold">index / collection</div>
+        <div class="v2">
+          <div class="v2__head">cookies</div>
+          <div class="v2__body">this site uses cookies to improve your experience. <a href="#">read more</a></div>
+          <div class="v2__btns">
+            <button class="v2__btn">decline</button>
+            <button class="v2__btn v2__btn--primary">accept</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tile">
+      <p class="tile__label">3 · inverted card</p>
+      <p class="tile__desc">Black block, white type. Pinned bottom-right. Inverts against white pages, blends into dark pages. Echoes the "inverted block" cart style — the most assertive option.</p>
+      <p class="tile__notes">placement: fixed bottom-right · high contrast</p>
+
+      <div class="stage">
+        <div class="stage__scaffold">product page</div>
+        <div class="v3">
+          <div class="v3__head"><span>cookies</span><small>required</small></div>
+          <p class="v3__body">we use cookies to improve your experience. <a href="#">privacy policy</a></p>
+          <div class="v3__btns">
+            <button class="v3__btn">decline</button>
+            <button class="v3__btn v3__btn--primary">accept</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage stage--dark">
+        <div class="stage__scaffold">index / collection</div>
+        <div class="v3">
+          <div class="v3__head"><span>cookies</span><small>required</small></div>
+          <p class="v3__body">we use cookies to improve your experience. <a href="#">privacy policy</a></p>
+          <div class="v3__btns">
+            <button class="v3__btn">decline</button>
+            <button class="v3__btn v3__btn--primary">accept</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tile">
+      <p class="tile__label">4 · receipt strip</p>
+      <p class="tile__desc">Full-width bottom card with dashed internal rule — matches the cart's receipt/punch-card language. A little more crafted than v1, a little less boxed-in than v2.</p>
+      <p class="tile__notes">placement: fixed bottom, full width with margin · receipt aesthetic</p>
+
+      <div class="stage">
+        <div class="stage__scaffold">product page</div>
+        <div class="v4">
+          <div class="v4__head"><span>cookies</span><span>×</span></div>
+          <hr class="v4__rule">
+          <p class="v4__body">we use cookies to improve your experience. <a href="#">privacy policy</a></p>
+          <div class="v4__btns">
+            <button class="v4__btn">decline</button>
+            <button class="v4__btn v4__btn--primary">accept</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage stage--dark">
+        <div class="stage__scaffold">index / collection</div>
+        <div class="v4">
+          <div class="v4__head"><span>cookies</span><span>×</span></div>
+          <hr class="v4__rule">
+          <p class="v4__body">we use cookies to improve your experience. <a href="#">privacy policy</a></p>
+          <div class="v4__btns">
+            <button class="v4__btn">decline</button>
+            <button class="v4__btn v4__btn--primary">accept</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    open this file in your browser to preview. once you pick one, i'll wire it up as a real liquid snippet with schema settings (text, links, position) and push-ready cookie-handling js.
+  </footer>
+</body>
+</html>

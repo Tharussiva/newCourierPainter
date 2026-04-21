@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HPS — Newsletter signup variants</title>
+<style>
+  :root {
+    --fg: #111;
+    --muted: #777;
+    --line: rgba(0,0,0,0.85);
+    --page: #ededed;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--page); color: var(--fg); font-family: 'Courier New', Courier, monospace; }
+
+  header {
+    padding: 32px 40px 24px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    background: #fff;
+  }
+  header h1 { margin: 0; font-size: 14px; font-weight: 700; text-transform: lowercase; letter-spacing: 0.04em; }
+  header p  { margin: 0; font-size: 11px; color: var(--muted); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 40px;
+    padding: 40px;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+  .tile {
+    background: #fff;
+    padding: 24px 24px 20px;
+    border: 1px solid #000;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .tile__label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #000;
+    border-bottom: 1px dashed #000;
+    padding-bottom: 8px;
+    margin: 0;
+  }
+  .tile__desc { font-size: 10px; color: var(--muted); margin: 0; line-height: 1.5; }
+
+  /* A faux "above the footer" stage — full-width band */
+  .stage {
+    position: relative;
+    overflow: hidden;
+    border: 1px dotted #ccc;
+    background: #fff;
+    padding: 48px 24px;
+  }
+  .stage--dark { background: #000; color: #fff; }
+
+  /* ─────────────────────────────────── */
+  /* 1 — Inline hairline                  */
+  /* ─────────────────────────────────── */
+  .v1 {
+    max-width: 520px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .v1__label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 4px;
+  }
+  .v1__desc {
+    font-size: 10px;
+    letter-spacing: -0.02em;
+    margin: 0 0 18px;
+    opacity: 0.7;
+  }
+  .v1__row {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid currentColor;
+  }
+  .v1__input {
+    flex: 1;
+    font-family: inherit;
+    font-size: 11px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: inherit;
+    padding: 8px 0;
+    text-transform: lowercase;
+    letter-spacing: -0.02em;
+  }
+  .v1__input::placeholder { color: inherit; opacity: 0.45; }
+  .v1__btn {
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: transparent;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 8px 0 8px 16px;
+  }
+  .v1__btn:hover { opacity: 0.6; }
+
+  /* ─────────────────────────────────── */
+  /* 2 — Bordered box                     */
+  /* ─────────────────────────────────── */
+  .v2 {
+    max-width: 480px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .v2__label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 10px;
+  }
+  .v2__row {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid currentColor;
+  }
+  .v2__input {
+    flex: 1;
+    font-family: inherit;
+    font-size: 11px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: inherit;
+    padding: 10px 12px;
+    text-transform: lowercase;
+    letter-spacing: -0.02em;
+  }
+  .v2__input::placeholder { color: inherit; opacity: 0.45; }
+  .v2__btn {
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: currentColor;
+    border: none;
+    cursor: pointer;
+    padding: 0 22px;
+    min-width: 96px;
+    position: relative;
+  }
+  .v2__btn span {
+    color: #fff;
+    mix-blend-mode: difference;
+  }
+  .stage--dark .v2__btn span { color: #000; }
+  .v2__desc {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 10px 0 0;
+    opacity: 0.6;
+  }
+
+  /* ─────────────────────────────────── */
+  /* 3 — Receipt strip                    */
+  /* ─────────────────────────────────── */
+  .v3 {
+    max-width: 480px;
+    margin: 0 auto;
+    border: 1px solid currentColor;
+    padding: 14px 16px 16px;
+  }
+  .v3__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .v3__head small {
+    font-size: 8px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    opacity: 0.6;
+  }
+  .v3__rule {
+    border: none;
+    border-top: 1px dashed currentColor;
+    margin: 8px 0 10px;
+  }
+  .v3__row {
+    display: flex;
+    gap: 8px;
+  }
+  .v3__input {
+    flex: 1;
+    font-family: inherit;
+    font-size: 11px;
+    background: transparent;
+    border: 1px solid currentColor;
+    outline: none;
+    color: inherit;
+    padding: 8px 10px;
+    text-transform: lowercase;
+    letter-spacing: -0.02em;
+  }
+  .v3__input::placeholder { color: inherit; opacity: 0.45; }
+  .v3__btn {
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: currentColor;
+    border: 1px solid currentColor;
+    cursor: pointer;
+    padding: 0 18px;
+    min-width: 100px;
+  }
+  .v3__btn span {
+    color: #fff;
+    mix-blend-mode: difference;
+  }
+  .v3__foot {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 10px 0 0;
+    display: flex;
+    justify-content: space-between;
+    opacity: 0.6;
+  }
+
+  /* ─────────────────────────────────── */
+  /* 4 — Split band (full-width)          */
+  /* ─────────────────────────────────── */
+  .v4 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .v4__left h3 {
+    margin: 0 0 8px;
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+  }
+  .v4__left p {
+    margin: 0;
+    font-size: 10px;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+    opacity: 0.75;
+  }
+  .v4__row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .v4__row-inner {
+    display: flex;
+    border: 1px solid currentColor;
+  }
+  .v4__input {
+    flex: 1;
+    font-family: inherit;
+    font-size: 11px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: inherit;
+    padding: 11px 12px;
+    text-transform: lowercase;
+    letter-spacing: -0.02em;
+  }
+  .v4__input::placeholder { color: inherit; opacity: 0.45; }
+  .v4__btn {
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: currentColor;
+    border: none;
+    cursor: pointer;
+    padding: 0 28px;
+    min-width: 120px;
+    position: relative;
+  }
+  .v4__btn span {
+    color: #fff;
+    mix-blend-mode: difference;
+  }
+  .v4__fineprint {
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    opacity: 0.55;
+    margin: 0;
+  }
+
+  @media (max-width: 700px) {
+    .v4 { grid-template-columns: 1fr; }
+  }
+
+  footer { padding: 24px 40px 48px; font-size: 10px; color: var(--muted); border-top: 1px solid var(--line); background: #fff; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>newsletter signup — design variants</h1>
+    <p>4 options · each shown on light + dark stages (the 2 background contexts your theme uses)</p>
+  </header>
+
+  <div class="grid">
+
+    <!-- ─── 1 · INLINE HAIRLINE ─── -->
+    <div class="tile">
+      <p class="tile__label">1 · inline hairline</p>
+      <p class="tile__desc">Stripped to a single underlined input. No box, no buttons that look like buttons. Reads like a receipt line-item — editorial and quiet.</p>
+      <div class="stage">
+        <div class="v1">
+          <p class="v1__label">NEWSLETTER</p>
+          <p class="v1__desc">no spam. drops, restocks, occasional essays.</p>
+          <div class="v1__row">
+            <input class="v1__input" type="email" placeholder="your email">
+            <button class="v1__btn">subscribe →</button>
+          </div>
+        </div>
+      </div>
+      <div class="stage stage--dark">
+        <div class="v1">
+          <p class="v1__label">NEWSLETTER</p>
+          <p class="v1__desc">no spam. drops, restocks, occasional essays.</p>
+          <div class="v1__row">
+            <input class="v1__input" type="email" placeholder="your email">
+            <button class="v1__btn">subscribe →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── 2 · BORDERED BOX ─── -->
+    <div class="tile">
+      <p class="tile__label">2 · bordered box</p>
+      <p class="tile__desc">Input + submit sharing a 1px border, button is a solid contrasting block. Matches the form field style already in <code>hps-global.css</code>. Most "on-brand" with the existing contact form and cart checkout button.</p>
+      <div class="stage">
+        <div class="v2">
+          <p class="v2__label">SIGN UP FOR UPDATES</p>
+          <div class="v2__row">
+            <input class="v2__input" type="email" placeholder="email address">
+            <button class="v2__btn"><span>subscribe</span></button>
+          </div>
+          <p class="v2__desc">we'll never sell your data.</p>
+        </div>
+      </div>
+      <div class="stage stage--dark">
+        <div class="v2">
+          <p class="v2__label">SIGN UP FOR UPDATES</p>
+          <div class="v2__row">
+            <input class="v2__input" type="email" placeholder="email address">
+            <button class="v2__btn"><span>subscribe</span></button>
+          </div>
+          <p class="v2__desc">we'll never sell your data.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── 3 · RECEIPT STRIP ─── -->
+    <div class="tile">
+      <p class="tile__label">3 · receipt strip</p>
+      <p class="tile__desc">Echoes the cart's receipt/punch-card language — dashed internal rule, header label + timestamp-style tag. Most crafted of the four; hints at the brand's DIY roots.</p>
+      <div class="stage">
+        <div class="v3">
+          <div class="v3__head"><span>mailing list</span><small>hps</small></div>
+          <hr class="v3__rule">
+          <div class="v3__row">
+            <input class="v3__input" type="email" placeholder="email">
+            <button class="v3__btn"><span>add me</span></button>
+          </div>
+          <div class="v3__foot"><span>unsubscribe anytime</span><span>·</span></div>
+        </div>
+      </div>
+      <div class="stage stage--dark">
+        <div class="v3">
+          <div class="v3__head"><span>mailing list</span><small>hps</small></div>
+          <hr class="v3__rule">
+          <div class="v3__row">
+            <input class="v3__input" type="email" placeholder="email">
+            <button class="v3__btn"><span>add me</span></button>
+          </div>
+          <div class="v3__foot"><span>unsubscribe anytime</span><span>·</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── 4 · SPLIT BAND ─── -->
+    <div class="tile">
+      <p class="tile__label">4 · split band (full-width)</p>
+      <p class="tile__desc">Two-column band stretching across the viewport: headline/blurb on the left, input + button on the right. Has the most visual weight — good anchor right before the footer.</p>
+      <div class="stage">
+        <div class="v4">
+          <div class="v4__left">
+            <h3>JOIN THE LIST</h3>
+            <p>Early access to drops, restocks, and the occasional field report from the studio.</p>
+          </div>
+          <div class="v4__row">
+            <div class="v4__row-inner">
+              <input class="v4__input" type="email" placeholder="email address">
+              <button class="v4__btn"><span>subscribe</span></button>
+            </div>
+            <p class="v4__fineprint">BY SUBSCRIBING YOU AGREE TO OUR PRIVACY POLICY</p>
+          </div>
+        </div>
+      </div>
+      <div class="stage stage--dark">
+        <div class="v4">
+          <div class="v4__left">
+            <h3>JOIN THE LIST</h3>
+            <p>Early access to drops, restocks, and the occasional field report from the studio.</p>
+          </div>
+          <div class="v4__row">
+            <div class="v4__row-inner">
+              <input class="v4__input" type="email" placeholder="email address">
+              <button class="v4__btn"><span>subscribe</span></button>
+            </div>
+            <p class="v4__fineprint">BY SUBSCRIBING YOU AGREE TO OUR PRIVACY POLICY</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    open this file in a browser to preview. once you pick one, i'll wire it up as a real <code>sections/hps-newsletter.liquid</code> section using <code>{% form 'customer' %}</code> (the canonical Shopify pattern — subscribers become customers with the <code>newsletter</code> tag) and add it to <code>templates/index.json</code> right above the footer.
+  </footer>
+</body>
+</html>
