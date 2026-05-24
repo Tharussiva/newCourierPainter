@@ -4,8 +4,13 @@
 # nav links, page content, etc.).
 #
 # To intentionally sync merchant state back into the repo, run:
-#   shopify theme pull --live --only=config/settings_data.json --only='templates/*.json'
+#   shopify theme pull --live \
+#     --only=config/settings_data.json \
+#     --only='templates/*.json' \
+#     --only='templates/customers/*.json' \
+#     --only='sections/*-group.json'
 
 config/settings_data.json
 templates/*.json
 templates/customers/*.json
+sections/*-group.json

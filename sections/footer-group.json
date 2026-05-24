@@ -1,18 +1,49 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "t:sections.footer.name",
   "type": "footer",
   "sections": {
+    "hps_newsletter_3RyPbF": {
+      "type": "hps-newsletter",
+      "name": "HPS Newsletter",
+      "settings": {
+        "heading": "mailing list",
+        "tag_text": "House Painting Service",
+        "email_placeholder": "email",
+        "button_label": "add me",
+        "fineprint": "unsubscribe anytime",
+        "success_message": "thanks — you’re on the list.",
+        "padding_y": 72,
+        "max_width": 480,
+        "bg_color": "#ffffff",
+        "text_color": "#000000",
+        "btn_bg_color": "#000000",
+        "btn_text_color": "#ffffff"
+      }
+    },
     "footer": {
       "type": "hps-footer",
       "settings": {
-        "col1_heading": "Shop",
-        "col1_menu": "main-menu",
-        "col2_heading": "Info",
+        "col1_heading": "Community",
+        "col1_menu": "new-courier-painter-footer-one",
+        "col2_heading": "Information",
         "col2_menu": "footer",
-        "col3_heading": "Follow",
-        "col3_menu": "footer"
+        "col3_heading": "Find us",
+        "col3_menu": "find-us",
+        "show_payment_icons": true
       }
     }
   },
-  "order": ["footer"]
+  "order": [
+    "hps_newsletter_3RyPbF",
+    "footer"
+  ]
 }
