@@ -15,7 +15,7 @@
         "text": {
           "type": "text",
           "settings": {
-            "text": "<p><strong>contact</strong></p><p>Send us a message using the form below. We'll reply as soon as we can.</p><p><a href=\"mailto:info@housepaintingservice.dk\" title=\"Send mail to info@housepaintingservice.dk\">info@housepaintingservice.dk</a></p>"
+            "text": "<p><strong>mail list</strong></p><p>Be the first to know about new drops, exclusive offers, and everything House Painting Service.</p>"
           }
         }
       },
@@ -40,19 +40,28 @@
         "link_color": "#000000"
       }
     },
-    "form": {
-      "type": "contact-form",
+    "hps_newsletter_6TVzVX": {
+      "type": "hps-newsletter",
+      "disabled": true,
+      "name": "HPS Newsletter",
       "settings": {
-        "heading": "",
-        "heading_size": "h1",
-        "color_scheme": "scheme-1",
-        "padding_top": 0,
-        "padding_bottom": 100
+        "heading": "mailing list",
+        "tag_text": "hps",
+        "email_placeholder": "email",
+        "button_label": "add me",
+        "fineprint": "unsubscribe anytime",
+        "success_message": "thanks — you’re on the list.",
+        "padding_y": 72,
+        "max_width": 480,
+        "bg_color": "#ffffff",
+        "text_color": "#000000",
+        "btn_bg_color": "#000000",
+        "btn_text_color": "#ffffff"
       }
     }
   },
   "order": [
     "intro",
-    "form"
+    "hps_newsletter_6TVzVX"
   ]
 }

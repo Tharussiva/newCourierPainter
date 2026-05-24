@@ -1,11 +1,22 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hps-cart": {
       "type": "hps-cart",
       "settings": {
-        "shipping_note": "* free shipping on all orders over \u20ac250, some exceptions may apply"
+        "shipping_note": ""
       }
     }
   },
-  "order": ["hps-cart"]
+  "order": [
+    "hps-cart"
+  ]
 }

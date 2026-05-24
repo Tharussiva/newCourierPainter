@@ -1,16 +1,20 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "hps-product",
       "blocks": {
         "title": {
-          "type": "title"
-        },
-        "description": {
-          "type": "description"
-        },
-        "price": {
-          "type": "price"
+          "type": "title",
+          "settings": {}
         },
         "variant_picker": {
           "type": "variant_picker",
@@ -25,9 +29,19 @@
             "show_gift_card_recipient": false
           }
         },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
         "product_info_popup": {
           "type": "product_info_popup",
           "settings": {
+            "material": "{{ product.metafields.custom.material.value }}",
+            "fit": "{{ product.metafields.custom.fit.value }}",
             "btn_color": "#000000",
             "dialog_bg": "#ffffff",
             "dialog_color": "#000000",
@@ -54,5 +68,7 @@
       }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }

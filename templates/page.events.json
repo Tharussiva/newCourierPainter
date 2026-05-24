@@ -1,7 +1,76 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "hps-events",
+      "blocks": {
+        "event_NjBjKr": {
+          "type": "event",
+          "settings": {
+            "title": "DoublePeace release party",
+            "date": "24 april",
+            "time": "19:00 - 00:00",
+            "location": "Overgaden Neden Vandet 29, 1400, kbh k",
+            "description": "<p>Join us celebrating friend and collaborator Thomas FED with his newest EP release</p>",
+            "status": "upcoming",
+            "cta_label": "rsvp",
+            "cta_url": ""
+          }
+        },
+        "event_kjphiX": {
+          "type": "event",
+          "settings": {
+            "title": "Fed store takeover",
+            "date": "25 april",
+            "time": "12:00 - 17:00",
+            "location": "Badstuestræde 8, 1209, KBH K",
+            "description": "<p>DoublePeace Rythm Radar Tee release </p>",
+            "status": "upcoming",
+            "cta_label": "rsvp",
+            "cta_url": ""
+          }
+        },
+        "event_yqwXYR": {
+          "type": "event",
+          "settings": {
+            "title": "Anniversary Party",
+            "date": "5 Jun",
+            "time": "16:00 - 21:00",
+            "location": "badstuestræde 8, 1209, kbh k",
+            "description": "<p>Celebration party for flagship store 2nd year of being open.</p>",
+            "status": "upcoming",
+            "cta_label": "rsvp",
+            "cta_url": ""
+          }
+        },
+        "event_t9766b": {
+          "type": "event",
+          "settings": {
+            "title": "Roskilde Festival",
+            "date": "Jun 27 - Jul 4",
+            "time": "19:00",
+            "location": "Roskilde 4000",
+            "description": "<p>side quest @ roskilde - more info tba</p>",
+            "status": "upcoming",
+            "cta_label": "rsvp",
+            "cta_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "event_NjBjKr",
+        "event_kjphiX",
+        "event_yqwXYR",
+        "event_t9766b"
+      ],
       "settings": {
         "heading": "Events",
         "empty_text": "no events scheduled",
@@ -13,5 +82,7 @@
       }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }

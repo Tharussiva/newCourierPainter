@@ -1,11 +1,26 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hps-collection": {
       "type": "hps-collection",
       "settings": {
-        "show_collection_title": false
+        "content_top_gap": 0,
+        "nav_grid_gap": 24,
+        "show_collection_title": false,
+        "grid_columns_desktop": 5,
+        "products_per_page": 240
       }
     }
   },
-  "order": ["hps-collection"]
+  "order": [
+    "hps-collection"
+  ]
 }

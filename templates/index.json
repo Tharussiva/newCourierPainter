@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "landing": {
@@ -10,47 +19,81 @@
             "url": "/collections/all"
           }
         },
+        "nav_link_Rz38MW": {
+          "type": "nav_link",
+          "settings": {
+            "label": "About",
+            "url": "shopify://pages/about"
+          }
+        },
+        "nav_link_xPgbdi": {
+          "type": "nav_link",
+          "settings": {
+            "label": "Events",
+            "url": "shopify://pages/events"
+          }
+        },
+        "nav_link_AAAUwi": {
+          "type": "nav_link",
+          "settings": {
+            "label": "Flagship store",
+            "url": "shopify://pages/flagship-store"
+          }
+        },
+        "nav_link_X6C7xN": {
+          "type": "nav_link",
+          "settings": {
+            "label": "mail list",
+            "url": "shopify://pages/mail-club"
+          }
+        },
+        "nav_link_8FXVUU": {
+          "type": "nav_link",
+          "settings": {
+            "label": "Contact",
+            "url": "shopify://pages/contact"
+          }
+        },
         "instagram": {
           "type": "social",
           "settings": {
             "platform": "instagram",
-            "url": ""
+            "url": "https://www.instagram.com/house.painting.service/"
           }
         },
         "tiktok": {
           "type": "social",
           "settings": {
             "platform": "tiktok",
-            "url": ""
+            "url": "https://www.tiktok.com/@housepaintingservice?_t=ZN-8zjJR7cdPTb&_r=1"
           }
         }
       },
-      "block_order": ["shop_link", "instagram", "tiktok"],
+      "block_order": [
+        "shop_link",
+        "nav_link_Rz38MW",
+        "nav_link_xPgbdi",
+        "nav_link_AAAUwi",
+        "nav_link_X6C7xN",
+        "nav_link_8FXVUU",
+        "instagram",
+        "tiktok"
+      ],
       "settings": {
+        "logo": "shopify://shop_images/HPS_logo_white.svg",
         "logo_width": 160,
         "bg_color": "#000000",
+        "bg_image": "shopify://shop_images/Hero-landing_page.png",
+        "bg_size": "cover",
+        "bg_position": "center center",
+        "bg_overlay_opacity": 30,
         "text_color": "#ffffff",
-        "hover_bg_color": "#6b7c3f",
+        "hover_bg_color": "#3f537c",
         "hover_text_color": "#ffffff"
-      }
-    },
-    "newsletter": {
-      "type": "hps-newsletter",
-      "settings": {
-        "heading": "mailing list",
-        "tag_text": "hps",
-        "email_placeholder": "email",
-        "button_label": "add me",
-        "fineprint": "unsubscribe anytime",
-        "success_message": "thanks — you’re on the list.",
-        "padding_y": 72,
-        "max_width": 480,
-        "bg_color": "#000000",
-        "text_color": "#ffffff",
-        "btn_bg_color": "#ffffff",
-        "btn_text_color": "#000000"
       }
     }
   },
-  "order": ["landing", "newsletter"]
+  "order": [
+    "landing"
+  ]
 }
