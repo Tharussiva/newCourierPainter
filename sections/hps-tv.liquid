@@ -112,23 +112,34 @@
   }
 
   .hps-tv__wrap {
-    max-width: 1000px;
+    max-width: 1280px;
     margin: 0 auto;
   }
 
+  /* Force every text element to use the text-color setting.
+     Dawn's global h2/h3 rules otherwise pin headings to its own color tokens. */
+  .hps-tv__heading,
+  .hps-tv__intro,
+  .hps-tv__title,
+  .hps-tv__ep,
+  .hps-tv__credits,
+  .hps-tv__meta,
+  .hps-tv__empty {
+    color: var(--hps-tv-fg);
+  }
+
   .hps-tv__heading {
-    font-size: 12px;
+    font-size: 22px;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    margin: 0 0 12px;
+    margin: 0 0 16px;
   }
 
   .hps-tv__intro {
-    font-size: 11px;
+    font-size: 13px;
     line-height: 1.6;
-    opacity: 0.75;
-    margin: 0 0 24px;
+    margin: 0 0 32px;
     max-width: 60ch;
     letter-spacing: -0.02em;
   }
@@ -145,11 +156,11 @@
 
   .hps-tv__row {
     display: grid;
-    grid-template-columns: 360px 1fr;
-    gap: 32px;
-    padding: 24px 0;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: 40px;
+    padding: 32px 0;
     align-items: start;
-    font-size: 11px;
+    font-size: 12px;
     line-height: 1.5;
     border-top: 1px dashed currentColor;
   }
@@ -241,33 +252,33 @@
   .hps-tv__body { min-width: 0; }
 
   .hps-tv__ep {
-    font-size: 10px;
-    opacity: 0.55;
+    font-size: 11px;
+    opacity: 0.6;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    margin: 0 0 4px;
+    margin: 0 0 6px;
   }
 
   .hps-tv__title {
-    margin: 0 0 10px;
-    font-size: 16px;
+    margin: 0 0 14px;
+    font-size: 24px;
     font-weight: 700;
     text-transform: lowercase;
     letter-spacing: -0.01em;
-    line-height: 1.2;
+    line-height: 1.15;
   }
 
   .hps-tv__credits {
-    font-size: 10px;
-    opacity: 0.7;
-    margin: 0 0 10px;
+    font-size: 12px;
+    opacity: 0.75;
+    margin: 0 0 12px;
     line-height: 1.6;
     letter-spacing: -0.02em;
   }
 
   .hps-tv__meta {
-    font-size: 10px;
-    opacity: 0.55;
+    font-size: 11px;
+    opacity: 0.6;
     margin: 0;
     text-transform: lowercase;
     letter-spacing: 0.02em;
@@ -275,8 +286,8 @@
 
   .hps-tv__empty {
     text-align: center;
-    padding: 40px 0;
-    font-size: 11px;
+    padding: 60px 0;
+    font-size: 12px;
     opacity: 0.55;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -284,14 +295,18 @@
     border-bottom: 1px dashed currentColor;
   }
 
-  @media screen and (max-width: 749px) {
-    .hps-tv { padding-left: 16px; padding-right: 16px; }
+  @media screen and (max-width: 989px) {
     .hps-tv__row {
       grid-template-columns: 1fr;
-      gap: 14px;
-      padding: 18px 0;
+      gap: 16px;
+      padding: 24px 0;
     }
-    .hps-tv__title { font-size: 14px; }
+    .hps-tv__title { font-size: 20px; }
+    .hps-tv__heading { font-size: 18px; }
+  }
+
+  @media screen and (max-width: 749px) {
+    .hps-tv { padding-left: 16px; padding-right: 16px; }
   }
 {% endstylesheet %}
 
@@ -383,19 +398,20 @@
       "type": "color",
       "id": "bg_color",
       "label": "Background",
-      "default": "#000000"
+      "default": "#ffffff"
     },
     {
       "type": "color",
       "id": "text_color",
-      "label": "Text",
-      "default": "#ffffff"
+      "label": "Text (heading, title, body)",
+      "info": "Controls all text in the section.",
+      "default": "#000000"
     },
     {
       "type": "color",
       "id": "accent_color",
       "label": "Play button accent",
-      "default": "#ffffff"
+      "default": "#000000"
     }
   ],
   "blocks": [
