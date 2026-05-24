@@ -1,10 +1,13 @@
 {%- style -%}
   #hps-tv-{{ section.id }} {
-    --hps-tv-bg: {{ section.settings.bg_color | default: '#000000' }};
-    --hps-tv-fg: {{ section.settings.text_color | default: '#ffffff' }};
-    --hps-tv-accent: {{ section.settings.accent_color | default: '#ffffff' }};
+    --hps-tv-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+    --hps-tv-fg: {{ section.settings.text_color | default: '#000000' }};
+    --hps-tv-accent: {{ section.settings.accent_color | default: '#000000' }};
     --hps-tv-padding-top: {{ section.settings.padding_top | default: 64 }}px;
     --hps-tv-padding-bottom: {{ section.settings.padding_bottom | default: 64 }}px;
+    --hps-tv-heading-size: {{ section.settings.heading_size | default: 16 }}px;
+    --hps-tv-title-size: {{ section.settings.title_size | default: 18 }}px;
+    --hps-tv-body-size: {{ section.settings.body_size | default: 11 }}px;
   }
 {%- endstyle -%}
 
@@ -129,7 +132,7 @@
   }
 
   .hps-tv__heading {
-    font-size: 22px;
+    font-size: var(--hps-tv-heading-size);
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -137,7 +140,7 @@
   }
 
   .hps-tv__intro {
-    font-size: 13px;
+    font-size: var(--hps-tv-body-size);
     line-height: 1.6;
     margin: 0 0 32px;
     max-width: 60ch;
@@ -252,7 +255,7 @@
   .hps-tv__body { min-width: 0; }
 
   .hps-tv__ep {
-    font-size: 11px;
+    font-size: var(--hps-tv-body-size);
     opacity: 0.6;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -261,7 +264,7 @@
 
   .hps-tv__title {
     margin: 0 0 14px;
-    font-size: 24px;
+    font-size: var(--hps-tv-title-size);
     font-weight: 700;
     text-transform: lowercase;
     letter-spacing: -0.01em;
@@ -269,7 +272,7 @@
   }
 
   .hps-tv__credits {
-    font-size: 12px;
+    font-size: var(--hps-tv-body-size);
     opacity: 0.75;
     margin: 0 0 12px;
     line-height: 1.6;
@@ -277,7 +280,7 @@
   }
 
   .hps-tv__meta {
-    font-size: 11px;
+    font-size: var(--hps-tv-body-size);
     opacity: 0.6;
     margin: 0;
     text-transform: lowercase;
@@ -287,7 +290,7 @@
   .hps-tv__empty {
     text-align: center;
     padding: 60px 0;
-    font-size: 12px;
+    font-size: var(--hps-tv-body-size);
     opacity: 0.55;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -301,8 +304,6 @@
       gap: 16px;
       padding: 24px 0;
     }
-    .hps-tv__title { font-size: 20px; }
-    .hps-tv__heading { font-size: 18px; }
   }
 
   @media screen and (max-width: 749px) {
@@ -388,6 +389,41 @@
       "max": 200,
       "step": 4,
       "default": 64,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 10,
+      "max": 32,
+      "step": 1,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Episode title size",
+      "min": 12,
+      "max": 36,
+      "step": 1,
+      "default": 18,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "body_size",
+      "label": "Body text size",
+      "info": "Episode label, credits, date, and empty state.",
+      "min": 9,
+      "max": 16,
+      "step": 1,
+      "default": 11,
       "unit": "px"
     },
     {
