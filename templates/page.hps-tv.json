@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "main": {
+      "type": "hps-tv",
+      "settings": {
+        "heading": "HPS TV",
+        "empty_text": "no episodes yet",
+        "max_episodes": 0,
+        "padding_top": 64,
+        "padding_bottom": 96,
+        "bg_color": "#000000",
+        "text_color": "#ffffff",
+        "accent_color": "#ffffff"
+      }
+    }
+  },
+  "order": ["main"]
+}

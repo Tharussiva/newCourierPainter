@@ -1,0 +1,459 @@
+{%- style -%}
+  #hps-tv-{{ section.id }} {
+    --hps-tv-bg: {{ section.settings.bg_color | default: '#000000' }};
+    --hps-tv-fg: {{ section.settings.text_color | default: '#ffffff' }};
+    --hps-tv-accent: {{ section.settings.accent_color | default: '#ffffff' }};
+    --hps-tv-padding-top: {{ section.settings.padding_top | default: 64 }}px;
+    --hps-tv-padding-bottom: {{ section.settings.padding_bottom | default: 64 }}px;
+  }
+{%- endstyle -%}
+
+<section id="hps-tv-{{ section.id }}" class="hps-tv">
+  <div class="hps-tv__wrap">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="hps-tv__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    {%- if section.settings.intro != blank -%}
+      <div class="hps-tv__intro">{{ section.settings.intro }}</div>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <hr class="hps-tv__rule">
+      {%- assign max = section.settings.max_episodes -%}
+      {%- for block in section.blocks -%}
+        {%- if max > 0 and forloop.index > max -%}
+          {%- break -%}
+        {%- endif -%}
+        {%- case block.type -%}
+          {%- when 'episode' -%}
+            {%- comment -%} Extract YouTube video id from any common URL shape {%- endcomment -%}
+            {%- assign raw_url = block.settings.youtube_url | strip -%}
+            {%- assign yt_id = '' -%}
+            {%- if raw_url contains 'youtu.be/' -%}
+              {%- assign yt_id = raw_url | split: 'youtu.be/' | last | split: '?' | first | split: '&' | first -%}
+            {%- elsif raw_url contains 'v=' -%}
+              {%- assign yt_id = raw_url | split: 'v=' | last | split: '&' | first -%}
+            {%- elsif raw_url contains '/embed/' -%}
+              {%- assign yt_id = raw_url | split: '/embed/' | last | split: '?' | first -%}
+            {%- elsif raw_url contains '/shorts/' -%}
+              {%- assign yt_id = raw_url | split: '/shorts/' | last | split: '?' | first -%}
+            {%- elsif raw_url != blank -%}
+              {%- assign yt_id = raw_url -%}
+            {%- endif -%}
+
+            <article class="hps-tv__row" {{ block.shopify_attributes }}>
+              <div class="hps-tv__media">
+                {%- if yt_id != blank -%}
+                  <button
+                    type="button"
+                    class="hps-tv__player"
+                    data-yt-id="{{ yt_id }}"
+                    aria-label="play {{ block.settings.title | default: 'episode' | escape }}"
+                  >
+                    <img
+                      class="hps-tv__thumb"
+                      src="https://i.ytimg.com/vi/{{ yt_id }}/hqdefault.jpg"
+                      srcset="https://i.ytimg.com/vi/{{ yt_id }}/hqdefault.jpg 480w, https://i.ytimg.com/vi/{{ yt_id }}/sddefault.jpg 640w, https://i.ytimg.com/vi/{{ yt_id }}/maxresdefault.jpg 1280w"
+                      sizes="(max-width: 749px) 100vw, 360px"
+                      width="1280"
+                      height="720"
+                      loading="lazy"
+                      alt=""
+                    >
+                    <span class="hps-tv__play" aria-hidden="true">&#9658;</span>
+                    {%- if block.settings.runtime != blank -%}
+                      <span class="hps-tv__runtime">{{ block.settings.runtime }}</span>
+                    {%- endif -%}
+                  </button>
+                {%- else -%}
+                  <div class="hps-tv__thumb hps-tv__thumb--placeholder">no video url</div>
+                {%- endif -%}
+              </div>
+
+              <div class="hps-tv__body">
+                {%- if block.settings.episode_label != blank -%}
+                  <p class="hps-tv__ep">{{ block.settings.episode_label | downcase }}</p>
+                {%- endif -%}
+
+                <h3 class="hps-tv__title">
+                  {{- block.settings.title | default: 'untitled episode' | downcase -}}
+                </h3>
+
+                {%- if block.settings.credits != blank -%}
+                  <p class="hps-tv__credits">{{ block.settings.credits | newline_to_br }}</p>
+                {%- endif -%}
+
+                <p class="hps-tv__meta">
+                  {%- if block.settings.date != blank -%}
+                    <span>{{ block.settings.date | downcase }}</span>
+                  {%- endif -%}
+                </p>
+              </div>
+            </article>
+        {%- endcase -%}
+      {%- endfor -%}
+    {%- else -%}
+      <div class="hps-tv__empty">
+        {{ section.settings.empty_text | default: 'no episodes yet' }}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .hps-tv {
+    background: var(--hps-tv-bg);
+    color: var(--hps-tv-fg);
+    padding: var(--hps-tv-padding-top) 24px var(--hps-tv-padding-bottom);
+    font-family: 'Courier New', Courier, monospace;
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
+
+  .hps-tv__wrap {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .hps-tv__heading {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 0 0 12px;
+  }
+
+  .hps-tv__intro {
+    font-size: 11px;
+    line-height: 1.6;
+    opacity: 0.75;
+    margin: 0 0 24px;
+    max-width: 60ch;
+    letter-spacing: -0.02em;
+  }
+
+  .hps-tv__intro p { margin: 0 0 8px; }
+  .hps-tv__intro p:last-child { margin-bottom: 0; }
+
+  .hps-tv__rule {
+    border: none;
+    border-top: 1px dashed currentColor;
+    margin: 0;
+    opacity: 0.9;
+  }
+
+  .hps-tv__row {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 32px;
+    padding: 24px 0;
+    align-items: start;
+    font-size: 11px;
+    line-height: 1.5;
+    border-top: 1px dashed currentColor;
+  }
+
+  .hps-tv__row:first-of-type { border-top: none; }
+
+  .hps-tv__media { position: relative; }
+
+  .hps-tv__player {
+    appearance: none;
+    background: #111;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    position: relative;
+    overflow: hidden;
+    color: inherit;
+    font: inherit;
+  }
+
+  .hps-tv__thumb {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.15s ease;
+  }
+
+  .hps-tv__thumb--placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #1a1a1a;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    aspect-ratio: 16 / 9;
+  }
+
+  .hps-tv__play {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid currentColor;
+    background: rgba(0, 0, 0, 0.55);
+    color: var(--hps-tv-accent);
+    font-size: 20px;
+    line-height: 1;
+    padding-left: 4px;
+    transition: background-color 0.15s ease, transform 0.15s ease;
+  }
+
+  .hps-tv__player:hover .hps-tv__play,
+  .hps-tv__player:focus-visible .hps-tv__play {
+    background: var(--hps-tv-accent);
+    color: var(--hps-tv-bg);
+  }
+
+  .hps-tv__player:hover .hps-tv__thumb { opacity: 0.85; }
+
+  .hps-tv__runtime {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    background: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    font-size: 10px;
+    padding: 2px 6px;
+    letter-spacing: 0.04em;
+  }
+
+  .hps-tv__iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
+    display: block;
+  }
+
+  .hps-tv__body { min-width: 0; }
+
+  .hps-tv__ep {
+    font-size: 10px;
+    opacity: 0.55;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 4px;
+  }
+
+  .hps-tv__title {
+    margin: 0 0 10px;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: lowercase;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+
+  .hps-tv__credits {
+    font-size: 10px;
+    opacity: 0.7;
+    margin: 0 0 10px;
+    line-height: 1.6;
+    letter-spacing: -0.02em;
+  }
+
+  .hps-tv__meta {
+    font-size: 10px;
+    opacity: 0.55;
+    margin: 0;
+    text-transform: lowercase;
+    letter-spacing: 0.02em;
+  }
+
+  .hps-tv__empty {
+    text-align: center;
+    padding: 40px 0;
+    font-size: 11px;
+    opacity: 0.55;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-top: 1px dashed currentColor;
+    border-bottom: 1px dashed currentColor;
+  }
+
+  @media screen and (max-width: 749px) {
+    .hps-tv { padding-left: 16px; padding-right: 16px; }
+    .hps-tv__row {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      padding: 18px 0;
+    }
+    .hps-tv__title { font-size: 14px; }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.hps-tv__player');
+    if (!btn) return;
+    var id = btn.dataset.ytId;
+    if (!id) return;
+    var iframe = document.createElement('iframe');
+    iframe.className = 'hps-tv__iframe';
+    iframe.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) +
+      '?autoplay=1&rel=0&modestbranding=1&playsinline=1';
+    iframe.title = btn.getAttribute('aria-label') || 'YouTube video player';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen';
+    iframe.allowFullscreen = true;
+    btn.replaceWith(iframe);
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "HPS TV",
+  "tag": "section",
+  "class": "hps-tv-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "HPS TV"
+    },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "Intro text",
+      "info": "Optional paragraph below the heading."
+    },
+    {
+      "type": "text",
+      "id": "empty_text",
+      "label": "Empty-state text",
+      "info": "Shown when no episode blocks are added.",
+      "default": "no episodes yet"
+    },
+    {
+      "type": "range",
+      "id": "max_episodes",
+      "label": "Max episodes to show",
+      "info": "0 = show all.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 64,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 64,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Play button accent",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "episode",
+      "name": "Episode",
+      "settings": [
+        {
+          "type": "text",
+          "id": "episode_label",
+          "label": "Episode label",
+          "info": "e.g. EP 01, S01E03. Optional.",
+          "default": "EP 01"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Episode title"
+        },
+        {
+          "type": "url",
+          "id": "youtube_url",
+          "label": "YouTube URL",
+          "info": "Paste any YouTube link (watch, youtu.be, embed, or shorts). The video ID is auto-extracted."
+        },
+        {
+          "type": "textarea",
+          "id": "credits",
+          "label": "Credits",
+          "info": "Free text — director, DOP, producer, etc. Line breaks preserved.",
+          "default": "dir. \ndop. \nprod. "
+        },
+        {
+          "type": "text",
+          "id": "date",
+          "label": "Release date",
+          "info": "Free text so you can write any format (e.g. 'mar 2026', '03 mar 2026', 'tba').",
+          "default": "mar 2026"
+        },
+        {
+          "type": "text",
+          "id": "runtime",
+          "label": "Runtime",
+          "info": "Shown as a small badge over the thumbnail. Optional.",
+          "default": "12:47"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 50,
+  "presets": [
+    {
+      "name": "HPS TV",
+      "blocks": [
+        { "type": "episode" }
+      ]
+    }
+  ]
+}
+{% endschema %}
