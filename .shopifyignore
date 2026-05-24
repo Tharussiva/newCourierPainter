@@ -1,0 +1,11 @@
+# Merchant-owned files — managed in the Shopify theme editor, not by developers.
+# Ignoring these prevents `shopify theme push` and `shopify theme dev` from
+# clobbering customizer changes (typography, color schemes, section order,
+# nav links, page content, etc.).
+#
+# To intentionally sync merchant state back into the repo, run:
+#   shopify theme pull --live --only=config/settings_data.json --only='templates/*.json'
+
+config/settings_data.json
+templates/*.json
+templates/customers/*.json
