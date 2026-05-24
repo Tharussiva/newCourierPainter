@@ -41,6 +41,15 @@ li,
   color: #000000 !important;
 }
 
+/* Desktop: disable Dawn's sticky-header. On scroll-up it reappears with a
+   translucent surface and silently swallows clicks on the absolute-positioned
+   sidebar nav below it (invisible click trap confirmed via Clarity rage-clicks). */
+@media screen and (min-width: 1140px) {
+  .shopify-section-header-sticky {
+    position: static !important;
+  }
+}
+
 /* --- Hide sidebar on cart page --- */
 .template-cart .hps-sidebar {
   display: none !important;
